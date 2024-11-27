@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "web-templates/layouts/head.html" %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="pos-relative" id="body">
+    <div id="event_name" class="d-none">{% block event_name %}{% endblock %}</div>
+    <div id='dynamicModal'></div>
+    {% include 'web-templates/layouts/header-sidebar.html' %}
+    <div class="content ht-100v pd-0">
+        {% include 'web-templates/layouts/header-top.html' %}
+        <div class="content-body">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+        {% include 'web-templates/alert.html' %}
+    </div>
+    <div id="loader"></div>
+    {% include 'web-templates/layouts/footer.html' %}
+    {% block javascript %}
+    
+    {% endblock %}
+</body>
+</html>

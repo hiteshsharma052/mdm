@@ -1,0 +1,219 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 28/11/2018 09:03
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-text-height-adjustment:before { content: "\f100"; }
+.flaticon-area-chart:before { content: "\f101"; }
+.flaticon-table:before { content: "\f102"; }
+.flaticon-squares:before { content: "\f103"; }
+.flaticon-visualization:before { content: "\f104"; }
+.flaticon-hash:before { content: "\f105"; }
+.flaticon-line-chart:before { content: "\f106"; }
+.flaticon-line-graph:before { content: "\f107"; }
+.flaticon-graphic:before { content: "\f108"; }
+.flaticon-cubes:before { content: "\f109"; }
+.flaticon-pressure:before { content: "\f10a"; }
+.flaticon-export:before { content: "\f10b"; }
+.flaticon-planet-earth:before { content: "\f10c"; }
+.flaticon-hash-1:before { content: "\f10d"; }
+.flaticon-server:before { content: "\f10e"; }
+.flaticon-layout:before { content: "\f10f"; }
+.flaticon-layout-1:before { content: "\f110"; }
+.flaticon-grid-2:before { content: "\f111"; }
+.flaticon-travel:before { content: "\f112"; }
+.flaticon-charts:before { content: "\f113"; }
+.flaticon-database:before { content: "\f114"; }
+.flaticon-squares-1:before { content: "\f115"; }
+.flaticon-analytics:before { content: "\f116"; }
+.flaticon-menu:before { content: "\f117"; }
+.flaticon-bar-chart-2:before { content: "\f118"; }
+.flaticon-bubbles-1:before { content: "\f119"; }
+.flaticon-donut-chart:before { content: "\f11a"; }
+.flaticon-dashboard:before { content: "\f11b"; }
+.flaticon-bar-chart-3:before { content: "\f11c"; }
+.flaticon-square:before { content: "\f11d"; }
+.flaticon-symbols:before { content: "\f11e"; }
+.flaticon-radar-chart-with-pentagon-shape:before { content: "\f11f"; }
+.flaticon-graphic-1:before { content: "\f120"; }
+.flaticon-tool:before { content: "\f121"; }
+.flaticon-horizontal-bars-chart-of-business:before { content: "\f122"; }
+.flaticon-spreadsheet:before { content: "\f123"; }
+.flaticon-tool-1:before { content: "\f124"; }
+.flaticon-business-chart-area-in-zig-zag:before { content: "\f125"; }
+.flaticon-abc-squares:before { content: "\f126"; }
+.flaticon-volume-vertical-black-bars-group:before { content: "\f127"; }
+.flaticon-music-black-vertical-bars:before { content: "\f128"; }
+.flaticon-sign:before { content: "\f129"; }
+.flaticon-indent-right:before { content: "\f12a"; }
+.flaticon-table-1:before { content: "\f12b"; }
+.flaticon-grid-table:before { content: "\f12c"; }
+.flaticon-excel-document:before { content: "\f12d"; }
+.flaticon-typography:before { content: "\f12e"; }
+.flaticon-interface:before { content: "\f12f"; }
+.flaticon-vertical-thin-sound-bars:before { content: "\f130"; }
+.flaticon-small-calendar:before { content: "\f131"; }
+.flaticon-chart-area:before { content: "\f132"; }
+.flaticon-dot-plot:before { content: "\f133"; }
+.flaticon-page-design-template-with-three-areas:before { content: "\f134"; }
+.flaticon-graph:before { content: "\f135"; }
+.flaticon-graphic-2:before { content: "\f136"; }
+.flaticon-history:before { content: "\f137"; }
+.flaticon-graphic-3:before { content: "\f138"; }
+.flaticon-newspaper:before { content: "\f139"; }
+.flaticon-bubbles-2:before { content: "\f13a"; }
+.flaticon-interface-1:before { content: "\f13b"; }
+.flaticon-signs:before { content: "\f13c"; }
+.flaticon-connections:before { content: "\f13d"; }
+.flaticon-right-movement:before { content: "\f13e"; }
+.flaticon-blog-template:before { content: "\f13f"; }
+.flaticon-graph-1:before { content: "\f140"; }
+.flaticon-rgb-symbol:before { content: "\f141"; }
+.flaticon-axis-arrows:before { content: "\f142"; }
+.flaticon-round-value-chart:before { content: "\f143"; }
+.flaticon-four-layers:before { content: "\f144"; }
+.flaticon-shapes:before { content: "\f145"; }
+.flaticon-123-numbers:before { content: "\f146"; }
+.flaticon-alphabet:before { content: "\f147"; }
+.flaticon-world-map-1:before { content: "\f148"; }
+.flaticon-campaign-tweaking:before { content: "\f149"; }
+.flaticon-globe:before { content: "\f14a"; }
+.flaticon-chat:before { content: "\f14b"; }
+.flaticon-graph-2:before { content: "\f14c"; }
+.flaticon-report:before { content: "\f14d"; }
+.flaticon-quarter:before { content: "\f14e"; }
+.flaticon-chart:before { content: "\f14f"; }
+.flaticon-graph-3:before { content: "\f150"; }
+.flaticon-graph-4:before { content: "\f151"; }
+.flaticon-growth:before { content: "\f152"; }
+.flaticon-chart-1:before { content: "\f153"; }
+.flaticon-bar-chart-4:before { content: "\f154"; }
+.flaticon-business-and-finance:before { content: "\f155"; }
+.flaticon-graph-6:before { content: "\f156"; }
+.flaticon-infographic:before { content: "\f157"; }
+.flaticon-graph-7:before { content: "\f158"; }
+.flaticon-fx-sign:before { content: "\f159"; }
+    
+    $font-Flaticon-text-height-adjustment: "\f100";
+    $font-Flaticon-area-chart: "\f101";
+    $font-Flaticon-table: "\f102";
+    $font-Flaticon-squares: "\f103";
+    $font-Flaticon-visualization: "\f104";
+    $font-Flaticon-hash: "\f105";
+    $font-Flaticon-line-chart: "\f106";
+    $font-Flaticon-line-graph: "\f107";
+    $font-Flaticon-graphic: "\f108";
+    $font-Flaticon-cubes: "\f109";
+    $font-Flaticon-pressure: "\f10a";
+    $font-Flaticon-export: "\f10b";
+    $font-Flaticon-planet-earth: "\f10c";
+    $font-Flaticon-hash-1: "\f10d";
+    $font-Flaticon-server: "\f10e";
+    $font-Flaticon-layout: "\f10f";
+    $font-Flaticon-layout-1: "\f110";
+    $font-Flaticon-grid-2: "\f111";
+    $font-Flaticon-travel: "\f112";
+    $font-Flaticon-charts: "\f113";
+    $font-Flaticon-database: "\f114";
+    $font-Flaticon-squares-1: "\f115";
+    $font-Flaticon-analytics: "\f116";
+    $font-Flaticon-menu: "\f117";
+    $font-Flaticon-bar-chart-2: "\f118";
+    $font-Flaticon-bubbles-1: "\f119";
+    $font-Flaticon-donut-chart: "\f11a";
+    $font-Flaticon-dashboard: "\f11b";
+    $font-Flaticon-bar-chart-3: "\f11c";
+    $font-Flaticon-square: "\f11d";
+    $font-Flaticon-symbols: "\f11e";
+    $font-Flaticon-radar-chart-with-pentagon-shape: "\f11f";
+    $font-Flaticon-graphic-1: "\f120";
+    $font-Flaticon-tool: "\f121";
+    $font-Flaticon-horizontal-bars-chart-of-business: "\f122";
+    $font-Flaticon-spreadsheet: "\f123";
+    $font-Flaticon-tool-1: "\f124";
+    $font-Flaticon-business-chart-area-in-zig-zag: "\f125";
+    $font-Flaticon-abc-squares: "\f126";
+    $font-Flaticon-volume-vertical-black-bars-group: "\f127";
+    $font-Flaticon-music-black-vertical-bars: "\f128";
+    $font-Flaticon-sign: "\f129";
+    $font-Flaticon-indent-right: "\f12a";
+    $font-Flaticon-table-1: "\f12b";
+    $font-Flaticon-grid-table: "\f12c";
+    $font-Flaticon-excel-document: "\f12d";
+    $font-Flaticon-typography: "\f12e";
+    $font-Flaticon-interface: "\f12f";
+    $font-Flaticon-vertical-thin-sound-bars: "\f130";
+    $font-Flaticon-small-calendar: "\f131";
+    $font-Flaticon-chart-area: "\f132";
+    $font-Flaticon-dot-plot: "\f133";
+    $font-Flaticon-page-design-template-with-three-areas: "\f134";
+    $font-Flaticon-graph: "\f135";
+    $font-Flaticon-graphic-2: "\f136";
+    $font-Flaticon-history: "\f137";
+    $font-Flaticon-graphic-3: "\f138";
+    $font-Flaticon-newspaper: "\f139";
+    $font-Flaticon-bubbles-2: "\f13a";
+    $font-Flaticon-interface-1: "\f13b";
+    $font-Flaticon-signs: "\f13c";
+    $font-Flaticon-connections: "\f13d";
+    $font-Flaticon-right-movement: "\f13e";
+    $font-Flaticon-blog-template: "\f13f";
+    $font-Flaticon-graph-1: "\f140";
+    $font-Flaticon-rgb-symbol: "\f141";
+    $font-Flaticon-axis-arrows: "\f142";
+    $font-Flaticon-round-value-chart: "\f143";
+    $font-Flaticon-four-layers: "\f144";
+    $font-Flaticon-shapes: "\f145";
+    $font-Flaticon-123-numbers: "\f146";
+    $font-Flaticon-alphabet: "\f147";
+    $font-Flaticon-world-map-1: "\f148";
+    $font-Flaticon-campaign-tweaking: "\f149";
+    $font-Flaticon-globe: "\f14a";
+    $font-Flaticon-chat: "\f14b";
+    $font-Flaticon-graph-2: "\f14c";
+    $font-Flaticon-report: "\f14d";
+    $font-Flaticon-quarter: "\f14e";
+    $font-Flaticon-chart: "\f14f";
+    $font-Flaticon-graph-3: "\f150";
+    $font-Flaticon-graph-4: "\f151";
+    $font-Flaticon-growth: "\f152";
+    $font-Flaticon-chart-1: "\f153";
+    $font-Flaticon-bar-chart-4: "\f154";
+    $font-Flaticon-business-and-finance: "\f155";
+    $font-Flaticon-graph-6: "\f156";
+    $font-Flaticon-infographic: "\f157";
+    $font-Flaticon-graph-7: "\f158";
+    $font-Flaticon-fx-sign: "\f159";

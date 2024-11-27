@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "web-templates/layouts/head.html" %}
+    {% block stylesheet %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body id="body" class="overflow-hidden">
+    
+
+    <main class="container-fluid pd-x-0">
+        <div id="loader"></div>
+        {% block content %}
+        {% endblock %}
+        
+    </main>
+    {% block javascript %}
+    {% endblock %}
+</body>
+</html>

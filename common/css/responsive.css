@@ -1,0 +1,77 @@
+/* Extra Small Devices (Phones, less than 576px) */
+/* @media screen and (max-width: 575.98px) {
+    body {
+      font-size: 12px;
+    }
+  } */
+  
+  /* Small Devices (Tablets, 576px and up) */
+  /* @media screen and (min-width: 576px) and (max-width: 767.98px) {
+    body {
+      font-size: 14px;
+    }
+  } */
+  
+  /* Medium Devices (Tablets, 768px and up) */
+  @media screen and (min-width: 768px) and (max-width: 991.98px) {
+    body {
+      font-size: 12px;
+    }
+  }
+  
+  /* Large Devices (Desktops, 992px and up) */
+  @media screen and (min-width: 992px) and (max-width: 1199.98px) {
+    /* body {
+      font-size: 12px;
+    } */
+    #listSearchResults {
+        height: calc(100vh - 340px) !important;
+        overflow: auto;
+    }
+    #sidebar-search-list {
+        height: calc(100vh - 340px);
+        overflow: auto;
+    }
+  }
+  
+  /* Extra Large Devices (Large Desktops, 1200px and up) */
+  @media screen and (min-width: 1200px) and (max-width: 1599.98px) {
+    body {
+      font-size: 12px;
+    }
+  }
+  
+  /* Ultra-Wide Devices (Desktops wider than 1600px) */
+  @media screen and (min-width: 1600px) {
+    body {
+      font-size: 12px;
+    }
+  }
+
+  /* @media (min-width: 1200px), (min-width: 960px) and (-webkit-device-pixel-ratio: 1.25) {
+    * {
+      zoom: 0.8;
+    }
+  } */
+  @media (min-width: 1200px) and (-webkit-device-pixel-ratio: 1.25) {
+    /* Add Styles Here */
+    /* * {
+      zoom: 0.98;
+    } */
+    body {
+      font-size: 10px;
+    }
+    #noReusult h1{
+      font-size: 20px;
+    }
+    #noReusult h5{
+      font-size: 14px;
+    }
+    #noReusult .badge{
+      font-size: 10px;
+    }
+    .suppoted_doc p {
+      font-size: 10px;
+    }
+  }
+  

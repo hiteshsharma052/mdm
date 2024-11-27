@@ -1,0 +1,270 @@
+{% extends 'frontend/layouts/main.html' %} 
+{% load static %}
+{% block title %}Dictionary{% endblock %}
+{% block content %}
+<!-- <link rel="stylesheet" href="{% static 'css/custom.tabledit.css' %}"> -->
+ <style>
+  #dropZone {
+    width: 100%;
+    height: 100px;
+    border: 2px dashed #999;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 100px;
+    /* color: #999; */
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #f0f8ff;
+}
+  #dropZone.dragover {
+      border-color: #333;
+      color: #333;
+  }
+  .highlight{
+      background: rgba(255, 235, 59, 0.49) !important; /* Highlight color */
+      transition: background-color 0.5s ease; /* Transition effect */
+  }
+ </style>
+
+<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+  <h4 class="mg-b-0">Bulk Upload</h4>
+  <!-- <div>
+    <a href="#addDictionary" class="btn btn-primary btn-sm" data-bs-toggle="collapse" aria-expanded="false"><span class="fal fa-plus"></span> Create Dictionary</a>
+  </div> -->
+</div>
+
+<div class="collapse mg-t-5" id="addDictionary">
+  <form>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="dict_name">Name</label>
+        <input type="text" class="form-control" id="dict_name" placeholder="Name">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="dict_code">Code</label>
+        <input type="text" class="form-control" id="dict_code" placeholder="Code">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="dict_desc">Description</label>
+      <input type="text" class="form-control" id="dict_desc" placeholder="Description">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</div>
+  
+  <div class="row row-xs">
+    <div class="col-lg-12 col-xl-12">
+      <div class="card">
+        <div class="card-body pd-y-30">
+            <form>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="dict_name">Name</label>
+                    <input type="text" class="form-control" id="dict_name" placeholder="Name">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="dict_code">Code</label>
+                    <input type="text" class="form-control" id="dict_code" placeholder="Code">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dict_desc">Description</label>
+                  <input type="text" class="form-control" id="dict_desc" placeholder="Description">
+                </div>
+              </form>
+              <h4 class="mg-y-30">Add Value to Dictionary</h4>
+              <div class="mg-t-0">
+                <div class="mg-t-5" id="">
+                  <div id="dropZone">Drag and drop an XLS/XLSX file here, or click to select a file</div>
+                  <input type="file" id="xlsFile" accept=".xls,.xlsx" style="display:none;" />
+                </div>
+                <div class="table-responsive">
+                  <table id="editableTable" class="table table-dashboard-three" style="border-spacing:1px 10px;">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Value</th>
+                            <th class="wd-100">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be populated here from JSON -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+    
+            
+        </div><!-- card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade show" id="edit_dict_value_01" tabindex="-1" role="dialog" aria-modal="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20">
+          <div class="d-flex">
+            <div class="d-flex flex-column">
+              <h4 class="mg-b-0tx-18">Brand</h4>
+              <p class="tx-12 tx-color-03 mg-b-0">To add a new item in the dictionary, you need to add a new key and insert a new value respective to it.</p>
+            </div>
+            <a href="" role="button" class="close pos-absolute t-15 r-15" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </a>
+          </div>
+          <div class="mg-t-10">
+            <div class="d-flex mg-t-20 mg-b-0">
+              <div class="flex-1 mg-r-20">
+                <div class="search-form mg-t-20 mg-sm-t-0">
+                  <input type="search" class="form-control" placeholder="Search...">
+                  <button class="btn" type="button">
+                    <i class="feather-search"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex">
+                <button id="downloadXls" class="btn btn-xs btn-info mg-l-30" href="#" role="button"><i class="fa fa-file-excel-o"></i> Download</button>
+              </div>
+  
+            </div>
+  
+            <div class="table-responsive">
+              <!-- <table class="table table-dashboard-one" id="previewDict" style="border-spacing:1px 10px;">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th >Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A</td>
+                    <td class="tx-medium">Cipla</td>
+                  </tr>
+                  <tr>
+                    <td>B</td>
+                    <td class="tx-medium">Dr. Reddy</td>
+                  </tr>
+                </tbody>
+              </table> -->
+
+              <table id="tableView" class="table table-dashboard-three" style="border-spacing:1px 10px;">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Value</th>
+                        <th class="wd-100">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be populated here from JSON -->
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+  
+        </div><!-- modal-body -->
+        <div class="modal-footer bd-t-0">
+          <button type="button" class="btn btn-secondary tx-13" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary tx-13" data-bs-dismiss="Save">Close</button> -->
+        </div>
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div>
+
+  <div class="modal fade show" id="edit_dict_value_brand" tabindex="-1" role="dialog" aria-modal="false">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20">
+          <div class="d-flex">
+            <div class="d-flex flex-column">
+              <h4 class="mg-b-0tx-18">Brand</h4>
+              <p class="tx-12 tx-color-03 mg-b-0">To add a new item in the dictionary, you need to add a new key and insert a new value respective to it.</p>
+            </div>
+            <a href="" role="button" class="close pos-absolute t-15 r-15" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </a>
+          </div>
+          <div class="d-flex mg-t-20 mg-b-0">
+            <div class="flex-1 mg-r-20">
+              <div id="addTableSearch" class="search-form mg-t-20 mg-sm-t-0">
+                <input type="search" class="form-control" placeholder="Search...">
+                <button class="btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+              </div>
+            </div>
+            <div class="d-flex">
+              <button id="addRowBtn" class="btn btn-xs btn-outline-secondary mg-r-10"><i class="fa fa-plus"></i> Add Row</button>
+              <button id="addRowBtn" class="btn btn-xs btn-outline-secondary" data-bs-toggle="collapse" href="#collapseBulkUpload" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-plus"></i> Bulk Upload</button>
+              <button id="tableDownloadXls" class="btn btn-xs btn-info mg-l-30" href="#" role="button"><i class="fa fa-file-excel-o"></i> Download</button>
+            </div>
+
+          </div>
+          <div class="mg-t-0">
+            <div class="collapse mg-t-5" id="collapseBulkUpload">
+              <div id="dropZone">Drag and drop an XLS/XLSX file here, or click to select a file</div>
+              <input type="file" id="xlsFile" accept=".xls,.xlsx" style="display:none;" />
+            </div>
+            <div class="table-responsive">
+              <table id="editableTable" class="table table-dashboard-three" style="border-spacing:1px 10px;">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Value</th>
+                        <th class="wd-100">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be populated here from JSON -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+  
+        </div><!-- modal-body -->
+        <div class="modal-footer bd-t-0">
+          <button type="button" class="btn btn-secondary tx-13" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary tx-13" data-bs-dismiss="Save">save</button>
+        </div>
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div>
+
+  <!-- DataTables Buttons JS -->
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+
+<!-- JSZip for Excel Export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="{% static 'js/table-edit-only.js' %}"></script>
+  <script src="{% static 'js/custom-add-table.js' %}"></script>
+
+<script>
+  // $("#dictionaryTable").dataTable();
+//   $("#tableView").DataTable({
+//     "bPaginate": false,
+//     dom: 'Bfrtip',  // Add this to activate buttons
+//     buttons: [
+//         {
+//             extend: 'excelHtml5',
+//             className: 'btn btn-primary', // Replace this with your actual class
+//             text: 'Download',  // The text on the button
+//             exportOptions: {
+//                 modifier: {
+//                     page: 'all'  // Exports all rows, not just visible ones
+//                 }
+//             }
+//         }
+//     ]
+// });
+
+</script>
+
+{% endblock %}

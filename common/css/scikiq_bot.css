@@ -1,0 +1,234 @@
+#chatbot-container {
+    z-index: 1050;
+    color: #596882;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 450px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+
+#chatbot-header span{
+  filter: brightness(0) invert(1);
+}
+
+
+#chatbot-chat{
+  height: calc(100% - 122px);
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  padding: 10px;
+  overflow-y: scroll;
+  font-size: 0.785rem;
+}
+
+.chatbot-messages {
+  padding: 5px 20px;
+  margin: 10px 0;
+  border-radius: 0.6rem;
+  width: fit-content;
+}
+.chatbot-messages p {
+  margin: 0;
+  padding: 0;
+}
+
+.chatbot-received-messages,
+.chatbot-form-messages {
+  border-top-left-radius: 0rem;
+  padding-left: 30px;
+  margin-left: 10px;
+  background-image: url(/common/web/img/favicon/favicon-32x32.png);
+  background-position: 0px 3px;
+  background-repeat: no-repeat;
+  background-size: 20px;
+
+}
+
+.chatbot-sent-messages {
+  background-color: #f4f5f8; 
+  margin-right: 0;
+  padding-left: 40px;
+  position: relative;
+  padding: 10px 20px;
+  padding-left: 40px;
+}
+
+.chatbot-sent-messages::before {
+  color: #feb272;
+  font-family: 'Material Design Icons', serif;
+  content: "\F0B55";
+  font-size: 22px;
+  left: 10px;
+  top: 8px;
+  position: absolute;
+  line-height: normal;
+}
+
+#chatbot-input-container{
+  width: calc(100% - 115px);
+  margin-left: 10px;
+}
+
+#chatbot-input {
+  width: calc(100% - 10px);
+  padding: 8px;
+  color: #596882;
+  background-color: #fafbfc;
+  border: 0.1rem solid #c0ccda;
+  border-radius: 0.25rem;
+}
+
+#chatbot-input:focus {
+  outline-offset: 0px !important;
+  outline: none !important;
+  border: 0.1rem solid #c0ccda;
+  /*box-shadow: 0 0 5px #FDB931 !important;*/
+}
+
+#chatbot-new-message-send-button{
+  cursor: pointer;
+}
+
+#send-icon {
+  color: #0d6efd;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+#chatbot-open-container {
+    position: fixed;
+    bottom: 10px;
+    right: 5px;
+    background: #0d6efd;
+    padding: 1rem;
+    border-radius: 50%;
+    width: 2.8rem;
+    height: 2.8rem;
+    text-align: center;
+    cursor: pointer;
+    z-index: 9991;
+}
+
+#chatbot-open-container i {
+    margin: 0px -10px 0px -10px;
+    font-size: 20px;
+    color: #fff;
+    line-height: 0;
+}
+
+.typing_loader {
+  text-align: left;
+  background: #f4f5f8;
+  border-top-left-radius: 0rem !important;
+  border-radius: 1rem;
+  border: 1px solid #c0ccda;
+  padding: 3px 15px 3px 15px;
+  max-width: max-content;
+}
+.typing_loader span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 15px;
+  height: 15px;
+  background: #596882;
+  border-radius: 20px;
+  animation: typing_loader 0.8s infinite alternate;
+}
+.typing_loader span:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+.typing_loader span:nth-of-type(3) {
+  animation-delay: 0.6s;
+}
+
+/* Mic button animation start */
+.btn-mic {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.btn-mic:hover {
+  background-color: #e5e8f0;
+  border: 1px solid #c3c5cd;
+  cursor: pointer;
+}
+.btn-mic.mic-active {
+  background-color: #10b759;
+  border: 1px solid #10b759;
+  color: white;
+  transition: background-color 0.25s;
+
+}
+
+.btn-mic.mic-active::before {
+  animation: listening 1.3s infinite;
+}
+
+
+@keyframes listening {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+/* Mic button animation end */
+
+
+/* Mobile chat UI start*/
+@media (max-width:575.98px) {
+  #chatbot-container {
+    left: 0;
+    width: 100%;
+  }
+}
+@media (max-width:575.98px) {
+#chatbot-interface {
+    width: 100%;
+  }
+}
+/* Mobile chat UI end*/
+
+@keyframes typing_loader {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+}
+
+@media (min-width:576px) {
+  #chatbot-container .ui-resizable-w::before {
+    color: #838383;
+    font-family: 'Material Design Icons', serif;
+    content: "\F01DD";
+    font-size: 20px;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    left: -5px;
+  }
+
+  #chatbot-container.ui-resizable-resizing .ui-resizable-w::before  {
+    color: #1eaf6b;
+  }
+
+  #chatbot-container.ui-resizable-resizing #chatbot-interface {
+    border-left: 1px solid #1eaf6b !important;
+  }
+}

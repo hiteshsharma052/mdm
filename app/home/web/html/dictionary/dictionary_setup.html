@@ -1,0 +1,121 @@
+
+
+
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Dictionary Setup {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+<!-- <link rel="stylesheet" href="{% static 'css/custom.tabledit.css' %}"> -->
+<style>
+    #dropZone {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            line-height: 150px;
+            text-align: center;
+            color: #007bff;
+            font-family: Arial, sans-serif;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        #dropZone.dragover {
+            background-color: #f0f8ff;
+            color: #0056b3;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        #error {
+            color: red;
+            margin-top: 10px;
+        }
+   </style>
+
+<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+    <h4 class="mg-b-0">Dictionary Setup</h4>
+    <!-- <div>
+        <a href="/common/templates/dictionary_template.xlsx" class="btn btn-primary btn-sm"><span class="fal fa-file-excel mg-r-5"></span> Download Template</a>
+      </div> -->
+  </div>
+<div class="row row-xs">
+      
+    <div class="col-lg-12 col-xl-12">
+      <div class="card">
+        <div class="card-body pd-y-30">
+          <div class="row">
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <div class="form-group">
+                  <div class="form-group pos-relative select-lable">
+                      <label for="item_name" class="d-block selected">Dictionary Name <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                      <input type="text" name="item_name" id="item_name" class="form-control"
+                          placeholder="Item Name" required>
+                  </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <div class="form-group">
+                  <div class="form-group pos-relative select-lable">
+                      <label for="item_name" class="d-block selected">Code <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                      <input type="text" name="item_name" id="item_name" class="form-control"
+                          placeholder="Code" required>
+                  </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div class="form-group">
+                  <span class="has-float-label">
+                      <label for="item_comments">Description<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+                      <textarea type="text" class="form-control" name="item_comments" id="item_comments" rows="3" placeholder="Add Description" required></textarea>
+                  </span>
+              </div>
+          </div>
+
+          </div>
+          <!-- <div class="mg-t-0">
+            <div class="mg-t-10 mg-b-30" id="">
+                <div id="dropZone">Drag & Drop your Excel file here or click to upload</div>
+                <input type="file" id="uploadXls" accept=".xls,.xlsx">
+                <div id="error"></div>
+            </div>
+            <div class="table-responsive">
+              <table id="previewTable" class="table table-dashboard">
+                <thead>
+                    <tr id="tableHeaders"></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+
+            </div>
+          </div> -->
+    
+            
+        </div><!-- card-body -->
+        <div class="card-footer justify-content-end d-flex">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+  {% block javascript %}
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+
+    <!-- JSZip for Excel Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- <script src="{% static 'js/master/table-edit-only.js' %}"></script> -->
+    <script src="{% static 'js/dictionary/bulk_create_dictionary.js' %}"></script>
+    
+    
+    <script>
+
+
+    </script>
+  {% endblock %}

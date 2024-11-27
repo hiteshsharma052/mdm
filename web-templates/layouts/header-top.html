@@ -1,0 +1,39 @@
+{% load static %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'css/header_top.css' %}">
+
+<div class="content-header pos-relative d-print-none bg-white">
+  <div class="">
+    <div class="media">
+      <div class="tx-24 wd-40 ht-40 bg-lightblue tx-primary mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded breadcrumb-icon">
+        
+      </div>
+      <div class="media-body">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-style3 mg-b-4">
+            <li class="breadcrumb-item"><a href="/" class="text-secondary">Home</a></li>
+            <li class="breadcrumb-item breadcrumb-label active text-secondary"></li>
+          </ol>
+        </nav>
+        <h4 class="tx-16 tx-normal tx-rubik mg-b-0 breadcrumb-current tx-color-05"></h4>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="nav navbar-right align-items-baseline" aria-label="nav">
+    <div class="dropdown dropdown-profile mg-l-20">
+      <a href="" class="dropdown-link tx-color-02" data-bs-toggle="dropdown" data-display="static">
+        <i aria-hidden="true" class="feather-settings tx-20 mg-t-2"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right dropdown-top-borderless tx-13 pd-b-10-f" style="margin-top: 12px !important;">
+        <div class="d-block dropdown-divider ht-auto mg-b-0-f pd-t-10 pd-x-0">
+          <a href="/logout/" class="dropdown-item"><i aria-hidden="true" class="feather-log-out tx-16 mg-r-15"></i>Log Out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<script src="{% static 'js/custom_permission.js'%}" type="text/javascript"></script>

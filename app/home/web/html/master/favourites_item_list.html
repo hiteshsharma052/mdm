@@ -1,0 +1,445 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Saved Search List {% endblock %}
+{% load static %}
+{% block stylesheet %}
+<!-- <link rel="stylesheet" href="{% static 'css/custom.tabledit.css' %}"> -->
+<style>
+	#dropZone {
+		width: 100%;
+		height: 100px;
+		border: 2px dashed #999;
+		border-radius: 10px;
+		text-align: center;
+		line-height: 100px;
+		/* color: #999; */
+		margin-top: 20px;
+		cursor: pointer;
+		background-color: #f0f8ff;
+	}
+
+	#dropZone.dragover {
+		border-color: #333;
+		color: #333;
+	}
+
+	.highlight {
+		background: rgba(255, 235, 59, 0.49) !important;
+		/* Highlight color */
+		transition: background-color 0.5s ease;
+		/* Transition effect */
+	}
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="row row-xs">
+	<div class="col-lg-12 col-xl-12">
+		<div class="card">
+			<div class="card-body pd-y-30">
+				<div class="table-responsive">
+					<table aria-describedby="table" class="table table-dashboard-three mg-b-0 w-100" id="dictionaryTable"
+						style="border-spacing:10px;">
+						<thead>
+							<tr class="tx-bold">
+								<th>Name</th>
+								<th>Created Date</th>
+								<th class="wd-100 no-sort">Action</th>
+							</tr>
+						</thead>
+						<tbody class="data_dictionary">
+						</tbody>
+					</table>
+				</div>
+				<!-- Pagination controls -->
+				<!-- <div class="d-flex justify-content-between align-items-center mt-3">
+					<div>
+						<label for="itemsPerPage">Items per page:</label>
+						<select id="itemsPerPage" class="form-select form-select-sm" style="width: auto;">
+							<option value="5">5</option>
+							<option value="10" selected>10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div>
+						<button id="prevPage" class="btn btn-sm btn-secondary" disabled>Previous</button>
+						<span id="currentPageDisplay" class="mx-2">Page 1</span>
+						<button id="nextPage" class="btn btn-sm btn-secondary">Next</button>
+					</div>
+				</div> -->
+			</div><!-- card-body -->
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade show" id="favItems" tabindex="-1" role="dialog" aria-modal="true">
+	<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20">
+				<div class="d-flex">
+					<h4 class="mg-b-20 mg-sm-b-25 tx-18" id="modal-item-name"></h4>
+					<a href="" role="button" class="close pos-absolute t-15 r-15" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</a>
+				</div>
+
+
+				<div class="row">
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Code</label>
+							<p class="tx-13 mg-b-0" id="item_code"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Country</label>
+							<p class="tx-13 mg-b-0" id="country"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Category</label>
+							<p class="tx-13 mg-b-0" id="item_cat"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Sub
+								Category</label>
+							<p class="tx-13 mg-b-0" id="spl_cat"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Organization
+								Code</label>
+							<p class="tx-13 mg-b-0" id="org_code"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Name</label>
+							<p class="tx-13 mg-b-0" id="item_name"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Description</label>
+							<p class="tx-13 mg-b-0 text-truncate" id="item_desc"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Brand</label>
+							<p class="tx-13 mg-b-0" id="brand"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label
+								class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Molecule</label>
+							<p class="tx-13 mg-b-0" id="molecule"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Variant</label>
+							<p class="tx-13 mg-b-0" id="variant"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Form</label>
+							<p class="tx-13 mg-b-0" id="form"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Special
+								Material Flag</label>
+							<p class="tx-13 mg-b-0" id="spl_material_flag"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Primary
+								UOM</label>
+							<p class="tx-13 mg-b-0" id="primary_uom"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Secondary
+								UOM</label>
+							<p class="tx-13 mg-b-0" id="secondary_uom"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">List
+								Price</label>
+							<p class="tx-13 mg-b-0" id="list_price"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Market
+								Price</label>
+							<p class="tx-13 mg-b-0" id="mrp"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Inventory
+								Item</label>
+							<p class="tx-13 mg-b-0" id="inventory_item"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Invoice
+								Enabled</label>
+							<p class="tx-13 mg-b-0" id="invoice_enabled"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Drug
+								Schedule</label>
+							<p class="tx-13 mg-b-0" id="drug_schedule"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Lot
+								Divisible</label>
+							<p class="tx-13 mg-b-0" id="lot_divisible"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">VAT %</label>
+							<p class="tx-13 mg-b-0" id="vat"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">DDC
+								Code</label>
+							<p class="tx-13 mg-b-0" id="ddc_code"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label
+								class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Supplier</label>
+							<p class="tx-13 mg-b-0" id="supplier"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Barcode Pack
+								size</label>
+							<p class="tx-13 mg-b-0" id="">--</p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Barcode
+								MRP</label>
+							<p class="tx-13 mg-b-0" id="">--</p>
+						</div>
+					</div>
+				</div>
+
+			</div><!-- modal-body -->
+		</div><!-- modal-content -->
+	</div><!-- modal-dialog -->
+</div>
+
+
+{% endblock %}
+{% block javascript %}
+<script>
+	// State object to manage pagination and items per page
+	const state = {
+		currentPage: 1,      // Current page number
+		itemsPerPage: 10,    // Default items per page
+		totalPages: 1,       // Total number of pages (updated after API response)
+	};
+
+	// Function to fetch and render favorite items
+	const loadFavoriteItems = async () => {
+		try {
+			const result = await fetch('/api/items/favorites/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ page: state.currentPage, page_size: state.itemsPerPage }),
+			}).then((res) => res.json());
+
+			if (result.msg === 'Success') {
+				// Update state with total pages
+				state.totalPages = result.data.total_pages;
+
+				// Update table rows
+				const tbody = document.querySelector('.data_dictionary');
+				tbody.innerHTML = ''; // Clear existing rows
+
+				result.data.items.forEach((item) => {
+					tbody.innerHTML += renderFavoriteRow(item);
+				});
+
+				// Update pagination controls
+				// updatePaginationControls();
+				$("#dictionaryTable").dataTable(
+					{ targets: 'no-sort', orderable: false 
+				});
+			} else {
+				console.error('Failed to load favorite items:', result.msg);
+			}
+		} catch (error) {
+			console.error('Error loading favorite items:', error);
+		}
+	};
+
+	
+
+
+	// Function to update pagination controls based on state
+	// const updatePaginationControls = () => {
+	// 	document.getElementById('prevPage').disabled = state.currentPage === 1;
+	// 	document.getElementById('nextPage').disabled = state.currentPage === state.totalPages;
+	// 	document.getElementById('currentPageDisplay').textContent = `Page ${state.currentPage} of ${state.totalPages}`;
+	// };
+
+	// // Event listener for "Items per page" dropdown
+	// document.getElementById('itemsPerPage').addEventListener('change', (e) => {
+	// 	state.itemsPerPage = parseInt(e.target.value, 10); // Update items per page in state
+	// 	state.currentPage = 1; // Reset to the first page
+	// 	loadFavoriteItems(); // Reload items
+	// });
+
+	// // Event listener for "Previous Page" button
+	// document.getElementById('prevPage').addEventListener('click', () => {
+	// 	if (state.currentPage > 1) {
+	// 		state.currentPage--; // Decrement current page
+	// 		loadFavoriteItems(); // Reload items
+	// 	}
+	// });
+
+	// // Event listener for "Next Page" button
+	// document.getElementById('nextPage').addEventListener('click', () => {
+	// 	if (state.currentPage < state.totalPages) {
+	// 		state.currentPage++; // Increment current page
+	// 		loadFavoriteItems(); // Reload items
+	// 	}
+	// });
+
+	// Function to render a single row in the table
+	const renderFavoriteRow = (item) => {
+		return `
+        <tr>
+            <td>${item.item_name || 'N/A'}</td>
+            <td>${new Date(item.favorite_created_date).toLocaleString() || 'N/A'}</td>
+            <td>
+                <div class="d-flex">
+                    <a href="#favItems" class="mg-r-10 view-details" data-bs-toggle="modal" data-item-id="${item.item_code}">
+                        <i aria-hidden="true" class="mdi mdi-eye tx-20"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    `;
+	};
+
+	// Event listener for "View Details" button
+	document.addEventListener('click', (e) => {
+		const viewBtn = e.target.closest('.view-details');
+		if (viewBtn) {
+			const itemCode = viewBtn.dataset.itemId;
+			fetchItemDetails(itemCode);
+		}
+	});
+
+	// Function to fetch item details for a specific item_code
+	const fetchItemDetails = async (itemCode) => {
+		try {
+			const result = await fetch('/api/get/item/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ item_code: itemCode }),
+			}).then((res) => res.json());
+
+			if (result.msg === 'Success') {
+				populateModal(result.data);
+			} else {
+				console.error('Failed to fetch item details:', result.msg);
+			}
+		} catch (error) {
+			console.error('Error fetching item details:', error);
+		}
+	};
+
+	// Function to populate the modal with API response data
+	const populateModal = (data) => {
+		// Map modal IDs to response keys
+		const fieldMapping = {
+			'item_code': 'item_code',
+			'country': 'country_name',
+			'item_cat': 'item_category_desc',
+			'spl_cat': 'sub_category_desc',
+			'org_code': 'organization_desc',
+			'item_name': 'item_name',
+			'item_desc': 'item_desc',
+			'brand': 'brand_desc',
+			'molecule': 'molecule_desc',
+			'variant': 'variant_desc',
+			'form': 'form_desc',
+			'spl_material_flag': 'special_material_desc',
+			'primary_uom': 'primary_uom_desc',
+			'secondary_uom': 'secondary_uom_desc',
+			'list_price': 'list_price',
+			'mrp': 'market_price',
+			'inventory_item': 'inventory_item',
+			'invoice_enabled': 'invoice_flag',
+			'drug_schedule': 'drug_schedule',
+			'lot_divisible': 'lot_div',
+			'vat': 'vat_percentage',
+			'ddc_code': 'ddc_code',
+			'supplier': 'supplier_desc',
+			'barcode_pack': 'barcode_pack',
+			'barcode_mrp': 'barcode_mrp'
+		};
+
+		// Loop through the field mapping to populate modal
+		Object.keys(fieldMapping).forEach((id) => {
+			const field = fieldMapping[id];
+			const value = data[field] ?? 'Not Found'; // Default to "Not Found" if field is missing or null
+			document.getElementById(id).textContent = value;
+		});
+	};
+	// Load favorites when the page is ready
+	document.addEventListener('DOMContentLoaded', () => {
+		loadFavoriteItems();
+	});
+
+
+	// $(document).ready(function () {
+	// 	$("#dictionaryTable").dataTable(
+	// 		{ targets: 'no-sort', orderable: false 
+	// 	});
+	// });
+
+</script>
+{% endblock %}

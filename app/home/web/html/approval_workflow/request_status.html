@@ -1,0 +1,306 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Item Status {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<style>
+  /* Custom style for the popover */
+  .custom-popover .popover-body {
+      max-width: 460px !important;
+      max-height: 300px;
+      overflow-y: auto;
+      overflow-x: auto;
+  }
+  .popover {
+      max-width: 100% !important;
+  }
+  </style>
+<div class="row row-xs">
+  <div class="col-lg-12 col-xl-12">
+    <div class="card">
+      <div class="card-header pd-y-10 pd-x-15 d-sm-flex align-items-center justify-content-between">
+        <div>
+        </div>
+        <div class="d-flex mg-t-20 mg-sm-t-0">
+          <div class="mg-r-10">
+            <div id="reportrange" class="form-control form-control-sm" style="background: #fff; cursor: pointer; padding: 8px 10px; border: 1px solid #ccc; width: 100%">
+              <i class="fa fa-calendar"></i>&nbsp;
+              <span></span> <i class="fa fa-caret-down"></i>
+            </div>
+          </div>
+          <select class="custom-select custom-select-sm w-auto" id="request_status_filter">
+            <option value="">All</option>
+            <option value="Draft">Draft</option>
+            <option value="Submitted">Submitted</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+      </div><!-- card-header -->
+      <div class="card-body pd-y-30">
+        <div class="d-sm-flex justify-content-between mb-4 bd-b pd-b-15">
+          <div class="d-sm-flex">
+            <!-- Submitted -->
+            <div class="media requestor" style="display: none;">
+              <div
+                class="wd-40 wd-md-50 ht-40 ht-md-50 bg-success op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+                <i aria-hidden="true" data-feather="check-circle"></i>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Submitted </h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0" id="itm_submitted">0</h4>
+              </div>
+            </div>
+            <!-- Draft -->
+            <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40 requestor" style="display: none;">
+              <div
+                class="wd-40 wd-md-50 ht-40 ht-md-50 bg-warning op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+                <i aria-hidden="true" data-feather="edit"></i>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8" >Draft</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0" id="itm_draft">0</small></h4>
+              </div>
+            </div>
+            <!-- Approved -->
+            <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+              <div
+                class="wd-40 wd-md-50 ht-40 ht-md-50 bg-primary op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+                <i aria-hidden="true" data-feather="star"></i>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">Approved</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0" id="itm_approved">0</small></h4>
+              </div>
+            </div>
+            <!-- Rejected -->
+            <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+              <div
+                class="wd-40 wd-md-50 ht-40 ht-md-50 bg-danger op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+                <i aria-hidden="true" data-feather="x-circle"></i>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">Rejected
+                </h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0" id="itm_rejected">0</h4>
+              </div>
+            </div>
+            <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+              <div
+                class="wd-40 wd-md-50 ht-40 ht-md-50 bg-warning op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+                <i aria-hidden="true" data-feather="clock"></i>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8" >Pending</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0" id="itm_pending">0</small></h4>
+              </div>
+            </div>
+            <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+              <div
+                class="wd-40 wd-md-50 ht-40 ht-md-50 bg-indigo op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+                <i aria-hidden="true" data-feather="mail"></i>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8" >Request for more info</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0" id="itm_more_info">0</small></h4>
+              </div>
+            </div>
+          </div>
+        <div>
+
+        </div>
+        </div>
+        <div class="table-responsive">
+          <table aria-describedby="table" class="table table-dashboard-three mg-b-0" id="dictTable" style="border-spacing: 1px 10px;">
+            <thead>
+              <tr class="tx-bold">
+                <th>Request ID</th>
+                <th>Item Name</th>
+                <th>Item Category</th>
+                <th>Sub Category</th>
+                <th class="hide">Created Date</th>
+                <th>Status</th>
+                <!-- <th class="creator" style="display: none;">Requested By</th> -->
+                <th>Request Type</th>
+                <th class="no-sort">Progress Level</th>
+                <th>Pending At</th>
+                <!-- <th>Created Date</th> -->
+                <th class="no-sort">Action</th>
+              </tr>
+            </thead>
+            <tbody class="data_assets_consent" id="req_status_table">
+          
+              
+            </tbody>
+          </table>
+        </div>
+        <div class="nextbutton"></div>
+      </div><!-- card-body -->
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="progress_level_01" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel7" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content tx-14">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel7">Progress Level</h6>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pd-0">
+        <div class="table-responsive">
+          <table class="table table-dashboard mg-b-0">
+            <thead>
+              <tr>
+                <th class="tx-medium">Approval Stage</th>
+                <th>Responsible person</th>
+                <th>Start Date</th>
+                <th>Approved Date</th>
+                <th>Approval Status</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tx-color-03 tx-medium">Requestor</td>
+                <td>
+                  <div class="media">
+                    <div class="avatar avatar-sm"><span class="avatar-initial bg-primary rounded-circle">k</span></div>
+                    <div class="media-body mg-l-10">
+                      <h6 class="mg-b-0">Satish</h6>
+                      <small class="tx-12 d-block tx-color-03">satish.kumar@scikiq.com</small>
+                    </div><!-- media-body -->
+                  </div>
+                </td>
+                <td>03/04/2018</td>
+                <td></td>
+                <td><div class="badge badge-success tx-12 pd-x-10">Submitted</div></td>
+                <td class="text-wrap">Requsted for new item creation</td>
+              </tr>
+
+              <tr>
+                <td class="tx-color-03 tx-medium">Creator</td>
+                <td>
+                  <div class="media">
+                    <div class="avatar avatar-sm"><span class="avatar-initial bg-success rounded-circle">k</span></div>
+                    <div class="media-body mg-l-10">
+                      <h6 class="mg-b-0">Harshit</h6>
+                      <small class="tx-12 d-block tx-color-03">harshit@scikiq.com</small>
+                    </div><!-- media-body -->
+                  </div>
+                </td>
+                <td>05/04/2018</td>
+                <td class="requestor" style="display: none;"></td>
+                <td class="creator" style="display: none;">07/04/2018</td>
+                <td class="requestor" style="display: none;"><div class="badge badge-warning tx-12 pd-x-10">Pending</div></td>
+                <td class="creator" style="display: none;"><div class="badge badge-success tx-12 pd-x-10">Approved</div></td>
+                <td class="supervisor" style="display: none;"><div class="badge badge-warning tx-12 pd-x-10">Pending</div></td>
+                <td class="text-wrap creator" style="display: none;">Validation checked... all Ok</td>
+                <td class="text-wrap supervisor" style="display: none;">Validation checked... all Ok</td>
+              </tr>
+
+              <tr class="creator" style="display: none;">
+                <td class="tx-color-03 tx-medium">Supervisor Approval</td>
+                <td>
+                  <div class="media">
+                    <div class="avatar avatar-sm"><span class="avatar-initial bg-success rounded-circle">k</span></div>
+                    <div class="media-body mg-l-10">
+                      <h6 class="mg-b-0">Shashank</h6>
+                      <small class="tx-12 d-block tx-color-03">satish.kumar@scikiq.com</small>
+                    </div><!-- media-body -->
+                  </div>
+                </td>
+                <td>07/04/2018</td>
+                <td>-</td>
+                <td><div class="badge badge-warning tx-12 pd-x-10">Pending</div></td>
+                <td class="text-wrap"></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary tx-13" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade show" id="item_detail_modal" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20" id="item_detail">
+        
+
+      </div><!-- modal-body -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div>
+
+<script src="{% static 'js/item/item_request_status.js' %}"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script>
+var startDate = moment().subtract(29, 'days').format('YYYY-MM-DD');
+var endDate = moment().format('YYYY-MM-DD');
+
+$(function() {
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        "opens": "left",
+        "cancelClass": "btn-secondary",
+        "alwaysShowCalendars": true,
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+        // Update global variables
+        startDate = picker.startDate.format('YYYY-MM-DD');
+        endDate = picker.endDate.format('YYYY-MM-DD');
+
+        // Get request status filter
+        let request_status_filter = $("#request_status_filter option:selected").val();
+
+        // Load request list with updated dates
+        loadRequestList(request_status_filter, startDate, endDate);
+    });
+
+    // Initial load
+    let initial_request_status_filter = $("#request_status_filter option:selected").val();
+    loadRequestList(initial_request_status_filter, startDate, endDate);
+
+    cb(start, end);
+
+    $("body").on("change", "#request_status_filter", function () {
+
+      let status_type = $(this).val();
+      loadRequestList(status_type,startDate,endDate);
+
+    })
+});
+
+</script>
+
+{% endblock %}

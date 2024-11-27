@@ -1,0 +1,106 @@
+ .login-card {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 auto;
+  background: url(../img/admin-bg.jpg);
+  background-position: center;
+  padding: 30px 12px;
+}
+.login-card .login-main {
+  width: 450px;
+  padding: 40px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
+  box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
+  margin: 0 auto;
+  background-color: #fff;
+}
+.login-card .logo {
+  display: block;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.login-card .logo {
+  display: block;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.login-card .login-main .theme-form p {
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #9b9b9b;
+}
+
+/* switch button*/
+/* Radio Button Dataset */
+
+.switch-field {
+  padding: 0px;
+  margin: 5px;
+  display:flex;
+}
+
+.switch-field.not-active::after{
+  content: '';
+  position: absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  z-index: 3;
+  cursor: not-allowed;
+}
+
+.switch-title {
+  margin-bottom: 0.5em;
+}
+
+.switch-field input {
+  display: none;
+}
+
+.switch-field label {
+  display: inline-block;
+  background-color: #cdd4e0;
+  color: #333;
+  font-size: 1em;
+  font-weight: normal;
+  text-align: center;
+  text-shadow: none;
+  padding: 0.5em 1em;
+  border: 0.05em solid rgba(0, 0, 0, 0.15);
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+  cursor: pointer;
+}
+
+.switch-field input:checked+label {
+  background-color: #0168fa;
+  color: white;
+  width: 50%;
+}
+
+.switch-field label:first-of-type {
+  border-radius: 3px 0 0 3px;
+  width: 50%;
+}
+
+
+.switch-field label:last-of-type {
+  border-radius: 0 3px 3px 0;
+  width: 50%;
+}

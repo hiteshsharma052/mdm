@@ -1,0 +1,19 @@
+{% load static %}
+<div class="modal fade" tabindex="-1" id="dynamicAlert" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+            <h6 class="modal-title">Confirmation Box</h6>
+          </div>
+          <div class="modal-body">
+            <p id="alert_message_body">Set your any message here...</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="button1" class="alertModal-dynamic btn btn-default" data-act="no" data-bs-dismiss="modal">Button 1</button>
+            <button type="button" id="button2" class="alertModal-dynamic btn btn-default" data-act="yes" data-bs-dismiss="modal">Button 1</button>
+            <button type="button" id="button3" class="alertModal-dynamic btn btn-default" data-act="optional_1" data-bs-dismiss="modal" style="display: none;">Button 1</button>            
+          </div>
+        </div>
+      </div>
+    </div>

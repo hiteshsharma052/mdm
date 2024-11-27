@@ -1,0 +1,144 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Group {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+
+<link href="{% static 'css/create_group.css'%}" rel="stylesheet" />
+
+
+<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+  <h4 class="mg-b-0">Group</h4>
+  <div>
+    <a href="#create_group" class="btn btn-primary btn-sm" data-bs-toggle="modal"><span class="fal fa-plus"></span> Create Group</a>
+  </div>
+</div>
+
+  <div class="card">
+    <div class="card-header pd-b-0">
+        <ul class="nav nav-line bd-b-0" role="tablist" id="admin_tab">
+            <li class="nav-item" role="presentation">
+                <a href="#tabUser" id="tabUserBtn" role="tab" data-bs-toggle="tab" class="nav-link clickTab active"
+                    attr-data="user" aria-controls="tabUser" aria-selected="true">Group</a>
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+                <a href="#tabbulkUser" id="tabGroupBtn" role="tab" data-bs-toggle="tab" class="nav-link clickTab"
+                    attr-data="group" aria-controls="tabGroup" aria-selected="false" tabindex="-1">Create Bulk User</a>
+            </li> -->
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="tabUser" role="tabpanel" aria-labelledby="#tabUserBtn">
+                <div id="loaderInternal"></div>
+                <div>
+                  <table id="group" class="table table-dashboard-three w-100">
+                    <thead class="thead-themed sticky-top">
+                        <tr>
+                          <th>Group Name</th>
+                            <th>Description</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                              Viewer
+                          </td>
+                            <td>Aster Viewer Grup</td>
+                            <td>23/09/2024 18:51:00</td>
+                            <td id="group_actn">
+                                <div class="d-flex">
+                                    <a href="javascript:void(0);" class="bgicon" data-bs-toggle="modal" title="Edit">
+                                        <i aria-hidden="true" class="mdi mdi-pencil"></i>
+                                    </a>
+                                    <a href="javascript:void(0);" class="bgicon" title="Delete Record">
+                                        <i aria-hidden="true" class="mdi mdi-delete"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<div class="modal fade show group_modal" id="create_group" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-modal="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel4">Create Group</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="validate" id="creategroup">
+                <div class="modal-body">
+                    <div class="row">
+                    </div>
+                    <div id="main">
+                        <div class="container">
+                            <div class="accordion" id="faq">
+                                <div class="card">
+                                    <div class="card-header" id="faqhead1">
+                                        <a href="#" class="btn btn-header-link pd-10-f" data-bs-toggle="collapse"
+                                            data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">Group
+                                            Details</a>
+                                    </div>
+                                    <div id="faq1" class="collapse show" aria-labelledby="faqhead1" data-parent="#faq">
+                                        <div class="card-body">
+                                            <div class="pd-0">
+                                                <input type="hidden" name="id" value id="group_id">
+                                                <div id="errordiv"></div>
+                                                <div class="form-group">
+                                                    <label>Group Name</label>
+                                                    <input class="form-control" id="group_name" name="group_name"
+                                                        type="text" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Description</label>
+                                                    <textarea class="tx-limit-500 form-control" rows="3" required
+                                                        id="description" name="description" maxlength="500"></textarea>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Add Members</label>
+                                                    <select class="form-control" id="user_list" multiple="multiple">
+                                                        <option>user 1</option>
+                                                        <option>User 2</option>
+                                                        <option>User 3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary tx-13" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="btn_create_group" class="btn btn-primary creategroup">Create
+                        Group</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#user_list').select2();
+    });
+</script>
+
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}

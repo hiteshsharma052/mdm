@@ -1,0 +1,938 @@
+
+
+
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Add Item {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/master/file_upload.css' %}">
+
+<style>
+    .select-lable .select2-container--default .select2-selection--single {
+        height: 38px !important;
+    }
+    .twitter-typeahead, .tt-open {
+        width: 100%;
+    }
+    
+    #remove{
+        visibility:hidden;
+        content:'';
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.5);
+        font-size:25px;
+        color:red;
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-50%, -50%);
+        cursor:pointer;
+    }
+    #preview-wrap, #preview-wrap-right, #preview-wrap-front, #preview-wrap-back {
+        border: 1px solid rgba(72, 94, 144, 0.16);
+        border-radius: 3px;
+        width: 50px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+    #preview-wrap:hover #remove{
+    visibility:visible;
+    }
+
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+  <h4 class="mg-b-0">Add Item</h4>
+  <div>
+    <a href="/seach_item/" class="btn btn-secondary btn-sm mg-r-15"><span class="fal fa-search"></span> Search Items</a>
+    <a href="/dictionary/" class="btn btn-primary btn-sm"><span class="feather-book-open"></span> Dictionary</a>
+  </div>
+</div>
+  
+  
+  <div class="row row-xs">
+    <div class="col-lg-12 col-xl-12">
+      <div class="card">
+        <div class="card-header bd-b-0 d-sm-flex align-items-center justify-content-between">
+          <div>
+            <h6 class="mg-b-5">Item Master</h6>
+            <p class="tx-12 tx-color-03 mg-b-0">
+                An item master is a record that lists key information related to an inventory item. This may include item description, cost, manufacturing and supply lead times etc... 
+            </p>
+          </div>
+        </div><!-- card-header -->
+        <div class="card-body pd-y-30">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group pos-relative select-lable">
+                            <label for="item_name" class="d-block selected">Item Name <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <input type="text" name="item_name" id="item_name" class="form-control"
+                                placeholder="Item Name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="item_cat" class="d-block selected">Item Category<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select" name="item_cat" id="item_cat" required>
+                                <option value="">- Select -</option>
+                                <option value="D">Direct</option>
+                                <option value="I">Indirect</option>
+                                <option value="C">Consignment</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="pharmacy_consumables" class="d-block selected">Sub Category <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="item_cat" id="pharmacy_consumables" required>
+                                <option value="">- Select -</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="item_desc">Item Description <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <input type="text" class="form-control" name="item_desc" id="item_desc"
+                                placeholder="Item Description" required>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="country" class="d-block selected">Country <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="country" id="country" required>
+                                <option value="">- Select -</option>
+                                <option value="UAE">UAE</option>
+                                <option value="Qatar">Qatar</option>
+                                <option value="India">India</option>
+                                <option value="Oman">Oman</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="list_price">List Price <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <input type="text" name="list_price" id="list_price" class="form-control"
+                                placeholder="List Price" required>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="mrp">MRP <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <input type="text" class="form-control" name="mrp" id="mrp" placeholder="MRP" required>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="molecule" class="d-block selected">Molecule<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="molecule" id="molecule" required>
+                                <option value="">- Select -</option>
+                                <option value="other">Other</option>
+                                <option value="ABC">12% ASCORBIC ACID</option>
+                                <option value="EFG">15% L-ASCORBIC ACID + 1% ALPHA TOCOPHEROL + 0.5% FERULIC ACID</option>
+                                <option value="XYZ">2% DIOIC ACID + CAPROLOYL SALICYLIC ACID + 1.5% SALICYLIC ACID + 3.5% GLYCOLIC ACID AND 0.5% CITRIC ACID</option>
+                                <option value="XYZ">2% PHLORETIN + 10% L-ASCORBIC ACID + 0.5% FERULIC ACID </option>
+                                <option value="XYZ">2, 4-DICHLOROBENZYL ALCOHOL + AMYLMETACRESOL</option>
+                            </select>
+                            <input type="text" class="form-control mg-t-5 hide" name="molecule_sub"
+                                id="molecule_sub" placeholder="Other">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="variant" class="d-block selected">Variant<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="variant" id="variant" required>
+                                <option value="">- Select -</option>
+                                <option value="others">Others</option>
+                                <option value="0.1">0.1%</option>
+                                <option value="0.2">0.2%</option>
+                                <option value="0.3">0.3%</option>
+                                <option value="0.4">0.4%</option>
+                                <option value="0.5">0.5%</option>
+                                <option value="0.6">0.6%</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group select-lable pos-relative">
+                        <label for="form" class="d-block selected">Form<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                        <select class="form-control item_custom_select" name="form" id="form" required>
+                            <option value="">- Select -</option>
+                            <option value="others">Others</option>
+                            <option value="AA">AEROSOL</option>
+                            <option value="AB">AMPULES</option>
+                            <option value="AC">BAG</option>
+                            <option value="AD">BALM</option>
+                            <option value="AE">BAR</option>
+                            <option value="AF">BIB</option>
+                            <option value="AG">BLEACH</option>
+                            <option value="AH">BLOOMS</option>
+                            <option value="AI">BODY WASH</option>
+                            <option value="AJ">BOOK</option>
+                            <option value="AK">BOTTLE</option>
+                            <option value="AL">BRUSH</option>
+                            <option value="AM">BUDS</option>
+                            <option value="AN">CANDY</option>
+                            <option value="AO">CAP</option>
+                            <option value="AP">CAP_CD</option>
+                            <option value="AQ">CAP_CR</option>
+                            <option value="AR">CAP_ER</option>
+                            <option value="AS">CAP_FORTE</option>
+                            <option value="AT">CAP_LA</option>
+                            <option value="AU">CAP_MR</option>
+                            <option value="AV">CAP_OD</option>
+                            <option value="AW">CAP_SR</option>
+                            <option value="AY">CAP_TR</option>
+                            <option value="AZ">CAP_XL</option>
+                            <option value="BA">CAP_XR</option>
+                            <option value="BB">CAP_XT</option>
+                            <option value="BC">CAP+SYRUP</option>
+                            <option value="BD">CARTRIDGE</option>
+                            <option value="BE">CEREAL</option>
+                            <option value="BF">CHIPS</option>
+                            <option value="BG">CHOCOLATE</option>
+                            <option value="BH">CHURNAM</option>
+                            <option value="BI">CLEANSER</option>
+                            <option value="BJ">COLOGNE</option>
+                            <option value="BK">COMPOUND</option>
+                            <option value="BL">CONDITIONER</option>
+                            <option value="BM">CONE</option>
+                            <option value="BN">CONTAINER</option>
+                            <option value="BO">CREAM</option>
+                            <option value="BP">CREAM_XL</option>
+                            <option value="BQ">CUP</option>
+                            <option value="BR">DEODORANT</option>
+                            <option value="BS">DIAPER</option>
+                            <option value="BT">DOSE</option>
+                            <option value="BU">DRINK</option>
+                            <option value="BV">DROPS</option>
+                            <option value="BW">DROPS_FORTE</option>
+                            <option value="BY">DROPS_OD</option>
+                            <option value="BZ">DROPS_XT</option>
+                            <option value="CA">ELIXIR</option>
+                            <option value="CB">ELIXIR_FORTE</option>
+                            <option value="CC">EMULSION</option>
+                            <option value="CD">ESSENCE</option>
+                            <option value="CE">EXPECTORANT</option>
+                            <option value="CF">FABRIC WASH</option>
+                            <option value="CG">FACE AND BODY WASH</option>
+                            <option value="CH">FACE WASH</option>
+                            <option value="CI">FEEDER</option>
+                            <option value="CJ">FIBER</option>
+                            <option value="CK">FILE</option>
+                            <option value="CL">FLAKES</option>
+                            <option value="CM">FLUID</option>
+                            <option value="CN">FOAM</option>
+                            <option value="CO">GEL</option>
+                            <option value="CP">GEL_FORTE</option>
+                            <option value="CQ">GEL_LA</option>
+                            <option value="CR">GEL_OD</option>
+                            <option value="CS">GHEE</option>
+                            <option value="CT">GIFTCARD</option>
+                            <option value="CU">GLASS</option>
+                            <option value="CV">GRAIN</option>
+                            <option value="CW">GRANULES</option>
+                            <option value="CY">GULIKA</option>
+                            <option value="CZ">GUMMIES</option>
+                            <option value="DA">HAIR WASH</option>
+                            <option value="DB">HAND WASH</option>
+                            <option value="DC">HONEY</option>
+                            <option value="DD">INFUSION</option>
+                            <option value="DE">INHALER</option>
+                            <option value="DF">INJ</option>
+                            <option value="DG">INJ_FORTE</option>
+                            <option value="DH">INJ_LA</option>
+                            <option value="DI">INJ_LAR</option>
+                            <option value="DJ">INJ_SR</option>
+                            <option value="DK">IV</option>
+                            <option value="DL">JAR</option>
+                            <option value="DM">JAT</option>
+                            <option value="DN">JELLY</option>
+                            <option value="DO">JUICE</option>
+                            <option value="DP">KAJAL</option>
+                            <option value="DQ">KIT</option>
+                            <option value="DR">KIT_FORTE</option>
+                            <option value="DS">LACQUER</option>
+                            <option value="DT">LATCH</option>
+                            <option value="DU">LEHA</option>
+                            <option value="DV">LICKS</option>
+                            <option value="DW">LIP CARE</option>
+                            <option value="DY">LIPSTICK</option>
+                            <option value="DZ">LIQUID</option>
+                            <option value="EA">LIQUID REAGENT</option>
+                            <option value="EB">LOTION</option>
+                            <option value="EC">LOTION_FORTE</option>
+                            <option value="ED">LOTION_LA</option>
+                            <option value="EE">LOZENGE</option>
+                            <option value="EF">M/WASH</option>
+                            <option value="EG">MACHINE</option>
+                            <option value="EH">MASCARA</option>
+                            <option value="EI">MASK</option>
+                            <option value="EJ">MASSAGER</option>
+                            <option value="EK">MILK SHAKE</option>
+                            <option value="EL">MINT</option>
+                            <option value="EM">MOISTURISER</option>
+                            <option value="EN">MOUTH FR</option>
+                            <option value="EO">MOUTH RINSE</option>
+                            <option value="EP">MOUTH WASH</option>
+                            <option value="EQ">NAPKINS</option>
+                            <option value="ER">NEBULES</option>
+                            <option value="ES">NEBULIZER</option>
+                            <option value="ET">NIPPLE</option>
+                            <option value="EU">NIRODH</option>
+                            <option value="EV">NOVOCORTS</option>
+                            <option value="EW">OIL</option>
+                            <option value="EY">OINTMENT</option>
+                            <option value="EZ">OINTMENT_FORTE</option>
+                            <option value="FA">OINTMENT_XL</option>
+                            <option value="FB">OTHER</option>
+                            <option value="FC">OTHER_XL</option>
+                            <option value="FD">OTHER_XR</option>
+                            <option value="FE">PACK</option>
+                            <option value="FF">PAD</option>
+                            <option value="FG">PAINT</option>
+                            <option value="FH">PARTICLE</option>
+                            <option value="FI">PASTE</option>
+                            <option value="FJ">PATCH</option>
+                            <option value="FK">PEEL</option>
+                            <option value="FL">PEN</option>
+                            <option value="FM">PENCIL</option>
+                            <option value="FN">PFS</option>
+                            <option value="FO">PILLOW</option>
+                            <option value="FP">PILLS</option>
+                            <option value="FQ">PLASTER</option>
+                            <option value="FR">PLEATS</option>
+                            <option value="FS">POLISH</option>
+                            <option value="FT">POLISHER</option>
+                            <option value="FU">POUCH</option>
+                            <option value="FV">POWDER</option>
+                            <option value="FW">POWDER_SR</option>
+                            <option value="FY">PUFFS</option>
+                            <option value="FZ">PUMP</option>
+                            <option value="GA">REFILL</option>
+                            <option value="GB">REGENT</option>
+                            <option value="GC">REMOVER</option>
+                            <option value="GD">RESPICAP</option>
+                            <option value="GE">RESPULES</option>
+                            <option value="GF">RESPULES_FORTE</option>
+                            <option value="GG">RICE</option>
+                            <option value="GH">ROLL-ON</option>
+                            <option value="GI">ROTACAPS</option>
+                            <option value="GJ">SACHETS</option>
+                            <option value="GK">SACHETS_CR</option>
+                            <option value="GL">SACHETS_FORTE</option>
+                            <option value="GM">SACHETS_XT</option>
+                            <option value="GN">SANITIZER</option>
+                            <option value="GO">SCISSORS</option>
+                            <option value="GP">SCRUB</option>
+                            <option value="GQ">SEEDS</option>
+                            <option value="GR">SERUM</option>
+                            <option value="GS">SET</option>
+                            <option value="GT">SHAMPOO</option>
+                            <option value="GU">SHEET</option>
+                            <option value="GV">SOAP</option>
+                            <option value="GW">SOFTGEL</option>
+                            <option value="GY">SOLUTION</option>
+                            <option value="GZ">SOLUTION_FORTE</option>
+                            <option value="HA">SOOTHER</option>
+                            <option value="HB">SPOON</option>
+                            <option value="HC">SPRAY</option>
+                            <option value="HD">STARHALER</option>
+                            <option value="HE">STICKS</option>
+                            <option value="HF">STICKS_FORTE</option>
+                            <option value="HG">STONE</option>
+                            <option value="HH">STOOL</option>
+                            <option value="HI">STRIP</option>
+                            <option value="HJ">SUNDISKS</option>
+                            <option value="HK">SUPPOSITORY</option>
+                            <option value="HL">SUSPENSION</option>
+                            <option value="HM">SUSPENSION_FORTE</option>
+                            <option value="HN">SUSPENSION_XL</option>
+                            <option value="HO">SUSPENSION_XT</option>
+                            <option value="HP">SYRINGE</option>
+                            <option value="HQ">SYRUP</option>
+                            <option value="HR">SYRUP_CR</option>
+                            <option value="HS">SYRUP_FORTE</option>
+                            <option value="HT">SYRUP_XL</option>
+                            <option value="HU">SYRUP_XT</option>
+                            <option value="HV">SYSTEM</option>
+                            <option value="HW">TAB</option>
+                            <option value="HY">TAB_CD</option>
+                            <option value="HZ">TAB_CR</option>
+                            <option value="IA">TAB_ER</option>
+                            <option value="IB">TAB_FORTE</option>
+                            <option value="IC">TAB_IR</option>
+                            <option value="ID">TAB_LA</option>
+                            <option value="IE">TAB_MR</option>
+                            <option value="IF">TAB_OD</option>
+                            <option value="IG">TAB_PR</option>
+                            <option value="IH">TAB_SR</option>
+                            <option value="II">TAB_TR</option>
+                            <option value="IJ">TAB_XL</option>
+                            <option value="IK">TAB_XR</option>
+                            <option value="IL">TAB_XT</option>
+                            <option value="IM">TAB+oil</option>
+                            <option value="IN">TAILARK</option>
+                            <option value="IO">TALC</option>
+                            <option value="IP">TEA</option>
+                            <option value="IQ">THAILAM</option>
+                            <option value="IR">THREAD</option>
+                            <option value="IS">TIN</option>
+                            <option value="IT">TINCTURE</option>
+                            <option value="IU">TISSUE</option>
+                            <option value="IV">TONIC</option>
+                            <option value="IW">TRANSHALER</option>
+                            <option value="IY">TUBE</option>
+                            <option value="IZ">V WASH</option>
+                            <option value="JA">VACCINE</option>
+                            <option value="JB">VIALS</option>
+                            <option value="JC">VIBRATING RING</option>
+                            <option value="JD">WARMER</option>
+                            <option value="JE">WASH</option>
+                            <option value="JF">WAX</option>
+                            <option value="JG">WIPES</option>
+                            <option value="JH">WRAP</option>
+                            <option value="JI">ENEMA</option>
+                            <option value="JJ">LTR</option>
+                            <option value="JK">LINIMENT</option>
+                            <option value="JL">GARGLE</option>
+                            <option value="JM">PESSARIES</option>
+                            <option value="JN">INHALER_FORTE</option>
+                            <option value="JO">PASTILLE</option>
+                            <option value="JP">CHEWING GUMS</option>
+                            <option value="JQ">SYRUP_LR</option>
+                            <option value="JR">DEVICE</option>
+                            <option value="JS">TRANSPULE</option>
+                            <option value="JT">TRANSCAPSULES</option>
+                            <option value="JU">PARTICLES</option>
+                            <option value="JV">HELENA</option>
+                            <option value="JW">AMPOULE</option>
+                            <option value="JX">FACEWASH</option>
+                            <option value="XX">Not Available</option>
+                            <option value="KA">RETARD_CAPSULE</option>
+                            <option value="KB">RETARD_TABLET</option>
+                            <option value="KC">OVULES</option>
+                            <option value="KD">CAPLETS</option>
+                            <option value="KE">LIP BALM</option>
+                            <option value="KF">DISPENSER</option>
+                            <option value="KG">HYPOKIT</option>
+                            <option value="KH">CREAM_FORTE</option>
+                            <option value="KI">AMPULES_FORTE</option>
+                            <option value="KJ">WAFER</option>
+                            <option value="KK">CAP_DR_FORTE</option>
+                            <option value="KL">CAP_DS</option>
+                            <option value="KM">CAP_DT</option>
+                            <option value="KN">CONTAINER_CR</option>
+                            <option value="KO">CONTAINER_ER</option>
+                            <option value="KP">CONTAINER_FORTE</option>
+                            <option value="KQ">CONTAINER_MD</option>
+                            <option value="KR">CONTAINER_TR</option>
+                            <option value="KS">CREAM_XT</option>
+                            <option value="KT">DROPS_DS</option>
+                            <option value="KU">DROPS_XL</option>
+                            <option value="KV">EXPECTORANT_XT</option>
+                            <option value="KW">FACE WASH_DS</option>
+                            <option value="KX">GEL_MR</option>
+                            <option value="KY">GEL_XL</option>
+                            <option value="KZ">LIQUID_FORTE</option>
+                            <option value="LA">LIQUID_XI</option>
+                            <option value="LB">LOTION_DS</option>
+                            <option value="LC">OINTMENT_CR</option>
+                            <option value="LD">OINTMENT_CR_FORTE</option>
+                            <option value="LE">OINTMENT_ER</option>
+                            <option value="LF">OINTMENT_XL/CR</option>
+                            <option value="LG">POWDER_DS</option>
+                            <option value="LH">POWDER_FORTE</option>
+                            <option value="LI">POWDER_XL</option>
+                            <option value="LJ">RESPICAP_FORTE</option>
+                            <option value="LK">SERUM_XL</option>
+                            <option value="LL">SOLUTION_XL</option>
+                            <option value="LM">SUSPENSION_DS</option>
+                            <option value="LN">SUSPENSION_LA</option>
+                            <option value="LO">SYRUP_DS</option>
+                            <option value="LP">SYRUP_LA</option>
+                            <option value="LQ">SYRUP_SR</option>
+                            <option value="LR">TAB_DS</option>
+                            <option value="LS">TAB_DS_FORTE</option>
+                            <option value="LT">TAB_DT</option>
+                            <option value="LU">TAB_IPR</option>
+                            <option value="LV">TAB_MD</option>
+                            <option value="LW">TAB_MR_FORTE</option>
+                            <option value="LX">TAB_SA</option>
+                            <option value="LY">TAB_SR_FORTE</option>
+                            <option value="LZ">TAB_XL/R</option>
+                            <option value="MA">TAB_XR_FORTE</option>
+                            <option value="MB">TRANSCAPSULES_FORTE</option>
+                            <option value="MC">PESSARIES_FORTE</option>
+                            <option value="MD">GULIKA_MR</option>
+                            <option value="ME">ELIXER</option>
+                            <option value="MF">EMULGEL</option>
+                            <option value="MG">FLEXPEN</option>
+                            <option value="MH">FLEXTOUCH</option>
+                            <option value="MI">GHRUTHAM</option>
+                            <option value="MJ">KASHAYAM</option>
+                            <option value="MK">LEPAM</option>
+                            <option value="ML">LIQUID SOAP</option>
+                            <option value="MM">SOFTGEL CAP</option>
+                            <option value="MN">SUPPOSITORY_FORTE</option>
+                            <option value="MO">TAB_FX</option>
+                            <option value="MP">TAB_CZ</option>
+                            <option value="MQ">LINIMENT_MR</option>
+                            <option value="MR">TAB_TM</option>
+                            <option value="MS">TAB_LS</option>
+                            <option value="MT">CAP_DSR</option>
+                            <option value="MU">FORTE PLUS</option>
+                            <option value="MV">CAP_DR</option>
+                            <option value="MW">GRANULES_DR</option>
+                            <option value="MX">GRANULES_PR</option>
+                            <option value="MY">INJ_MR</option>
+                            <option value="MZ">SACHETS_ER</option>
+                            <option value="NA">TAB_DR</option>
+                            <option value="NB">SPRAY_MD</option>
+                            <option value="NC">TAB_FC</option>
+                            <option value="ND">PELLET</option>
+                            <option value="NE">SMARTULES</option>
+                            <option value="NF">INJ_DS</option>
+                            <option value="NG">INJ_XL</option>
+                            <option value="NH">SOLUTION_MR</option>
+                            <option value="NI">DROPS_LS</option>
+                            <option value="NJ">SACHETS_OD</option>
+                            <option value="NK">INJ_LS</option>
+                            <option value="NL">ROLL-ON_MR</option>
+                            <option value="NM">SYRUP_LS</option>
+                            <option value="NN">TAB_CV</option>
+                            <option value="NO">CAP_CV</option>
+                            <option value="NP">TAB_DSR</option>
+                            <option value="NQ">TAB_LC</option>
+                            <option value="NR">TAB_ET</option>
+                            <option value="NS">INJ_MDV</option>
+                            <option value="NT">DISKUS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="spl_material_flag" class="d-block selected">Special Material Flag<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="spl_material_flag" id="spl_material_flag" required>
+                                <option value="">- Select -</option>
+                                <option value="others">Others</option>
+                                <option value="A">Narcotics</option>
+                                <option value="B">Cold Chain</option>
+                                <option value="C">Non-Registered</option>
+                                <option value="D">Dangerous Goods</option>
+                                <option value="E">No Special Identifier</option>
+                                <option value="X">Unknown</option>
+                                <option value="F">Biologics</option>
+                                <option value="G">Chemo Drug</option>
+                                <option value="I">Controlled Drug</option>
+                                <option value="H">Hazardous Drug</option>
+                                <option value="M">High Alert Medicine</option>
+                                <option value="V">Vaccine</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="supplier" class="d-block selected">Supplier<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="supplier" id="supplier" required>
+                                <option value="" selected>- Select -</option>
+                                <option value="others">Others</option>
+                                <option value="ABC Corp">RIDH PHARMA PVT LTD </option>
+                                <option value="SCIKIQ Data">ELIO BIO CARE LIFE SCIENCES PVT LTD</option>
+                                <option value="XYZ Ltd">GARLANCE PHARMACEUTICALS PVT LTD </option>
+                                <option value="XYZ Ltd">YATI PHARMACEUTICALS PVT LTD </option>
+                                <option value="XYZ Ltd">21ST CENTURY</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <input type="text" class="form-control mg-t-5 hide" name="supplier_sub"
+                                id="supplier_sub" placeholder="Other">
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="hsn_code">HSN Code <span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <input type="text" name="hsn_code" id="hsn_code" class="form-control"
+                                placeholder="HSN Code" required>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="gst">GST % <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <input type="text" name="gst" id="gst" class="form-control" placeholder="GST %" required>
+                        </span>
+                    </div>
+                </div> -->
+             
+             
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="org_code" class="d-block selected">Organization Code<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="org_code" id="org_code" required>
+                                <option value="">- Select -</option>
+                                <option value="others">Others</option>
+                                <option value="ABC Pharmacy" selected>ABC Pharmacy</option>
+                                <option value="STI Pharmacy">STI Pharmacy</option>
+                                <option value="ANN Pharmacy">ANN Pharmacy</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="primary_uom" class="d-block selected">Primary UOM<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="primary_uom" id="primary_uom" required>
+                                <option value="each" selected>Each</option>
+                                <option value="pack">Pack</option>
+                                <option value="pair">Pair</option>
+                                <option value="bottle">Bottle</option>
+                                <option value="box">Box</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="secondary_uom" class="d-block selected">Secondary UOM<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="secondary_uom" id="secondary_uom" required>
+                                <option value="" selected>- Select -</option>
+                                <option value="others">Others</option>
+                                <option value="1" >P/63</option>
+                                <option value="1" >P/7</option>
+                                <option value="1" >P/240</option>
+                                <option value="1" >P/1600</option>
+                                <option value="1" >P/125</option>
+                                <option value="1" >P/105</option>
+                                <option value="1" >P/168</option>
+                                <option value="1" >P/34</option>
+                                <option value="1" >P/110</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="vidal_id">Vidal ID <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <input type="text" name="vidal_id" id="vidal_id" class="form-control"
+                                placeholder="Vidal ID" required>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="brand" class="d-block selected">Brand <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select name="brand" id="brand" class="custom-select item_custom_select">
+                                <option value="" selected>- Select -</option>
+                                <option value="others">Others</option>
+                                <option value="ABC Corp">RIDH PHARMA PVT LTD </option>
+                                <option value="SCIKIQ Data">ELIO BIO CARE LIFE SCIENCES PVT LTD</option>
+                                <option value="XYZ Ltd">GARLANCE PHARMACEUTICALS PVT LTD </option>
+                                <option value="XYZ Ltd">YATI PHARMACEUTICALS PVT LTD </option>
+                                <option value="XYZ Ltd">21ST CENTURY</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="inventory_item" class="d-block selected">Inventory Item<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="inventory_item" id="inventory_item" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="invoice_enabled" class="d-block selected">Invoice Enabled</I><span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="invoice_enabled" id="invoice_enabled" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="drug_schedule" class="d-block selected">Drug Schedule</I><span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="drug_schedule" id="drug_schedule" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="lot_divisible" class="d-block selected">Lot Divisible</I><span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="lot_divisible" id="lot_divisible" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <div class="form-group select-lable pos-relative">
+                            <label for="vat" class="d-block selected">VAT %</I><span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-placement="top" title=""></i></label>
+                            <select class="custom-select item_custom_select" name="vat" id="vat" required>
+                                <option value="">- Select -</option>
+                                <option value="zero_rated">Zero Rated</option>
+                                <option value="standard">Standard</option>
+                                <option value="exempt">Exempt</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="dcc_code">DCC Code <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+                            <input type="numeric" class="form-control" name="dcc_code" id="dcc_code"
+                                placeholder="DCC Code" required>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="item_comments">Comments <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+                            <textarea type="text" class="form-control" name="item_comments" id="item_comments" rows="3" placeholder="Add Comments" required></textarea>
+                        </span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="d-flex pos-relative h-100">
+                <form action="#" method="get" name="form" enctype="multipart/form-data" class="mg-x-0 h-100">
+                    <h5 class="mg-b-10 mg-t-5 mg-x-0 text-secondary tx-16 tx-18">Attached Supported Docs</h5>
+                    <div class="upload upload">
+                      <div class="upload__wrap">
+                        <div class="upload__btn">
+                          <input class="upload__input" type="file" name="upload[]" multiple="multiple" data-max-count="4" ="" accept="image/*"/>
+                        </div>
+                      </div>
+                      <div class="upload__mess">
+                        <p class="count_img hidden_ms">Maximum number of photos:<strong class="count_img_var">8</strong></p>
+                        <p class="size_img hidden_ms">Maximum photo size:<strong class="size_img_var">5 Mb</strong></p>
+                        <p class="file_types hidden_ms d-block">Allowed file types:<strong class="file_types_var">jpg, png & PDF</strong></p>
+                      </div>
+                    </div>
+                </form>
+
+                <form action="#" method="get" name="form" enctype="multipart/form-data" class="mg-l-30 h-100 bd-l pd-l-20">
+                    <h5 class="mg-b-10 mg-t-5 mg-x-0 text-secondary tx-16 tx-18">Attach Product Images</h5>
+                    <div class="d-flex">
+                        <div class="bd pd-10 rounded bg-light mg-r-15">
+                            <h5 class="mg-b-10 mg-t-5 mg-x-0 text-secondary tx-12">Front View</h5>
+                            <div class="d-flex">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" accept="image/*" id="img-upload" required>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <p class="mg-b-10 tx-12 tx-color-03 mg-t-5">Allowed file types:<strong class="file_types_var">jpg, jpeg & png</strong></p>
+                                </div>
+                                <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                    <div id="preview-wrap" style="display:none;">
+                                      <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" class="w-100">
+                                      <span id="remove">&times;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bd pd-10 rounded bg-light mg-r-15">
+                            <h5 class="mg-b-10 mg-t-5 mg-x-0 text-secondary tx-12">Back View</h5>
+                            <div class="d-flex">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" accept="image/*" id="img-upload" required>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <p class="mg-b-10 tx-12 tx-color-03 mg-t-5">Allowed file types:<strong class="file_types_var">jpg, jpeg & png</strong></p>
+                                </div>
+                                <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                    <div id="preview-wrap-back" style="display:none;">
+                                      <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" class="w-100">
+                                      <span id="remove">&times;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bd pd-10 rounded bg-light mg-r-15">
+                            <h5 class="mg-b-10 mg-t-5 mg-x-0 text-secondary tx-12">Left View</h5>
+                            <div class="d-flex">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" accept="image/*" id="img-upload" required>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <p class="mg-b-10 tx-12 tx-color-03 mg-t-5">Allowed file types:<strong class="file_types_var">jpg, jpeg & png</strong></p>
+                                </div>
+                                <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                    <div id="preview-wrap-left" style="display:none;">
+                                      <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" class="w-100">
+                                      <span id="remove">&times;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bd pd-10 rounded bg-light">
+                            <h5 class="mg-b-10 mg-t-5 mg-x-0 text-secondary tx-12">Right View</h5>
+                            <div class="d-flex">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" accept="image/*" id="img-upload" required>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <p class="mg-b-10 tx-12 tx-color-03 mg-t-5">Allowed file types:<strong class="file_types_var">jpg, jpeg & png</strong></p>
+                                </div>
+                                <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                    <div id="preview-wrap-right" style="display:none;">
+                                      <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80" class="w-100">
+                                      <span id="remove">&times;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+              </div>
+
+        </div><!-- card-body -->
+        <div class="card-footer tx-right">
+            <button class="btn btn-secondary">Clear</button>
+            <button id="itemMasterSaveDraft" class="btn btn-warning mg-l-5">Save as Draft</button>
+            <button id="itemMasterSave" class="btn btn-primary mg-l-5">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="{% static '/plugins/typeahead/typeahead.bundle.min.js' %}" type="text/javascript"></script>
+
+  <script src="{% static 'js/master/file_upload.js' %}"></script>
+
+<script>
+
+var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+  ];
+  
+	var STATES1 = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.whitespace,
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  local: states
+	});
+
+
+$('#item_name').typeahead({
+		hint: true,
+		highlight: true,
+		autoselect: true,
+		minLength: 1
+    },
+    {
+		name: 'states',
+		source: STATES1
+    }
+);
+$('#spl_cat').typeahead({
+		hint: true,
+		highlight: true,
+		autoselect: true,
+		minLength: 1
+    },
+    {
+		name: 'states',
+		source: STATES1
+    }
+);
+
+
+// for image preview
+document.querySelector('#img-upload').onchange = function(event) {
+  let preview = document.querySelector('#preview-wrap img');
+  previewImage(event, preview);
+}
+
+// for removing image
+document.querySelector('#remove').onclick = function() {
+  let file = document.querySelector('#img-upload');
+  let preview = document.querySelector('#preview-wrap img');
+  removeImage(file, preview);
+}
+
+function previewImage(event, preview) {
+  let file = event.target.files[0]; // Get the selected file
+
+  // Check if a file was selected
+  if (file) {
+    // Validate the file type
+    let validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (validTypes.includes(file.type)) {
+      let img = URL.createObjectURL(file);
+      preview.src = img;
+      preview.parentNode.style.display = 'block';
+    } else {
+      alert('Invalid file type. Please select a JPEG, JPG, or PNG image.');
+      removeImage(document.querySelector('#img-upload'), preview); // Reset the input and preview
+    }
+  } else {
+    preview.parentNode.style.display = 'none';
+  }
+}
+
+function removeImage(file, preview) {
+  preview.src = '#';
+  preview.parentNode.style.display = 'none';
+  file.value = ''; // Clear the file input
+}
+
+
+</script>
+{% endblock %}

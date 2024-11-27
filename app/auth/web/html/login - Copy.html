@@ -1,0 +1,97 @@
+{% extends "web-templates/layouts/nolayout.html" %}
+{% block title %} Login {% endblock %}
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{%  static 'css/login.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid p-0">
+  <div class="row m-0">
+    <div class="col-12 p-0">
+      <div class="login-card">
+        <div>
+          <div><a class="logo" href="index.html"><img class="img-fluid wd-150" src="{% static 'img/scikiq_logo_black.svg'%}" alt="Scikiq Logo"></a></div>
+          <div class="login-main">
+            <form id="loginForm" class="theme-form">
+              <h3>Sign in to account</h3>
+              <p>Enter your email & password to login</p>
+              <div class="form-group">
+                <label class="col-form-label">Email Address</label>
+                <input name="email" id="email" class="form-control" type="email" required placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Password</label>
+                <div class="form-input position-relative">
+                  <input name="password" id="password" class="form-control" type="password" required placeholder="*********">
+                  <div class="show-hide"><span class="show"> </span></div>
+                </div>
+              </div>
+              <div class="form-group mb-0">
+                <a class="link" href="#">Forgot password?</a>
+                <div class="text-end mt-3">
+                  <button id="loginButton" class="btn btn-primary btn-block w-100" >Sign in</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function() {
+        // Initialize form validation
+        $('#loginForm').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                email: {
+                    required: "Please enter your email address",
+                    email: "Please enter a valid email address"
+                },
+                password: {
+                    required: "Please enter your password",
+                    minlength: "Your password must be at least 6 characters long"
+                }
+            },
+            submitHandler: function(form) {
+                // Collect email and password from input fields
+                const email = $('#email').val().trim();
+                const password = $('#password').val().trim();
+
+                // Make AJAX call only if form is valid
+                ajaxUtility.ajaxCall({
+                    url: '/api/user/login/', // URL of your login API
+                    method: 'POST',
+                    data: {
+                        email: email,
+                        password: password
+                    }
+                }, function(response) {
+                    if (response.success) {
+                        flashMessage("Login successful. Redirecting...", 'success');
+                        window.location.href = '/home/';
+                    } else {
+                        flashMessage(response.msg || 'Invalid email or password.', 'danger');
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+{% endblock %}

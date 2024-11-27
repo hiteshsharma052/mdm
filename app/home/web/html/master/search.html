@@ -1,0 +1,358 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Item Search {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/master/elastichome.css' %}">
+<link rel="stylesheet" href="{% static 'css/master/database_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/master/search_list.css' %}">
+<div class="filemgr-wrapper">
+	<div class="filemgr-sidebar">
+		<div class="filemgr-sidebar-header">
+			<h6 class="mg-b-0"><i class="mdi mdi-filter-outline" aria-hidden="true"></i> Search Filters</h6>
+		</div>
+		<div class="filemgr-sidebar-body pd-x-5">
+			<div class="" id="sidebar-search-list-parent">
+				<div id="loaderInternal"></div>
+				<div id="sidebar-search-list"></div>
+				
+
+			</div>
+
+		</div>
+	</div>
+	<div class="filemgr-content">
+		<div class="filemgr-content-header">
+			<div class="input-group mg-t-10">
+				<div class="input-group-prepend">
+					<select class="custom-select tx-bold bg-body-secondary">
+						<!-- <option selected>Search in all</option> -->
+						<option value="1">Country</option>
+						<option value="1">Item Category</option>
+						<option value="1">Sub Category</option>
+						<option value="1" selected>Item Name</option>
+						<option value="1">Item Code</option>
+						<option value="1">Item Description</option>
+						<option value="1">Organization Code</option>
+						<option value="1">Brand</option>
+					</select>
+				</div>
+				<div class="form-group pos-relative">
+					<input type="search" id="searchScope" class="form-control tx-medium tx-16" placeholder="Search for Items...">
+					<!-- <div class="navbar-search navbar-search-body shadow visible-">
+						<label
+							class="tx-10 tx-medium tx-uppercase tx-spacing-1 tx-color-03 mg-b-10 d-flex align-items-center">Recent
+							Searches</label>
+						<ul class="list-unstyled">
+							<li><a href="#" class="d-flex align-items-center"><i
+										class="feather feather-clock mg-r-5 lh-0"></i>
+									Paracetamol</a></li>
+							<li><a href="#" class="d-flex align-items-center"><i
+										class="feather feather-clock mg-r-5 lh-0"></i> Dolo
+									650</a></li>
+							<li><a href="#" class="d-flex align-items-center"><i
+										class="feather feather-clock mg-r-5 lh-0"></i>
+									Combiflam</a></li>
+							<li><a href="#" class="d-flex align-items-center"><i
+										class="feather feather-clock mg-r-5 lh-0"></i> Sun
+									Pharma</a></li>
+							<li><a href="#" class="d-flex align-items-center"><i
+										class="feather feather-clock mg-r-5 lh-0"></i>
+									Brand</a></li>
+						</ul>
+						<hr class="mg-y-30 bd-0">
+
+					</div> -->
+
+				</div>
+				<button class="btn btn-light" type="button">
+					<i class="feather feather-search tx-22 tx-black"></i>
+				</button>
+			</div>
+		</div><!-- filemgr-content-header -->
+		<div class="filemgr-content-body">
+			<div class="searchFilters shadow-sm">
+				<div class="d-flex align-items-center">
+					<div class="d-flex flex-column align-items-start flex-1">
+						<div id="isPills" style="display: block;"><span>Applied filter(s):</span></div>
+						<div class="d-flex align-items-center">
+							<div id="searchPills" class="d-flex">
+								<!-- <div class="badge-search badge-pill badge-secondary">
+                  <div class="facets-wrapper">
+                    <div class="facet-filters">
+                      <h6>COUNTRY:</h6>
+                      <p class="mb-0 text-capitalize">UAE</p>
+                    </div>
+                    <div class="facet-cross" style="cursor: pointer; margin-left: 11%"
+                      onclick="removeFilter('keyword')">
+                      <p class="mb-0">X</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="badge-search badge-pill badge-secondary">
+                  <div class="facets-wrapper">
+                    <div class="facet-filters">
+                      <h6>KEYWORD:</h6>
+                      <p class="mb-0 text-capitalize">Paracetamol</p>
+                    </div>
+                    <div class="facet-cross" style="cursor: pointer; margin-left: 11%"
+                      onclick="removeFilter('keyword')">
+                      <p class="mb-0">X</p>
+                    </div>
+                  </div>
+                </div> -->
+							</div>
+							<a href="javascript:void(null)" class="mg-l-10" style="float: right;"
+								onclick="removeAllFilters()">Clear
+								filters</a>
+						</div>
+						<!-- <h6 class="pt-xl-2 text-secondary"><span id="searchCount">2</span> Search Result(s) found </h6> -->
+					</div>
+					<div class="d-flex">
+						<a href="#saved_search_item" class="btn btn-xs btn-outline-primary mg-r-10"
+							data-bs-toggle="modal">
+							<i class="mdi mdi-star" aria-hidden="true"></i> Save Result </a>
+						<a href="javascript:void(0)" class="btn btn-xs btn-outline-primary pd-x-10"><i
+								class="mdi mdi-share-variant" aria-hidden="true"></i></a>
+
+					</div>
+				</div>
+			</div>
+			<div class="pd-y-5 pd-x-10 bd-t">
+				<div class="d-flex align-items-center justify-content-between">
+					<!-- <h4 class="m-0"><span id="total_ds">79</span> Master(s) Found</h4> -->
+					<h4 class="m-0 text-secondary"><span id="searchCount"></span> Search Result(s) found </h4>
+					<div class="d-flex">
+
+            <div class="view-toggle mg-l-10">
+              <div class="d-flex align-items-center">
+                <div class="mg-r-5">Items/Page</div>
+                <div class="">
+                  <select class="custom-select custom-select-sm ht-30" id="itemsPerPage">
+                    <option value="0">All</option>
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="" id="listSearchResults">
+        <div id="noReusult" class="">
+          <div class="d-flex flex-column align-items-center justify-content-center h-100">
+          <div class="wd-70p wd-sm-250 wd-lg-300 mg-b-15"><img src="/common/img/aster_logo.svg" class="img-fluid" alt=""></div>
+          <h1 class="tx-color-05 tx-24 tx-sm-32 tx-lg-36 mg-xl-b-5 mg-t-30">Refine Your Search</h1>
+          <h5 class="tx-16 tx-sm-18 tx-lg-20 tx-normal mg-b-20 tx-color-06">To refine your search and quickly find the information you need, please use the following filters available on the page:</h5>
+          <div class="mg-b-30">
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15 mg-r-5">Country</span>
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15 mg-r-5">Item Category</span>
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15 mg-r-5">Sub Category</span>
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15 mg-r-5">Item Name</span>
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15 mg-r-5">Item Description</span>
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15 mg-r-5">Organization Code</span>
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15 mg-r-5">Brand</span>
+            <span class="badge badge-pill badge-aster rounded-20 tx-14 pd-y-7 pd-x-15">Status</span>
+          </div>
+        </div>
+      </div>
+      
+		</div>
+    <div id="paginationControls">
+      <!-- Pagination buttons will be injected here dynamically -->
+    </div>
+	</div><!-- filemgr-content-body -->
+</div><!-- filemgr-content -->
+
+</div><!-- filemgr-wrapper -->
+
+<style>
+	.org-list {
+		display: inline-block;
+		max-width: 300px;
+		/* adjust as needed */
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+</style>
+
+
+<div class="modal fade" id="saved_search_item" tabindex="-1" role="dialog" aria-modal="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20">
+				<div class="d-flex">
+					<div class="d-flex flex-column">
+						<h4 class="mg-b-0tx-18">Save Search</h4>
+						<p class="tx-12 tx-color-03 mg-b-0">Save your search results for easy access and future
+							reference.</p>
+					</div>
+					<a href="" role="button" class="close pos-absolute t-15 r-15" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</a>
+				</div>
+				<div class="row mg-t-30">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="form-group">
+							<span class="has-float-label">
+								<label for="barcode_mrp">Search Name <i
+										class="mdi mdi-information-outline tx-primary cursor-pointer"
+										data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+								<input type="text" class="form-control" name="search_name" id="search_name"
+									placeholder="Name" required>
+							</span>
+						</div>
+					</div>
+
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mg-t-5">
+						<div class="form-group">
+							<span class="has-float-label">
+								<label for="item_comments">Comments<span class="tx-danger">*</span> <i
+										class="mdi mdi-information-outline tx-primary cursor-pointer"
+										data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+								<textarea type="text" class="form-control" name="item_comments" id="item_comments"
+									rows="3" placeholder="Add Comments" required></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+
+			</div><!-- modal-body -->
+			<div class="modal-footer bd-t-0">
+				<button type="button" class="btn btn-secondary tx-13" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary tx-13" data-bs-dismiss="Save">Save</button>
+			</div>
+		</div><!-- modal-content -->
+	</div><!-- modal-dialog -->
+</div>
+
+
+<script src="{% static 'js/search_item/save_search.js' %}"></script>
+<script src="{% static 'js/search_item/facet_sidebar.js' %}"></script>
+<script src="{% static 'js/search_item/item_card_render.js' %}"></script>
+<script src="{% static 'js/search_item/facets.js' %}"></script>
+<script src="{% static 'js/search_item/script.js' %}"></script>
+
+<style>
+	.favorite-btn {
+		cursor: pointer;
+	}
+
+	.favorite-btn:hover {
+		opacity: 0.8;
+	}
+
+	/* Optional: Add animation */
+	.favorite-btn i {
+		transition: transform 0.2s ease;
+	}
+
+	.favorite-btn:active i {
+		transform: scale(1.2);
+	}
+</style>
+
+<style>
+	.facet-loader {
+		display: none;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		background: rgba(255, 255, 255, 0.8);
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1;
+	}
+	
+	.filter-acc > div {
+		position: relative;
+	}
+</style>
+
+<script>
+	'use strict'
+
+	// $(document).ready(function(){
+	//   if(window.matchMedia('(min-width: 1200px)').matches) {
+	//     $('.aside').addClass('minimize');
+	//   }
+	// })
+
+	// searchbox
+
+	/*----------------------------------------------------------------------------------
+  - Document Ready
+  -----------------------------------------------------------------------------------*/
+	$(document).ready(function () {
+		$('#searchScope').focus(function () {
+			$('.suggestion').addClass('active');
+		});
+		$('#searchScope').on('input', function () {
+			$('#match-list').css('display', $(this).val() !== '' ? 'block' : 'none')
+		});
+
+		$('#searchScope').keyup(function () {
+			if ($(this).val().length == 0) {
+				$('.navbar-search').removeClass('visible');
+				$('.clear_filters').addClass('d-none');
+
+			} else {
+				$('.navbar-search').addClass('visible');
+				$('.clear_filters').removeClass('d-none');
+
+			}
+		}).keyup();
+
+		$(".search-btn").click(function () {
+			var searchQuery = $("#searchScope").val()
+			let urlq = '/metadata/eSearch/'
+			window.location.href = urlq
+		});
+
+		$('.search-text').keypress(function (e) {
+			if (e.which == 13) {
+				var searchQuery = $("#searchScope").val()
+				let urlq = '/metadata/eSearch/?q=' + searchQuery
+				window.location.href = urlq
+			}
+		});
+		$('.navbar-search').removeClass('visible');
+
+		$('.content-body').click(function () {
+			$('.navbar-search').removeClass('visible');
+		})
+
+		$("es_searchSettingBox").hide();
+
+		$("#es_searchSettings").click(function () {
+			fetchElasticData(true, 0);
+			if ($(this).hasClass("adv-srch-active")) {
+				$("#es_searchSettingBox").hide();
+				$(this).removeClass('adv-srch-active');
+				$("#es_searchSuggestionBox").show();
+				$('.navbar-search').removeClass('visible');
+			} else {
+				$(this).addClass('adv-srch-active');
+				$('.navbar-search').addClass('visible');
+				$("#es_searchSuggestionBox").hide();
+				$("#es_searchSettingBox").show();
+			}
+		});
+	});
+
+	/*----------------------------------------------------------------------------------
+	- Search Key Up
+	-----------------------------------------------------------------------------------*/
+</script>
+{% endblock %}

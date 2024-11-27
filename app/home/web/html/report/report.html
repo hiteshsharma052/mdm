@@ -1,0 +1,84 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Home Page {% endblock %}
+{% load static %}
+{% block stylesheet %}
+<!-- <link rel="stylesheet" href="{% static 'css/custom.tabledit.css' %}"> -->
+<style>
+  #dropZone {
+    width: 100%;
+    height: 100px;
+    border: 2px dashed #999;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 100px;
+    /* color: #999; */
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #f0f8ff;
+}
+  #dropZone.dragover {
+      border-color: #333;
+      color: #333;
+  }
+  .highlight{
+      background: rgba(255, 235, 59, 0.49) !important; /* Highlight color */
+      transition: background-color 0.5s ease; /* Transition effect */
+  }
+ </style>
+{% endblock %}
+{% block content %}
+
+<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+  <h4 class="mg-b-0">Report</h4>
+</div>
+
+ 
+<div class="row row-xs">
+  <div class="col-lg-12 col-xl-12">
+    <div class="card">
+      <div class="card-body pd-y-30">
+        <div class="table-responsive">
+          <table aria-describedby="table" class="table table-dashboard-three mg-b-0" id="dictionaryTable" style="border-spacing:10px;">
+            <thead>
+              <tr class="tx-bold">
+                <th>Report Name</th>
+                <th>Description</th>
+                <th>Updated Date</th>
+                <th class="wd-100">Action</th>
+              </tr>
+            </thead>
+            <tbody class="data_dictionary">
+              <tr>
+                  <td>Requestor Login Report</td>
+                  <td>Aster hospitals are operational in 6 countries.</td>
+                  <td>13-11-2024</td>
+                  <td>
+                    <div class="d-flex">
+                      <a href="#" class="btn btn-xs btn-secondary mg-r-10" data-bs-toggle="modal"><i aria-hidden="true" class="mdi mdi-eye"></i> View</a>
+                    </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td>TAT / SLA Report</td>
+                  <td>Variant or dose is the amount of drug taken at any one time</td>
+                  <td>13-11-2024</td>
+                  <td>
+                    <div class="d-flex">
+                      <a href="#" class="btn btn-xs btn-secondary mg-r-10"><i aria-hidden="true" class="mdi mdi-eye"></i> View</a>
+                    </div>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- card-body -->
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}

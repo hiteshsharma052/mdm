@@ -1,0 +1,98 @@
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+<aside class="aside aside-fixed">
+  <div class="aside-header" style="background-color: #00b48d;">
+    <a href="/" class="aside-logo">
+      {% if 'logo' in userData.web_setting %}
+      {% if userData.web_setting.logo == '' %}
+        <img class="ht-40 mg-b-0" src="https://www.asterdmhealthcare.com/typo3conf/ext/aster/Resources/Public/images/logo.svg" alt="Logo">
+      {%else%}
+      <img src="{{userData.web_setting.logo}}" alt="logo" />
+      {%endif%}
+      {%else%}
+        <img class="ht-40 mg-b-0" src="https://www.asterdmhealthcare.com/typo3conf/ext/aster/Resources/Public/images/logo.svg" alt="Logo">
+      {%endif%}
+    </a>
+    <a href="" class="aside-menu-link">
+      <i data-feather="menu"></i>
+      <i data-feather="x"></i>
+    </a>
+    <a href="" id="contactContentHide" class="burger-menu d-none"><i data-feather="arrow-left"></i></a>
+  </div>
+  <div class="aside-body" style="background-color: #144d92;">
+    <div class="aside-loggedin">
+      <div class="d-flex align-items-center justify-content-start">
+        <a href="" class="avatar"><img src="/common/img/avatar.png" class="rounded-circle bd" alt=""></a>
+      </div>
+      <div class="aside-loggedin-user">
+        <a href="#loggedinMenu" class="d-flex align-items-center justify-content-between mg-b-2" data-bs-toggle="collapse">
+          <h6 class="tx-semibold mg-b-0">Satish</h6>
+          <i data-feather="chevron-down"></i>
+        </a>
+        <div class="">
+          <select id="roleDropdown" class="tx-color-03 tx-12 mg-b-0 bd-0 bg-transparent" style="outline: 0;">
+            <option value="Requestor" role-id="1">Requestor</option>
+            <option value="Creator" role-id="2">Creator</option>
+            <option value="Supervisor" role-id="3">Supervisor Approval</option>
+            <option value="End user Approval" role-id="4">End user Approval</option>
+            <option value="Superuser (Functional)" role-id="5">Superuser (Functional)</option>
+            <option value="Admin (Technical)" role-id="6">Admin (Technical)</option>
+          </select>
+        </div>
+      </div>
+      <div class="collapse" id="loggedinMenu">
+        <ul class="nav nav-aside mg-b-0">
+          <!-- <li class="nav-item"><a href="/edit-profile/" class="nav-link"><i data-feather="edit"></i> <span>Edit Profile</span></a></li> -->
+          <!-- <li class="nav-item"><a href="/user-profile/" class="nav-link"><i data-feather="user"></i> <span>View Profile</span></a></li> -->
+        </ul>
+      </div>
+    </div><!-- aside-loggedin -->
+    <!-- creator supervisor end-user superuser admin -->
+    <ul class="nav nav-aside">
+      <li class="nav-label mg-t-25 requestor creator supervisor end-user superuser" style="display: none;">Master</li>
+      <li class="nav-item requestor creator supervisor end-user superuser admin" style="display: none;"><a href="/search/" class="nav-link"><i class="fa fa-search tx-16-f lh--2"></i> <span>Item Search</span></a></li>
+      <li class="nav-item requestor" style="display: none;"><a href="/add_item/" class="nav-link"><i class="mdi mdi-database-plus"></i> <span>Add Item</span></a></li>
+      <li class="nav-item requestor admin" style="display: none;"><a href="/search/" class="nav-link"><i class="mdi mdi-database-edit-outline"></i> <span>Modify Item</span></a></li>
+      <li class="nav-item requestor creator supervisor end-user superuser" style="display: none;"><a href="/saved_item_list/" class="nav-link"><i class="mdi mdi-star"></i> <span>Saved Search List</span></a></li>
+      <li class="nav-item requestor creator supervisor end-user superuser" style="display: none;"><a href="/favourites/" class="nav-link"><i class="mdi mdi-heart"></i> <span>Favourites</span></a></li>
+      <li class="nav-item superuser" style="display: none;"><a href="/bulk_item_create/" class="nav-link"><i class="mdi mdi-database-edit-outline"></i> <span>Bulk Item Upload</span></a></li>
+      
+      <li class="nav-label mg-t-25 requestor creator supervisor end-user" style="display: none;">Workflow</li>
+      <li class="nav-item requestor creator supervisor end-user" style="display: none;"><a href="/item_request_status/" class="nav-link"><i class="mdi mdi-checkbox-marked-circle-outline"></i> <span>Item Status</span></a></li>
+      <li class="nav-item creator supervisor end-user" style="display: none;"><a href="/request_approval/" class="nav-link"><i data-feather="mail"></i> <span>Request Approval</span></a></li>
+      <!-- <li class="nav-item creator" style="display: none;"><a href="/taxonomy/" class="nav-link"><i data-feather="mail"></i> <span>Create Taxonomy</span></a></li> -->
+      
+      <li class="nav-label mg-t-25 admin" style="display: none;">User Management</li>
+      <li class="nav-item admin" style="display: none;"> <a href="/role/" class="nav-link"><i class="mdi mdi-teach"></i> <span>Role</span></a></li>
+      <li class="nav-item admin" style="display: none;"> <a href="/user/" class="nav-link"><i class="mdi mdi-account"></i> <span>User</span></a></li>
+      <li class="nav-item admin" style="display: none;"> <a href="/group/" class="nav-link"><i class="mdi mdi-account-multiple"></i> <span>Group</span></a></li>
+
+
+      <li class="nav-label mg-t-25 requestor creator supervisor end-user superuser admin" style="display: none;">Data Dictionary</li>
+      <li class="nav-item admin" style="display: none;"> <a href="/dictionary_setup" class="nav-link"><i class="mdi mdi-book"></i> <span>Dictionary Setup</span></a></li>
+      <li class="nav-item requestor creator supervisor end-user superuser" style="display: none;"> <a href="/dictionary/" class="nav-link"><i class="mdi mdi-book-open-variant"></i> <span>Dictionary</span></a></li>
+      <!-- <li class="nav-item admin" style="display: none;"> <a href="" class="nav-link"><i class="mdi mdi-book-plus-outline"></i> <span>Bulk Upload</span></a></li> -->
+
+
+      <!-- <li class="nav-label mg-t-25">Custom Form</li>
+      <li class="nav-item"> <a href="#" class="nav-link"><i class="mdi mdi-form-select"></i> <span>Form Creation</span></a></li> -->
+
+      <li class="nav-label mg-t-25 admin" style="display: none;">Access Management</li>
+      <li class="nav-item admin" style="display: none;"> <a href="/email_group/" class="nav-link"><i data-feather="book-open"></i> <span>Email group setup</span></a></li>
+      <li class="nav-item admin" style="display: none;"> <a href="" class="nav-link"><i class="mdi mdi-merge"></i> <span>Approval workflow design</span></a></li>
+      <li class="nav-item admin" style="display: none;"> <a href="/form_builder/" class="nav-link"><i class="mdi mdi-form-select"></i> <span>Form Builder</span></a></li>
+
+
+      <li class="nav-label mg-t-25 requestor creator supervisor end-user superuser admin" style="display: none;">Report</li>
+      <li class="nav-item requestor creator supervisor end-user superuser admin" style="display: none;"> <a href="/report/" class="nav-link"><i class="mdi mdi-chart-box-plus-outline"></i> <span>View Reports</span></a></li>
+
+    </ul>
+  </div>
+</aside>
+
+{% block javascript %}
+
+
+
+{% endblock %}

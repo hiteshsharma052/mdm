@@ -1,0 +1,280 @@
+
+
+
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Add Item {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/master/file_upload.css' %}">
+
+<style>
+    .checkbox input[type=checkbox] {
+        display: block !important;
+    }
+    .multiselect-native-select .dropdown-menu.show {
+        display: block;
+        width: 100%;
+        background: #fff;
+        min-height: 185px;
+    }
+    .select-lable .select2-container--default .select2-selection--single {
+        height: 38px !important;
+    }
+    .twitter-typeahead, .tt-open {
+        width: 100%;
+    }
+    
+    #remove{
+        visibility:hidden;
+        content:'';
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.5);
+        font-size:25px;
+        color:red;
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-50%, -50%);
+        cursor:pointer;
+    }
+    #preview-wrap, #preview-wrap-right, #preview-wrap-front, #preview-wrap-back {
+        border: 1px solid rgba(72, 94, 144, 0.16);
+        border-radius: 3px;
+        width: 50px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+    #preview-wrap:hover #remove{
+    visibility:visible;
+    }
+    .custom-select:disabled {
+    color: #7987a1;
+    background-color: #f5f6fa;
+    }
+
+    .form-control:disabled {
+    color: #7987a1;
+    background-color: #f5f6fa;
+}
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+    <h4 class="mg-b-0">Modify Item</h4>
+  </div>
+    
+    
+    <div class="row row-xs">
+      <div class="col-lg-12 col-xl-12">
+        <div class="card">
+          <div class="card-header bd-b-0 d-sm-flex align-items-center justify-content-between">
+            <div class="flex-1">
+              <h6 class="mg-b-5">Item Master</h6>
+              <p class="tx-12 tx-color-03 mg-b-0">
+                  An item master is a record that lists key information related to an inventory item. This may include item description, cost, manufacturing and supply lead times etc... 
+              </p>
+            </div>
+            <div class="select-lable pos-relative">
+              <label for="item_modify" class="d-block selected">Modify Item By</label>
+              <select class="custom-select" name="item_cat" id="fields_to_modify"required multiple="multiple">
+                <option value="id">Item Description</option>
+                <option value="D">DDC Code</option>
+                <option value="I">By Price</option>
+              </select>
+          </div>
+          </div><!-- card-header -->
+          <div class="card-body pd-y-30">
+            <div id="loaderInternal"></div>
+
+            <div class="row">
+                {% for field in form_fields %}
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <div class="form-group pos-relative select-lable">
+                                    <label for="{{ field.name }}" class="d-block selected">
+                                        {{ field.label }}
+                                        {% if field.required %}
+                                            <span class="tx-danger">*</span>
+                                        {% endif %}
+                                        {% if field.tooltip %}
+                                            <i class="mdi mdi-information-outline tx-primary cursor-pointer" 
+                                                data-toggle="tooltip" 
+                                                html="true" 
+                                                data-placement="top" 
+                                                title="{{ field.tooltip }}"></i>
+                                        {% endif %}
+                                    </label>
+                                    
+                                    {% if field.field_type == 'select' %}
+                                        <select name="{{ field.name }}" 
+                                                id="{{ field.name }}" 
+                                                class="custom-select item_custom_select"
+                                                disabled
+                                                {% if field.required %}required{% endif %}>
+                                            {% if field.field_value %}
+                                                <option value="{{field.field_value }}" 
+                                                        {% if option.value == field.field_value %}selected{% endif %}>
+                                                    {{ field.field_value }}
+                                                </option>
+                                            {% endif %}
+                                        </select>
+                                    {% elif field.field_type == 'textarea' %}
+                                        <textarea name="{{ field.name }}"
+                                                id="{{ field.name }}"
+                                                class="form-control"
+                                                rows="3"
+                                                placeholder="{{ field.placeholder }}"
+                                                readonly
+                                                {% if field.required %}required{% endif %}>
+                                            {{ field.field_value }}
+                                        </textarea>
+                                    {% else %}
+                                        <input type="{{ field.field_type }}"
+                                            name="{{ field.name }}"
+                                            id="{{ field.name }}"
+                                            class="form-control"
+                                            placeholder="{{ field.placeholder }}"
+                                            readonly
+                                            value="{{ field.field_value }}"
+                                            {% if field.required %}required{% endif %}>
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="form-group">
+                        <span class="has-float-label">
+                            <label for="item_comments">Comments<span class="tx-danger">*</span> <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+                            <textarea type="text" class="form-control" name="item_comments" id="item_comments" rows="3" placeholder="Add Comments" required></textarea>
+                        </span>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="d-flex pos-relative h-100">
+                <form action="#" method="get" name="form" enctype="multipart/form-data" class="mg-x-0 h-100">
+                    <h5 class="mg-b-10 mg-t-5 mg-x-0 text-secondary tx-16 tx-18">Attached Supported Docs</h5>
+                    <div class="upload upload">
+                      <div class="upload__wrap">
+                        <div class="upload__btn">
+                          <input class="upload__input" type="file" name="upload[]" multiple="multiple" data-max-count="4" ="" accept="image/*"/ disabled>
+                        </div>
+                      </div>
+                      <div class="upload__mess">
+                        <p class="count_img hidden_ms">Maximum number of photos:<strong class="count_img_var">8</strong></p>
+                        <p class="size_img hidden_ms">Maximum photo size:<strong class="size_img_var">5 Mb</strong></p>
+                        <p class="file_types hidden_ms d-block">Allowed file types:<strong class="file_types_var">jpg, png, doc & PDF</strong></p>
+                      </div>
+                    </div>
+                </form>
+
+                
+              </div>
+  
+          </div><!-- card-body -->
+          <div class="card-footer tx-right">
+              <button id="update_item_req" class="btn btn-primary mg-l-5" >Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <script src="{% static '/plugins/typeahead/typeahead.bundle.min.js' %}" type="text/javascript"></script>
+
+  <script src="{% static 'js/master/file_upload.js' %}"></script>
+
+<script>
+
+
+$("body").on("click", "#update_item_req", function () {
+    const url = new URL(window.location.href);
+    // Get the value of the 'item_code' parameter
+    const item_code = url.searchParams.get('item_code');
+    let comment = $("#item_comments").val();
+    let selected_param = $("#fields_to_modify").val();
+    let user_id = $("#roleDropdown option:selected").attr('role-id')
+
+
+    if(!comment){
+        flashMessage("Please add comment", "warning");
+        return
+    }
+
+    let option = { 
+        url: '/api/create/modify/item/request/', 
+        method: "post", 
+        data : {
+            "item_code" : item_code,
+            "selected_param" : JSON.stringify(selected_param),
+            "comment" : comment,
+            "req_type" : "Single",
+            "user_id" : user_id //temp
+        }
+    };
+
+    ajaxUtility.ajaxCall(option, function (res) {
+        if (res.error) {
+            flashMessage(res.msg, 'danger');
+        }
+        else{
+            flashMessage(res.msg, 'success');
+        }    
+    }) 
+
+
+})
+
+$('#fields_to_modify').multiselect({
+    enableHTML: false,
+    buttonClass: 'custom-select',
+    inheritClass: false,
+    buttonWidth: 250,
+    buttonContainer: '<div class="btn-group" />',
+    // dropRight: false,
+    // dropUp: false,
+    selectedClass: 'active',
+    // maxHeight: 400,
+    // minHeight: 400,
+    includeSelectAllOption: true,
+    // includeSelectAllIfMoreThan: 0,
+    // selectAllText: ' Select all',
+    // selectAllValue: 'multiselect-all',
+    // selectAllName: false,
+    // selectAllNumber: true,
+    // selectAllJustVisible: true,
+    enableFiltering: true,
+    enableCaseInsensitiveFiltering: true,
+    // enableFullValueFiltering: false,
+    // enableClickableOptGroups: false,
+    // enableCollapsibleOptGroups: false,
+    // collapseOptGroupsByDefault: false,
+    filterPlaceholder: 'Search',
+    filterBehavior: 'text',
+    includeFilterClearBtn: false,
+    // preventInputChangeEvent: false,
+    nonSelectedText: 'None selected',
+    nSelectedText: 'selected',
+    allSelectedText: 'All selected',
+    numberDisplayed: 3,
+    // disableIfEmpty: false,
+    // disabledText: '',
+    // delimiterText: ', ',
+    // includeResetOption: false,
+    // includeResetDivider: false,
+    // resetText: 'Reset',
+    // indentGroupOptions: true,
+    // widthSynchronizationMode: 'never',
+    // buttonTextAlignment: 'left',
+});
+
+
+</script>
+{% endblock %}

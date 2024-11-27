@@ -1,0 +1,229 @@
+.mysql,
+.sql,
+.sqlserver,
+.vertica,
+.oracle,
+.oracle_ucm,
+.postgres,
+.mariadb,
+.cassandra,
+.apache_druid,
+.mongo,
+.mongodb,
+.ftp,
+.s3,
+.drop,
+.onedrive,
+.shared_location,
+.file_upload,
+.ga,
+.pdf,
+.csv,
+.xls,
+.xlsx,
+.hdfs,
+.db2,
+.sqream,
+.teradata,
+.athena,
+.hive,
+.impala,
+.api,
+.webapi,
+.redshift,
+.azure,
+.azure_blob,
+.azureopenai,
+.shared,
+.sap.hana,
+.saphana,
+.snowflake,
+.scikiq_dna_hub,
+.scikiq.dna,
+.sftp,.kafka,.rfc,
+.s4hana,
+.webhook,
+.servicenow,
+.api-write,
+.tableau,
+.twitter,
+.sap_odata,
+.sapodata,
+.sap-ecc,
+.slack,
+.teams,
+.email,
+.powerbi,
+.purview,
+.gcp,
+.oracle-ebs,
+.bigquery,
+.dynamiccrm,
+.salesforce,
+.hubspot,
+.glue,
+.storage,
+.storage_,
+.bw4hana,
+.graphql,
+.graphql-write,
+.chromadb,
+.openaiapi,
+.salesforce {
+    position: relative;
+    width: 38px;
+    height: 38px;
+}
+
+.mysql:before,
+.sql:before,
+.sqlserver:before,
+.vertica:before,
+.oracle:before,
+.oracle_ucm:before,
+.postgres:before,
+.mariadb:before,
+.cassandra:before,
+.apache_druid:before,
+.mongo:before,
+.mongodb:before,
+.ftp:before,
+.s3:before,
+.drop:before,
+.onedrive:before,
+.shared_location:before,
+.file_upload:before,
+.ga:before,
+.pdf:before,
+.csv:before,
+.xls:before,
+.xlsx:before,
+.hdfs:before,
+.db2:before,
+.sqream:before,
+.teradata:before,
+.athena:before,
+.hive:before,
+.impala:before,
+.api:before,
+.webapi:before,
+.redshift:before,
+.azure:before,
+.azure_blob:before,
+.azureopenai:before,
+.shared:before,
+.sap.hana:before,
+.saphana:before,
+.snowflake:before,
+.scikiq_dna_hub:before,
+.scikiq.dna:before,
+.sftp:before,
+.kafka:before,
+.rfc:before,
+.s4hana:before,
+.webhook:before,
+.servicenow:before,
+.api-write:before,
+.tableau:before,
+.twitter:before,
+.sap_odata:before,
+.sapodata:before,
+.sap-ecc:before,
+.slack:before,
+.teams:before,
+.email:before,
+.powerbi:before,
+.purview:before,
+.gcp:before,
+.oracle-ebs:before,
+.bigquery:before,
+.dynamiccrm:before,
+.salesforce:before,
+.hubspot:before,
+.glue:before,
+.storage:before,
+.storage_:before,
+.bw4hana:before,
+.graphql:before,
+.graphql-write:before,
+.chromadb:before,
+.openaiapi:before,
+.salesforce:before {
+    color: #ddd;
+    border: solid 1px #e2e5ed;
+    border-radius: 50% !important;
+    display: block;
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    content: ' ';
+    object-fit: cover;
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
+
+/* Images inserted */
+.mysql:before {background-image: url("/static/web/img/mysql.svg")}
+.sql:before {background-image: url("/static/web/img/microsoft-sql-server.svg")}
+.sqlserver:before {background-image: url("/static/web/img/db-icon/sqlserver.svg")}
+.vertica:before {background-image: url("/static/web/img/vertica.svg")}
+.hubspot:before {background-image: url("/static/web/img/hubspot.svg");}
+.salesforce:before {background-image: url("/static/web/img/salesforce.svg")}
+.oracle:before, .oracle_ucm:before {background-image: url("/static/web/img/oracle.svg");}
+.oracle-ebs:before {background-image: url("/static/web/img/oracle-ebs.svg")}
+.oracle-fusion:before {background-image: url("/static/web/img/oracle-fusion.svg")}
+.sap-ecc:before {background-image: url("/static/web/img/db-icon/sap-ecc.svg")}
+.pdf:before {background-image: url("/static/web/img/pdf.svg")}
+.csv:before {background-image: url("/static/web/img/csv-file.svg")}
+.xls:before {background-image: url("/static/web/img/xls-1.svg")}
+.xlsx:before {background-image: url("/static/web/img/excel.svg")}
+.ftp:before {background-image: url("/static/web/img/ftp-3.svg")}
+.s3:before {background-image: url("/static/web/img/aws-s3.svg")}
+.hdfs:before {background-image: url("/static/web/img/hdfs-logo.jpg")}
+.drop:before {background-image: url("/static/web/img/dropbox-2.svg")}
+.db2:before {background-image: url(/common/web/img/db2.svg)}
+.sqream:before {background-image: url("/static/web/img/sqream_logo.svg")}
+.teradata:before {background-image: url("/static/web/img/teradata.png")}
+.athena:before {background-image: url("/static/web/img/athena.png")}
+.hive:before {background-image: url("/static/web/img/hive_logo.svg")}
+.impala:before {background-image: url("/static/web/img/impala.svg")}
+.sftp:before {background-image: url("/static/web/img/sftp.svg")}
+.api:before, .webapi:before {background-image: url("/static/web/img/api-1.svg")}
+.redshift:before {background-image: url("/static/web/img/redshift.svg")}
+.azure:before {background-image: url("/static/web/img/azureblob.svg")}
+.azure_blob:before {background-image: url("/static/web/img/azureblob.svg")}
+.kafka:before {background-image: url("/static/web/img/kafka-icon.svg")}
+.graphql:before, .graphql-write:before {background-image: url("/static/web/img/db-icon/graphql.svg")}
+.shared:before {background-image: url("/static/web/img/network.svg")}
+.sap.hana:before {background-image: url("/static/web/img/db-icon/saphana.svg")}
+.saphana:before {background-image: url("/static/web/img/db-icon/saphana.svg")}
+.snowflake:before {background-image: url("/static/web/img/db-icon/snowflake.svg")}
+.scikiq_dna_hub:before {background-image: url("/static/web/img/db-icon/scikiq_dna_hub.svg")}
+.scikiq.dna:before {background-image: url("/static/web/img/db-icon/scikiq_dna_hub.svg")}
+.rfc:before {background-image: url("/static/web/img/db-icon/rfc.svg")}
+.s4hana:before {background-image: url("/static/web/img/db-icon/s4hana.svg")}
+.bw4hana:before {background-image: url("/static/web/img/db-icon/bw4hana.svg")}
+.webhook:before {background-image: url("/static/web/img/db-icon/webhooks.svg")}
+.servicenow:before {background-image: url("/static/web/img/db-icon/servicenow.svg")}
+.api-write:before {background-image: url("/static/web/img/db-icon/rest-api.svg")}
+.tableau:before {background-image: url("/static/web/img/db-icon/tableau-software.svg")}
+.twitter:before {background-image: url("/static/web/img/db-icon/x.svg")}
+.sap_odata:before, .sapodata:before {background-image: url("/static/web/img/sap_odata.png")}
+.slack:before {background-image: url("/static/web/img/db-icon/slack.svg")}
+.teams:before {background-image: url("/static/web/img/db-icon/teams.svg")}
+.powerbi:before {background-image: url("/static/web/img/db-icon/powerbi.svg")}
+.purview:before { background-image: url("/static/web/img/db-icon/purview.svg")}
+.email:before {background-image: url("/static/web/img/db-icon/email.svg")}
+.gcp:before {background-image: url("/static/web/img/gcp.svg")}
+.bigquery:before {background-image: url("/static/web/img/bigquery.svg")}
+.dynamiccrm:before {background-image: url("/static/web/img/db-icon/dynamiccrm.svg")}
+.storage:before, .storage_:before {background-image: url("/static/web/img/db-icon/storage.svg")}
+.oracle-ebs:before {background-image: url("/static/web/img/db-icon/oracle-ebs.svg")}
+.glue:before {background-image: url("/static/web/img/db-icon/glue.svg")}
+.mongo:before, .mongodb:before {background-image: url("/static/web/img/db-icon/mongo.svg")}
+.chromadb:before {background-image: url("/static/web/img/db-icon/chromadb.svg")}
+.openaiapi:before {background-image: url("/static/web/img/db-icon/openai_api.svg")}
+.salesforce:before {background-image: url("/static/web/img/db-icon/salesforce.svg")}
+.azureopenai:before {background-image: url("/static/web/img/db-icon/azureopenai.svg")}

@@ -1,0 +1,215 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} User {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+
+<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+  <h4 class="mg-b-0">User</h4>
+  <div>
+    <a href="#create_user" class="btn btn-primary btn-sm" data-bs-toggle="modal"><span class="fal fa-plus"></span> Create User</a>
+  </div>
+</div>
+
+  <div class="card">
+    <div class="card-header pd-b-0">
+        <ul class="nav nav-line bd-b-0" role="tablist" id="admin_tab">
+            <li class="nav-item" role="presentation">
+                <a href="#tabUser" id="tabUserBtn" role="tab" data-bs-toggle="tab" class="nav-link clickTab active"
+                    attr-data="user" aria-controls="tabUser" aria-selected="true">Users</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a href="#tabbulkUser" id="tabGroupBtn" role="tab" data-bs-toggle="tab" class="nav-link clickTab"
+                    attr-data="group" aria-controls="tabGroup" aria-selected="false" tabindex="-1">Create Bulk User</a>
+            </li>
+            <li class="position-absolute t-15 r-20 pos-right" style="display: block;">
+                <div class="d-flex align-items-center">
+                    <div class="custom-control custom-switch mg-r-10" id="show_dlt_users" style="">
+                        <input type="checkbox" class="custom-control-input" value="0" name="show_deleted_users"
+                            id="show_deleted_users">
+                        <label class="custom-control-label" for="show_deleted_users">Show Deleted Users</label>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body pd-y-0 pd-x-15">
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="tabUser" role="tabpanel" aria-labelledby="#tabUserBtn">
+                <div id="loaderInternal"></div>
+                <div>
+                  <table aria-describedby="user_info" id="user" class="table table-dashboard-three" role="grid">
+                    <thead class="thead-themed sticky-top">
+                        <tr>
+                          <th>User Name</th>
+                            <th>Email</th>
+                            <th>Access Details</th>
+                            <th>Company</th>
+                            <th>Last Login</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                              <div class="d-flex align-items-center">
+                                  <div class="avatar avatar-sm mg-r-5"><img src="/static/web/img/avatar.png" class="rounded-circle bd" alt=""></div> Satish Kumar
+                              </div>
+                          </td>
+                            <td>satish.kumar@scikiq.com</td>
+                            <td>
+                                <a href="#" class="text-primary detailPopover" usr-res-key="USERCLNT0120000006"
+                                    tabindex="0" data-bs-toggle="popover" data-trigger="click"
+                                    data-placement="bottom">Entity Details And Roles</a>
+                            </td>
+                            <td>Aster</td>
+                            <td>23/09/2024 18:51:00</td>
+                            <td>23/09/2024 17:41:17</td>
+                            <td id="usr_actn">
+                                <div class="d-flex">
+                                    <a href="javascript:void(0);" id="usr_edit" class="bgicon"
+                                        data-bs-toggle="modal" usr_id="USERCLNT0120000006" title="Edit"
+                                        style="display: block; padding-left: 5px;"><i aria-hidden="true"
+                                            class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0);" class="bgicon deleteUserList"
+                                        title="Delete Record" attr-id="USERCLNT0120000006"
+                                        style="display: block; padding-left: 5px;"><span attr-id="599"
+                                            class="pointer">
+                                            <i aria-hidden="true" class="mdi mdi-delete"></i></span></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                              <div class="d-flex align-items-center">
+                                  <div class="avatar avatar-sm mg-r-5"><img src="/static/web/img/avatar.png" class="rounded-circle bd" alt=""></div> Satish Kumar
+                              </div>
+                            </td>
+                            <td>satish.kumar@scikiq.com</td>
+                            <td>
+                                <a href="#" class="text-primary detailPopover" usr-res-key="USERCLNT0120000006"
+                                    tabindex="0" data-bs-toggle="popover" data-trigger="click"
+                                    data-placement="bottom">Entity Details And Roles</a>
+                            </td>
+                            <td>Aster</td>
+                            <td>23/09/2024 18:51:00</td>
+                            <td>23/09/2024 17:41:17</td>
+                            <td id="usr_actn">
+                                <div class="d-flex">
+                                    <a href="javascript:void(0);" id="usr_edit" class="bgicon"
+                                        data-bs-toggle="modal" usr_id="USERCLNT0120000006" title="Edit"
+                                        style="display: block; padding-left: 5px;"><i aria-hidden="true"
+                                            class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript:void(0);" class="bgicon deleteUserList"
+                                        title="Delete Record" attr-id="USERCLNT0120000006"
+                                        style="display: block; padding-left: 5px;"><span attr-id="599"
+                                            class="pointer">
+                                            <i aria-hidden="true" class="mdi mdi-delete"></i></span></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<div class="modal fade" id="create_user" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel4">Create User</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="validate" autocomplete="off" id="createuser" novalidate="novalidate">
+                    <input type="hidden" name="id" value="" id="user_id">
+                    <div id="errordiv"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required=""
+                                    aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required=""
+                                    aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" id="email" name="email" required=""
+                                    aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text" class="form-control" id="company" name="company" required=""
+                                    aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" id="password" name="password" maxlength="20"
+                                    required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input type="password" class="form-control" id="c_password" name="c_password"
+                                    maxlength="20" required="" aria-required="true">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-label="Assign Entity and Role"
+                        class="div-user-entity-select df-example demo-forms mt-3 bg-light rounded pd-y-15-f">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" value="0" name="make_clnt_admin"
+                                    id="make_clnt_admin">
+                                <label class="custom-control-label" for="make_clnt_admin">Make Admin</label>
+                            </div>
+                            <div class="flex-grow-1">
+                                <button attr-id="1" type="button"
+                                    class="addMoreEntity btn btn-success btn-icon btn-xs pd-x-15-f pull-right">
+                                    <i aria-hidden="true" class="mdi mdi-plus"></i> Add Role
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" id="selected_entity" value="">
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div id="dynamicEntity">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary tx-13" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="tab_login11" class="createuser btn btn-primary">Create</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}

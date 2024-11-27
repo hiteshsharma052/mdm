@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "web-templates/layouts/head.html" %} <!--home files as well-->
+
+    {% block stylesheet %}{% endblock %}
+    <title>Scikiq Marketplace Admin</title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="demo Bootstrap 5 HTML Admin Dashboard Template by KeenThemes">
+    <meta property="og:url" content="https://scikiq.com/">
+    <meta property="og:site_name" content="Marketplace by Scikiq">
+    <link rel="canonical" href="">
+    <link rel="shortcut icon" href="logos/favicon.ico">
+    
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"> <!--end::Fonts-->
+
+    <link href="../common/theme-inner/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css">
+    <link href="../common/theme-inner/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
+    <link href="../common/theme-inner/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css">
+    <link href="../common/theme-inner/assets/css/style.bundle.css" rel="stylesheet" type="text/css">
+    <script>
+        // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking)
+        if (window.top != window.self) {
+            window.top.location.replace(window.self.location.href);
+        }
+    </script>
+    <script>
+        var hostUrl = "../common/theme-inner/assets/";        
+    </script>
+
+    <script src="../common/theme-inner/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="../common/theme-inner/assets/js/scripts.bundle.js"></script>
+    <script src="../common/theme-inner/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="../common/theme-inner/lib/index.js"></script>
+    <script src="../common/theme-inner/lib/xy.js"></script>
+    <script src="../common/theme-inner/lib/percent.js"></script>
+    <script src="../common/theme-inner/lib/radar.js"></script>
+    <script src="../common/theme-inner/lib/themes/Animated.js"></script>
+    <script src="../common/theme-inner/lib/map.js"></script>
+    <script src="../common/theme-inner/lib/geodata/worldLow.js"></script>
+    <script src="../common/theme-inner/lib/geodata/continentsLow.js"></script>
+    <script src="../common/theme-inner/lib/geodata/usaLow.js"></script>
+    <script src="../common/theme-inner/lib/geodata/worldTimeZonesLow.js"></script>
+    <script src="../common/theme-inner/lib/geodata/worldTimeZoneAreasLow.js"></script>
+    <script src="../common/theme-inner/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <!--end::Vendors Javascript-->
+
+    <!--begin::Custom Javascript(used for this page only)-->
+    <script src="../common/theme-inner/assets/js/widgets.bundle.js"></script>
+    <script src="../common/theme-inner/assets/js/custom/apps/chat/chat.js"></script>
+    <script src="../common/theme-inner/assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+    <script src="../common/theme-inner/assets/js/custom/utilities/modals/create-campaign.js"></script>
+    <script src="../common/theme-inner/assets/js/custom/utilities/modals/users-search.js"></script>
+    <!--end::Custom Javascript-->
+</head>
+
+<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
+    data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
+    data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
+    data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="safari-mode app-default">
+
+       <!--begin::Theme mode setup on page load-->
+       <script>
+        var defaultThemeMode = "light";
+        var themeMode;
+
+        if (document.documentElement) {
+            if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+            } else {
+                if (localStorage.getItem("data-bs-theme") !== null) {
+                    themeMode = localStorage.getItem("data-bs-theme");
+                } else {
+                    themeMode = defaultThemeMode;
+                }
+            }
+
+            if (themeMode === "system") {
+                themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+
+            document.documentElement.setAttribute("data-bs-theme", themeMode);
+        }            
+    </script>
+    {% block content %}
+    {% endblock %}
+
+    {% block javascript %}
+    {% endblock %}
+
+</body><!--end::Body-->
+</html>

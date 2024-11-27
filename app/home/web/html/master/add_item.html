@@ -1,0 +1,302 @@
+
+
+
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Add Item {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/master/file_upload.css' %}">
+<link rel="stylesheet" href="{% static 'css/master/item_master.css' %}">
+
+<!-- <style>
+
+
+.placeholder {
+    display: inline-block;
+    min-height: 1em;
+    vertical-align: middle;
+    cursor: wait;
+    background-color: transparent;
+    opacity: .5;
+}
+.ms-choice {
+    display: block;
+    width: 100%;
+    height: 26px;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    border: 0px solid #aaa;
+    text-align: left;
+    white-space: nowrap;
+    line-height: 26px;
+    color: #444;
+    text-decoration: none;
+    border-radius: 4px;
+    background-color: #fff;
+}
+</style> -->
+
+
+<!-- <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-md-b-25">
+    <h4 class="mg-b-0">Add Item</h4>
+</div> -->
+
+<div class="row row-xs">
+    
+    <div class="col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-header bd-b-0 d-sm-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="mg-b-5">Item Master</h6>
+                    <p class="tx-12 tx-color-03 mg-b-0">
+                        An item master is a record that lists key information related to an inventory item. This may include item description, cost, manufacturing and supply lead times etc... 
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card-body pd-y-30">
+                <form method="post" enctype="multipart/form-data" id="itemMasterForm">
+                    <div id="loaderInternal"></div>
+
+                    {% csrf_token %}
+                    
+                    <!-- Dynamic Form Fields -->
+                    <div class="row">
+                        {% for field in form_fields %}
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <div class="form-group pos-relative select-lable">
+                                    <label for="{{ field.name }}" class="d-block selected">
+                                        {{ field.label }}
+                                        {% if field.required or field.conditional_required %}
+                                        <span class="tx-danger {% if field.conditional_required %}con_req{% endif %}" 
+                                                        {% if field.conditional_required %}style="display: none;"{% endif %}>*</span>
+                                        {% endif %}
+
+                                        {% if field.tooltip %}
+                                            <i class="mdi mdi-information-outline tx-primary cursor-pointer" 
+                                                data-toggle="tooltip" 
+                                                html="true" 
+                                                data-placement="top" 
+                                                title="{{ field.tooltip }}"></i>
+                                        {% endif %}
+                                    </label>
+                                    
+                                    {% if field.field_type == 'select' %}
+                                        <select name="{{ field.name }}" 
+                                                id="{{ field.name }}" 
+                                                class="custom-select item_custom_select"
+                                                {% if field.required %}required{% endif %}>
+                                            {% for option in field.options %}
+                                                <option value="{{ option.value }}">
+                                                    {{ option.label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        {% if field.has_other %}
+                                        <input type="text"
+                                        name="{{ field.name }}_other"
+                                        id="{{ field.name }}_other"
+                                        class="form-control"
+                                        placeholder=""
+                                        value=""
+                                        oninput="validateTextInput(this)"
+
+                                        style="display: none;"
+                                        >
+                                        {% endif %}
+                                    {% elif field.field_type == 'textarea' %}
+                                        <textarea name="{{ field.name }}"
+                                                    id="{{ field.name }}"
+                                                    class="form-control"
+                                                    rows="3"
+                                                    placeholder="{{ field.placeholder }}"
+                                                    {% if field.required %}required{% endif %}></textarea>
+                                    {% elif field.field_type == 'number' %}
+                                    <input type="{{ field.field_type }}"
+                                        name="{{ field.name }}"
+                                        id="{{ field.name }}"
+                                        class="form-control"
+                                        placeholder="{{ field.placeholder }}"
+                                        value="" step="0.0001" oninput="limitDecimalPlaces(this, 4)"
+                                        {% if field.required %}required{% endif %}>
+                                    {% else %}
+                                        <input type="{{ field.field_type }}"
+                                                name="{{ field.name }}"
+                                                id="{{ field.name }}"
+                                                class="form-control"
+                                                placeholder="{{ field.placeholder }}"
+                                                value=""
+                                                oninput="validateTextInput(this)"
+                                                {% if field.required %}required{% endif %}>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Comments Section -->
+                        <div class="col-12">
+                            <div class="form-group">
+                                <span class="has-float-label">
+                                    <label for="item_comments">Comments <i class="mdi mdi-information-outline tx-primary cursor-pointer" data-toggle="tooltip" html="true" data-bs-placement="top" title=""></i></label>
+                                    <textarea class="form-control" name="item_comments" id="item_comments" rows="3" placeholder="Add Comments" required></textarea>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Supporting Documents Section -->
+                        <div class="d-flex pos-relative h-100 suppoted_doc">
+                            <div class="mg-x-0 h-100">
+                                <h5 class="mg-b-10 mg-t-5 text-secondary tx-16">Attached Supported Docs</h5>
+                                <div class="upload">
+                                    <div class="upload__wrap">
+                                        <div class="upload__btn">
+                                            <input class="upload__input" type="file" name="supporting_docs[]" multiple="multiple" data-max-count="4" accept="image/*,.pdf"/>
+                                        </div>
+                                    </div>
+                                    <div class="upload__mess">
+                                        <p class="count_img hidden_ms tx-nowrap">Maximum number of photos: <strong class="count_img_var">8</strong></p>
+                                        <p class="size_img hidden_ms tx-nowrap">Maximum photo size: <strong class="size_img_var">5 Mb</strong></p>
+                                        <p class="file_types hidden_ms d-block tx-nowrap">Allowed file types: <strong class="file_types_var">jpg, png & PDF</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Images Section -->
+                            <div class="mg-l-30 h-100 bd-l pd-l-20">
+                                <h5 class="mg-b-10 mg-t-5 text-secondary tx-16">Attach Product Images</h5>
+                                <div class="d-flex">
+                                    <!-- Front View -->
+                                    <div class="bd pd-10 rounded bg-light mg-r-15 mg-b-10">
+                                        <h5 class="mg-b-10 mg-t-5 text-secondary tx-12">Front View</h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" accept="image/*" name="front_view" id="front_view" >
+                                                <label class="custom-file-label" for="front_view">Choose file</label>
+                                            </div>
+                                            <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                                <div id="preview-wrap-front" style="display:none;">
+                                                    <img src="" class="w-100">
+                                                    <span class="remove-image">&times;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="mg-b-10 tx-12 tx-color-03 mg-t-5 tx-nowrap">Allowed file types: <strong>jpg, jpeg & png</strong></p>
+                                    </div>
+
+                                    <!-- Back View -->
+                                    <div class="bd pd-10 rounded bg-light mg-r-15 mg-b-10">
+                                        <h5 class="mg-b-10 mg-t-5 text-secondary tx-12">Back View</h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" accept="image/*" name="back_view" id="back_view" >
+                                                <label class="custom-file-label" for="back_view">Choose file</label>
+                                            </div>
+                                            <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                                <div id="preview-wrap-back" style="display:none;">
+                                                    <img src="" class="w-100">
+                                                    <span class="remove-image">&times;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="mg-b-10 tx-12 tx-color-03 mg-t-5 tx-nowrap">Allowed file types: <strong>jpg, jpeg & png</strong></p>
+                                    </div>
+
+                                    <!-- Left View -->
+                                    <div class="bd pd-10 rounded bg-light mg-r-15 mg-b-10">
+                                        <h5 class="mg-b-10 mg-t-5 text-secondary tx-12">Left View</h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" accept="image/*" name="left_view" id="left_view" >
+                                                <label class="custom-file-label" for="left_view">Choose file</label>
+                                            </div>
+                                            <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                                <div id="preview-wrap-left" style="display:none;">
+                                                    <img src="" class="w-100">
+                                                    <span class="remove-image">&times;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="mg-b-10 tx-12 tx-color-03 mg-t-5 tx-nowrap">Allowed file types: <strong>jpg, jpeg & png</strong></p>
+                                    </div>
+
+                                    <!-- Right View -->
+                                    <div class="bd pd-10 rounded bg-light mg-b-10">
+                                        <h5 class="mg-b-10 mg-t-5 text-secondary tx-12">Right View</h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" accept="image/*" name="right_view" id="right_view" >
+                                                <label class="custom-file-label" for="right_view">Choose file</label>
+                                            </div>
+                                            <div class="wd-50 ht-50 pos-relative mg-l-10">
+                                                <div id="preview-wrap-right" style="display:none;">
+                                                    <img src="" class="w-100">
+                                                    <span class="remove-image">&times;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="mg-b-10 tx-12 tx-color-03 mg-t-5 tx-nowrap">Allowed file types: <strong>jpg, jpeg & png</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="card-footer tx-right">
+                        <button type="reset" class="btn btn-secondary" id="clearForm">Clear</button>
+                        <button type="button" id="itemMasterSaveDraft" onclick="saveItem('Draft')" class="btn btn-warning mg-l-5">Save as Draft</button>
+                        <button type="button" id="itemMasterSave" onclick="saveItem('Submitted')" class="btn btn-primary mg-l-5">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static '/plugins/typeahead/typeahead.bundle.min.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'js/item/item_create.js' %}"></script>
+
+<script src="{% static 'js/master/file_upload.js' %}"></script>
+<script>
+    
+    function limitDecimalPlaces(element, decimalPlaces) {
+        // Use a regular expression to validate up to the specified decimal places
+        const value = element.value;
+        if (value.includes('.')) {
+            const [integerPart, decimalPart] = value.split('.');
+            if (decimalPart.length > decimalPlaces) {
+                // Truncate the decimal part to the allowed length
+                element.value = integerPart + '.' + decimalPart.slice(0, decimalPlaces);
+            }
+        }
+    }
+
+    function validateTextInput(element) {
+        const invalidCharacters = /['"@^$%&!<>ÃÁÉ]/g; // Regular expression for invalid characters
+        const utf8NonReadable = /[^\u0000-\u007F]/g; // Non-readable UTF-8 characters
+
+        // Combine the regex for validation
+        const invalidRegex = new RegExp(`${invalidCharacters.source}|${utf8NonReadable.source}`, "g");
+
+        // Replace invalid characters with an empty string
+        element.value = element.value.replace(invalidRegex, '');
+
+        // Optional: Provide feedback to the user about invalid input
+        if (invalidRegex.test(element.value)) {
+            alert("Invalid characters have been removed from your input.");
+        }
+    }
+
+
+</script>
+
+{% endblock %}

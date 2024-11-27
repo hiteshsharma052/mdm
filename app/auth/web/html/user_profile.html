@@ -1,0 +1,833 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Add Item {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+<style>
+    .accordion > .card:first-of-type {
+    border-bottom: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+
+</style>
+<div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
+    <div class="media d-block d-lg-flex">
+
+        <div class="profile-sidebar pd-lg-r-25">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 col-lg">
+                    <div class="avatar avatar-xxl avatar-online vd_info-parent"><img id="user_view" alt="example image"
+                            class="rounded-circle border pd-3" src={% static "/web/img/profile.jpg" %}></div>
+                </div><!-- col -->
+                <div class="col-sm-8 col-md-7 col-lg mg-t-20 mg-sm-t-0 mg-lg-t-25">
+                    <h5 class="mg-b-2 tx-spacing--1 usr_name"></h5>
+                    <!--user name-->
+                    <p class="tx-color-03 mg-b-25 usr_position"></p>
+                    <!--user position-->
+                    <div class="d-flex mg-b-25">
+                        <a href="/edit-profile/" class="btn btn-xs btn-primary flex-fill"><i data-feather="edit-2" class="wd-10 mg-r-5" aria-hidden="true"></i> Edit Profile</a>
+                    </div>
+                    <div class="tx-13 tx-color-02 mg-b-25">
+                        <p class="usr_desc"></p>                              
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="profile-skillset flex-fill">
+                            <h4><a href="javascript:void(0)" class="link-01" id="userProfileGroup"></a></h4>
+                            <label>Groups</label>
+                        </div>
+                        <div class="profile-skillset flex-fill">
+                            <h4><a href="javascript:void(0)" class="link-01" id="userProfileEntity"></a></h4>
+                            <label>Entity</label>
+                        </div>
+                        <div class="profile-skillset flex-fill">
+                            <h4><a href="javascript:void(0)" class="link-01" id="userProfileDashboard"></a></h4>
+                            <label>Dashboard</label>
+                        </div>
+                    </div>
+                </div><!-- col -->
+                <div class="col-sm-6 col-md-5 col-lg-12 mg-t-40">
+                    <label class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Personal
+                        Information</label>
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">First Name</div>
+                            <div class="firstName"></div>
+                        </div>
+
+                        <div>
+                            <div class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Last Name</div>
+                            <div class="lastName"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <div>
+                            <div class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Gender</div>
+                            <div class="gender"></div>
+                        </div>
+
+                       
+                    </div>
+
+                </div><!-- col -->
+                
+
+                <div class="col-sm-6 col-md-5 col-lg mg-t-40">
+                    <label class="tx-sans tx-10 tx-semibold tx-uppercase tx-color-01 tx-spacing-1 mg-b-15">Information</label>
+                    <ul class="list-unstyled profile-info-list">
+                        <li title="Website"><i data-feather="globe" aria-hidden="true"></i><a class="usr_website"></a></li>
+                        <li title="Country"><i data-feather="flag" aria-hidden="true"></i><span class="usr_country"></span></li>
+                        <li title="City"><i data-feather="map-pin" aria-hidden="true"></i><span class="usr_city"></span></li>
+                        <li title="Phone"><i data-feather="phone" aria-hidden="true"></i><span class="usr_phone_no"></span></li>
+                        <li title="Company"><i data-feather="briefcase" title="Company Name" aria-hidden="true"></i><span class="user_company_name"></span></li>
+                        <li title="Email"><i data-feather="at-sign" aria-hidden="true"></i><span class="usr_email"></span></li>
+                    </ul>
+                </div><!-- col -->
+               
+            </div><!-- row -->
+
+        </div><!-- profile-sidebar -->
+        <div class="media-body mg-t-40 mg-lg-t-0 pd-lg-x-10">
+            <div class="card mg-b-20 mg-lg-b-25">
+                <div class="card-header pd-y-15 pd-x-20 d-flex align-items-center justify-content-between">
+                    <h6 class="tx-uppercase tx-semibold mg-b-0">Account Information</h6>
+                </div><!-- card-header -->
+                <div class="card-body pd-20 pd-lg-25">
+                    <div class="media align-items-center ustify-content-between mg-b-20">
+                        <div class="media-body">
+                            <span class="d-block tx-13 tx-color-03">User Name</span>
+                            <h6 class="mg-b-3 userName"></h6>
+                        </div>
+                        <div class="media-body">
+                            <span class="d-block tx-13 tx-color-03">Status</span>
+                            <h6 class="mg-b-3 usr_status"></h6>
+                        </div>                      
+                        <div class="media align-items-center ustify-content-between">
+                            <div class="media-body">
+                                <span class="d-block tx-13 tx-color-03">Member Since</span>
+                                <h6 class="mg-b-3 usr_member_since"></h6>
+                            </div>
+                        </div>
+                    </div><!-- media -->
+                </div>
+               
+            </div><!-- card -->
+            <div class="card mg-b-20 mg-lg-b-25">
+                <div class="card-header pd-y-15 pd-x-20 d-flex align-items-center justify-content-between">
+                    <h6 class="tx-uppercase tx-semibold mg-b-0">Permission</h6>
+                </div><!-- card-header -->
+                <div class="card-body pd-20 pd-lg-25">
+                    <div class="accordion mg-b-10 pos-relative ps" id="accordion-arrow">
+                        <div class="card">
+                            <div class="card-header" id="preHead2">
+                                <a href="#" class="btn btn-header-link d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                                    data-bs-target="#entityPer" aria-expanded="false" aria-controls="entityPer">
+                                    <span class="tx-bold">
+                                        <h4 class="tx-15 mg-0">Entity Permission</h4>
+                                    </span>
+                                </a>
+                            </div>
+                            <div id="entityPer" class="collapse show" aria-labelledby="preHead2" data-parent="#accordion-arrow">
+                                <div class="card-body pd-t-0 border-top" id="tabs">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mg-t-20 mg-b-0 select-lable pos-relative">
+                                                <input readonly="" class="form-control" id="selUserRoleId">
+                                                <label for="selUserRoleId" class="selected"> Role Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="tab-pane fade pd-y-20 show" id="entity-role-permission" role="tabpanel">
+                        
+                                                <div class="pd-t-20 d-sm-flex align-items-start justify-content-between">
+                                                    <div>
+                                                        <h6 class="mg-b-5">Permissions</h6>
+                                                    </div>
+                                                    <div>
+                                                        <a class="closeall tx-bold mr-1" id="acollapse">Collapse All</a> |
+                                                        <a class="openall ml-1" id="aexpand">Expand All</a>
+                                                    </div>
+                                                </div><!-- card-header -->
+                                                <div class="search-form mg-y-10">
+                                                    <input id="filter" type="search" class="form-control" placeholder="Search Filter">
+                                                    <button class="btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"
+                                                            aria-hidden="true">
+                                                            <circle cx="11" cy="11" r="8"></circle>
+                                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                                        </svg></button>
+                                                </div>
+                                                <div class="accordion" id="cheadingOneC" aria-multiselectable="true">
+                                                    <div class="card">
+                                                        <div class="card-header d-flex pd-8-f collapsed" data-bs-toggle="collapse"
+                                                            data-parent="#cheadingOneC" data-bs-target="#collapseRT0" aria-expanded="false">
+                                                            <span class="accicon mg-r-5"><i aria-hidden="true"
+                                                                    class="fa fa-angle-right rotate-icon"></i></span> <span
+                                                                class="title mg-r-5">
+                                                                <div class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                        class="custom-control-input" data-id="1" id="chkResourceType0"
+                                                                        name="add"> <label class="custom-control-label"
+                                                                        for="customCheck3">Add</label> </div>
+                                                            </span> <span class="title text-primary" data-cnt="0" id="spnResourceTypeCnt0"> (0
+                                                                Selected)</span> </div>
+                                                        <div id="collapseRT0" class="collapse" name="add" style="">
+                                                            <div class="card-body text-secondary pd-y-5-f">
+                                                                <div class="d-flex flex-wrap justify-content-start mt-1 getpolicy">
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="user" privilege-id="35"
+                                                                            parent-index="0" parent-id="1" id="policy-35" value="10"
+                                                                            disabled=""> <label for="policy-35">User</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="report" privilege-id="20"
+                                                                            parent-index="0" parent-id="1" id="policy-20" value="3" disabled="">
+                                                                        <label for="policy-20">Report</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="datamigration" privilege-id="63"
+                                                                            parent-index="0" parent-id="1" id="policy-63" value="20"
+                                                                            disabled=""> <label for="policy-63">Data Migration</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="datadomain" privilege-id="74"
+                                                                            parent-index="0" parent-id="1" id="policy-74" value="17"
+                                                                            disabled=""> <label for="policy-74">DataDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="etl" privilege-id="25"
+                                                                            parent-index="0" parent-id="1" id="policy-25" value="19"
+                                                                            disabled=""> <label for="policy-25">ETL Job</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="dashboard" privilege-id="15"
+                                                                            parent-index="0" parent-id="1" id="policy-15" value="4" disabled="">
+                                                                        <label for="policy-15">Dashboard</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="subdomain" privilege-id="79"
+                                                                            parent-index="0" parent-id="1" id="policy-79" value="18"
+                                                                            disabled=""> <label for="policy-79">SubDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="catalogue" privilege-id="56"
+                                                                            parent-index="0" parent-id="1" id="policy-56" value="16"
+                                                                            disabled=""> <label for="policy-56">Catalogue</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="schedule" privilege-id="87"
+                                                                            parent-index="0" parent-id="1" id="policy-87" value="21"
+                                                                            disabled=""> <label for="policy-87">Schedule</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="dataset" privilege-id="10"
+                                                                            parent-index="0" parent-id="1" id="policy-10" value="2" disabled="">
+                                                                        <label for="policy-10">Dataset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="glossary" privilege-id="88"
+                                                                            parent-index="0" parent-id="1" id="policy-88" value="22"
+                                                                            disabled=""> <label for="policy-88">Glossary</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="asset" privilege-id="30"
+                                                                            parent-index="0" parent-id="1" id="policy-30" value="13"
+                                                                            disabled=""> <label for="policy-30">Asset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="businessterm" privilege-id="100"
+                                                                            parent-index="0" parent-id="1" id="policy-100" value="40"
+                                                                            disabled=""> <label for="policy-100">Business Term</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="entity" privilege-id="46"
+                                                                            parent-index="0" parent-id="1" id="policy-46" value="8" disabled="">
+                                                                        <label for="policy-46">Entity</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="datasource" privilege-id="5"
+                                                                            parent-index="0" parent-id="1" id="policy-5" value="1" disabled="">
+                                                                        <label for="policy-5">Datasource</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="group" privilege-id="45"
+                                                                            parent-index="0" parent-id="1" id="policy-45" value="12"
+                                                                            disabled=""> <label for="policy-45">Group</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="add" object-name="role" privilege-id="40"
+                                                                            parent-index="0" parent-id="1" id="policy-40" value="11"
+                                                                            disabled=""> <label for="policy-40">Role</label> </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header d-flex pd-8-f collapsed" data-bs-toggle="collapse"
+                                                            data-parent="#cheadingOneC" data-bs-target="#collapseRT1" aria-expanded="false">
+                                                            <span class="accicon mg-r-5"><i aria-hidden="true"
+                                                                    class="fa fa-angle-right rotate-icon"></i></span> <span
+                                                                class="title mg-r-5">
+                                                                <div class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                        class="custom-control-input" data-id="2" id="chkResourceType1"
+                                                                        name="delete"> <label class="custom-control-label"
+                                                                        for="customCheck3">Delete</label> </div>
+                                                            </span> <span class="title text-primary" data-cnt="0" id="spnResourceTypeCnt1"> (0
+                                                                Selected)</span> </div>
+                                                        <div id="collapseRT1" class="collapse" name="delete">
+                                                            <div class="card-body text-secondary pd-y-5-f">
+                                                                <div class="d-flex flex-wrap justify-content-start mt-1 getpolicy">
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="datadomain" privilege-id="73"
+                                                                            parent-index="1" parent-id="2" id="policy-73" value="17"
+                                                                            disabled=""> <label for="policy-73">DataDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="subdomain" privilege-id="78"
+                                                                            parent-index="1" parent-id="2" id="policy-78" value="18"
+                                                                            disabled=""> <label for="policy-78">SubDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="datamigration" privilege-id="80"
+                                                                            parent-index="1" parent-id="2" id="policy-80" value="20"
+                                                                            disabled=""> <label for="policy-80">Data Migration</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="schedule" privilege-id="86"
+                                                                            parent-index="1" parent-id="2" id="policy-86" value="21"
+                                                                            disabled=""> <label for="policy-86">Schedule</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="catalogue" privilege-id="55"
+                                                                            parent-index="1" parent-id="2" id="policy-55" value="16"
+                                                                            disabled=""> <label for="policy-55">Catalogue</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="glossary" privilege-id="93"
+                                                                            parent-index="1" parent-id="2" id="policy-93" value="22"
+                                                                            disabled=""> <label for="policy-93">Glossary</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="businessterm" privilege-id="105"
+                                                                            parent-index="1" parent-id="2" id="policy-105" value="40"
+                                                                            disabled=""> <label for="policy-105">Business Term</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="group" privilege-id="44"
+                                                                            parent-index="1" parent-id="2" id="policy-44" value="12"
+                                                                            disabled=""> <label for="policy-44">Group</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="entity" privilege-id="49"
+                                                                            parent-index="1" parent-id="2" id="policy-49" value="8" disabled="">
+                                                                        <label for="policy-49">Entity</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="role" privilege-id="39"
+                                                                            parent-index="1" parent-id="2" id="policy-39" value="11"
+                                                                            disabled=""> <label for="policy-39">Role</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="dataset" privilege-id="9"
+                                                                            parent-index="1" parent-id="2" id="policy-9" value="2" disabled="">
+                                                                        <label for="policy-9">Dataset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="user" privilege-id="34"
+                                                                            parent-index="1" parent-id="2" id="policy-34" value="10"
+                                                                            disabled=""> <label for="policy-34">User</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="datasource" privilege-id="4"
+                                                                            parent-index="1" parent-id="2" id="policy-4" value="1" disabled="">
+                                                                        <label for="policy-4">Datasource</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="dashboard" privilege-id="14"
+                                                                            parent-index="1" parent-id="2" id="policy-14" value="4" disabled="">
+                                                                        <label for="policy-14">Dashboard</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="report" privilege-id="19"
+                                                                            parent-index="1" parent-id="2" id="policy-19" value="3" disabled="">
+                                                                        <label for="policy-19">Report</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="asset" privilege-id="29"
+                                                                            parent-index="1" parent-id="2" id="policy-29" value="13"
+                                                                            disabled=""> <label for="policy-29">Asset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="delete" object-name="etl" privilege-id="24"
+                                                                            parent-index="1" parent-id="2" id="policy-24" value="19"
+                                                                            disabled=""> <label for="policy-24">ETL Job</label> </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header d-flex pd-8-f collapsed" data-bs-toggle="collapse"
+                                                            data-parent="#cheadingOneC" data-bs-target="#collapseRT2" aria-expanded="false">
+                                                            <span class="accicon mg-r-5"><i aria-hidden="true"
+                                                                    class="fa fa-angle-right rotate-icon"></i></span> <span
+                                                                class="title mg-r-5">
+                                                                <div class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                        class="custom-control-input" data-id="3" id="chkResourceType2"
+                                                                        name="view"> <label class="custom-control-label"
+                                                                        for="customCheck3">View</label> </div>
+                                                            </span> <span class="title text-primary" data-cnt="0" id="spnResourceTypeCnt2"> (0
+                                                                Selected)</span> </div>
+                                                        <div id="collapseRT2" class="collapse" name="view">
+                                                            <div class="card-body text-secondary pd-y-5-f">
+                                                                <div class="d-flex flex-wrap justify-content-start mt-1 getpolicy">
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="glossary" privilege-id="89"
+                                                                            parent-index="2" parent-id="3" id="policy-89" value="22"
+                                                                            disabled=""> <label for="policy-89">Glossary</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="datasource" privilege-id="2"
+                                                                            parent-index="2" parent-id="3" id="policy-2" value="1" disabled="">
+                                                                        <label for="policy-2">Datasource</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="group" privilege-id="42"
+                                                                            parent-index="2" parent-id="3" id="policy-42" value="12"
+                                                                            disabled=""> <label for="policy-42">Group</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="user" privilege-id="32"
+                                                                            parent-index="2" parent-id="3" id="policy-32" value="10"
+                                                                            disabled=""> <label for="policy-32">User</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="businessterm" privilege-id="101"
+                                                                            parent-index="2" parent-id="3" id="policy-101" value="40"
+                                                                            disabled=""> <label for="policy-101">Business Term</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="dataset" privilege-id="7"
+                                                                            parent-index="2" parent-id="3" id="policy-7" value="2" disabled="">
+                                                                        <label for="policy-7">Dataset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="entity" privilege-id="51"
+                                                                            parent-index="2" parent-id="3" id="policy-51" value="8" disabled="">
+                                                                        <label for="policy-51">Entity</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="report" privilege-id="17"
+                                                                            parent-index="2" parent-id="3" id="policy-17" value="3" disabled="">
+                                                                        <label for="policy-17">Report</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="catalogue" privilege-id="53"
+                                                                            parent-index="2" parent-id="3" id="policy-53" value="16"
+                                                                            disabled=""> <label for="policy-53">Catalogue</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="asset" privilege-id="27"
+                                                                            parent-index="2" parent-id="3" id="policy-27" value="13"
+                                                                            disabled=""> <label for="policy-27">Asset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="dashboard" privilege-id="12"
+                                                                            parent-index="2" parent-id="3" id="policy-12" value="4" disabled="">
+                                                                        <label for="policy-12">Dashboard</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="schedule" privilege-id="84"
+                                                                            parent-index="2" parent-id="3" id="policy-84" value="21"
+                                                                            disabled=""> <label for="policy-84">Schedule</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="etl" privilege-id="22"
+                                                                            parent-index="2" parent-id="3" id="policy-22" value="19"
+                                                                            disabled=""> <label for="policy-22">ETL Job</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="datamigration" privilege-id="64"
+                                                                            parent-index="2" parent-id="3" id="policy-64" value="20"
+                                                                            disabled=""> <label for="policy-64">Data Migration</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="role" privilege-id="37"
+                                                                            parent-index="2" parent-id="3" id="policy-37" value="11"
+                                                                            disabled=""> <label for="policy-37">Role</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="subdomain" privilege-id="76"
+                                                                            parent-index="2" parent-id="3" id="policy-76" value="18"
+                                                                            disabled=""> <label for="policy-76">SubDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="view" object-name="datadomain" privilege-id="71"
+                                                                            parent-index="2" parent-id="3" id="policy-71" value="17"
+                                                                            disabled=""> <label for="policy-71">DataDomain</label> </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header d-flex pd-8-f" data-bs-toggle="collapse"
+                                                            data-parent="#cheadingOneC" data-bs-target="#collapseRT3" aria-expanded="true">
+                                                            <span class="accicon mg-r-5"><i aria-hidden="true"
+                                                                    class="fa fa-angle-right rotate-icon"></i></span> <span
+                                                                class="title mg-r-5">
+                                                                <div class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                        class="custom-control-input" data-id="5" id="chkResourceType3"
+                                                                        name="clone"> <label class="custom-control-label"
+                                                                        for="customCheck3">Clone</label> </div>
+                                                            </span> <span class="title text-primary" data-cnt="0" id="spnResourceTypeCnt3"> (0
+                                                                Selected)</span> </div>
+                                                        <div id="collapseRT3" class="collapse show" name="clone" style="">
+                                                            <div class="card-body text-secondary pd-y-5-f">
+                                                                <div class="d-flex flex-wrap justify-content-start mt-1 getpolicy">
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="clone" object-name="entity" privilege-id="48"
+                                                                            parent-index="3" parent-id="5" id="policy-48" value="8" disabled="">
+                                                                        <label for="policy-48">Entity</label> </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header d-flex pd-8-f" data-bs-toggle="collapse"
+                                                            data-parent="#cheadingOneC" data-bs-target="#collapseRT4" aria-expanded="true">
+                                                            <span class="accicon mg-r-5"><i aria-hidden="true"
+                                                                    class="fa fa-angle-right rotate-icon"></i></span> <span
+                                                                class="title mg-r-5">
+                                                                <div class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                        class="custom-control-input" data-id="7" id="chkResourceType4"
+                                                                        name="edit"> <label class="custom-control-label"
+                                                                        for="customCheck3">Edit</label> </div>
+                                                            </span> <span class="title text-primary" data-cnt="0" id="spnResourceTypeCnt4"> (0
+                                                                Selected)</span> </div>
+                                                        <div id="collapseRT4" class="collapse show" name="edit" style="">
+                                                            <div class="card-body text-secondary pd-y-5-f">
+                                                                <div class="d-flex flex-wrap justify-content-start mt-1 getpolicy">
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="asset" privilege-id="28"
+                                                                            parent-index="4" parent-id="7" id="policy-28" value="13"
+                                                                            disabled=""> <label for="policy-28">Asset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="catalogue" privilege-id="54"
+                                                                            parent-index="4" parent-id="7" id="policy-54" value="16"
+                                                                            disabled=""> <label for="policy-54">Catalogue</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="schedule" privilege-id="85"
+                                                                            parent-index="4" parent-id="7" id="policy-85" value="21"
+                                                                            disabled=""> <label for="policy-85">Schedule</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="etl" privilege-id="23"
+                                                                            parent-index="4" parent-id="7" id="policy-23" value="19"
+                                                                            disabled=""> <label for="policy-23">ETL Job</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="dashboard" privilege-id="13"
+                                                                            parent-index="4" parent-id="7" id="policy-13" value="4" disabled="">
+                                                                        <label for="policy-13">Dashboard</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="subdomain" privilege-id="77"
+                                                                            parent-index="4" parent-id="7" id="policy-77" value="18"
+                                                                            disabled=""> <label for="policy-77">SubDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="datadomain" privilege-id="72"
+                                                                            parent-index="4" parent-id="7" id="policy-72" value="17"
+                                                                            disabled=""> <label for="policy-72">DataDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="report" privilege-id="18"
+                                                                            parent-index="4" parent-id="7" id="policy-18" value="3" disabled="">
+                                                                        <label for="policy-18">Report</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="glossary" privilege-id="90"
+                                                                            parent-index="4" parent-id="7" id="policy-90" value="22"
+                                                                            disabled=""> <label for="policy-90">Glossary</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="dataset" privilege-id="8"
+                                                                            parent-index="4" parent-id="7" id="policy-8" value="2" disabled="">
+                                                                        <label for="policy-8">Dataset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="businessterm" privilege-id="102"
+                                                                            parent-index="4" parent-id="7" id="policy-102" value="40"
+                                                                            disabled=""> <label for="policy-102">Business Term</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="entity" privilege-id="47"
+                                                                            parent-index="4" parent-id="7" id="policy-47" value="8" disabled="">
+                                                                        <label for="policy-47">Entity</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="user" privilege-id="33"
+                                                                            parent-index="4" parent-id="7" id="policy-33" value="10"
+                                                                            disabled=""> <label for="policy-33">User</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="group" privilege-id="43"
+                                                                            parent-index="4" parent-id="7" id="policy-43" value="12"
+                                                                            disabled=""> <label for="policy-43">Group</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="datasource" privilege-id="3"
+                                                                            parent-index="4" parent-id="7" id="policy-3" value="1" disabled="">
+                                                                        <label for="policy-3">Datasource</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="edit" object-name="role" privilege-id="38"
+                                                                            parent-index="4" parent-id="7" id="policy-38" value="11"
+                                                                            disabled=""> <label for="policy-38">Role</label> </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header d-flex pd-8-f" data-bs-toggle="collapse"
+                                                            data-parent="#cheadingOneC" data-bs-target="#collapseRT5" aria-expanded="true">
+                                                            <span class="accicon mg-r-5"><i aria-hidden="true"
+                                                                    class="fa fa-angle-right rotate-icon"></i></span> <span
+                                                                class="title mg-r-5">
+                                                                <div class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                        class="custom-control-input" data-id="10" id="chkResourceType5"
+                                                                        name="list"> <label class="custom-control-label"
+                                                                        for="customCheck3">List</label> </div>
+                                                            </span> <span class="title text-primary" data-cnt="0" id="spnResourceTypeCnt5"> (0
+                                                                Selected)</span> </div>
+                                                        <div id="collapseRT5" class="collapse show" name="list" style="">
+                                                            <div class="card-body text-secondary pd-y-5-f">
+                                                                <div class="d-flex flex-wrap justify-content-start mt-1 getpolicy">
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="datadomain" privilege-id="70"
+                                                                            parent-index="5" parent-id="10" id="policy-70" value="17"
+                                                                            disabled=""> <label for="policy-70">DataDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="dashboard" privilege-id="11"
+                                                                            parent-index="5" parent-id="10" id="policy-11" value="4"
+                                                                            disabled=""> <label for="policy-11">Dashboard</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="glossary" privilege-id="91"
+                                                                            parent-index="5" parent-id="10" id="policy-91" value="22"
+                                                                            disabled=""> <label for="policy-91">Glossary</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="schedule" privilege-id="83"
+                                                                            parent-index="5" parent-id="10" id="policy-83" value="21"
+                                                                            disabled=""> <label for="policy-83">Schedule</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="businessterm" privilege-id="103"
+                                                                            parent-index="5" parent-id="10" id="policy-103" value="40"
+                                                                            disabled=""> <label for="policy-103">Business Term</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="report" privilege-id="16"
+                                                                            parent-index="5" parent-id="10" id="policy-16" value="3"
+                                                                            disabled=""> <label for="policy-16">Report</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="dataset" privilege-id="6"
+                                                                            parent-index="5" parent-id="10" id="policy-6" value="2" disabled="">
+                                                                        <label for="policy-6">Dataset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="subdomain" privilege-id="75"
+                                                                            parent-index="5" parent-id="10" id="policy-75" value="18"
+                                                                            disabled=""> <label for="policy-75">SubDomain</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="role" privilege-id="36"
+                                                                            parent-index="5" parent-id="10" id="policy-36" value="11"
+                                                                            disabled=""> <label for="policy-36">Role</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="group" privilege-id="41"
+                                                                            parent-index="5" parent-id="10" id="policy-41" value="12"
+                                                                            disabled=""> <label for="policy-41">Group</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="datamigration" privilege-id="65"
+                                                                            parent-index="5" parent-id="10" id="policy-65" value="20"
+                                                                            disabled=""> <label for="policy-65">Data Migration</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="etl" privilege-id="21"
+                                                                            parent-index="5" parent-id="10" id="policy-21" value="19"
+                                                                            disabled=""> <label for="policy-21">ETL Job</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="user" privilege-id="31"
+                                                                            parent-index="5" parent-id="10" id="policy-31" value="10"
+                                                                            disabled=""> <label for="policy-31">User</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="asset" privilege-id="26"
+                                                                            parent-index="5" parent-id="10" id="policy-26" value="13"
+                                                                            disabled=""> <label for="policy-26">Asset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="datasource" privilege-id="1"
+                                                                            parent-index="5" parent-id="10" id="policy-1" value="1" disabled="">
+                                                                        <label for="policy-1">Datasource</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="entity" privilege-id="50"
+                                                                            parent-index="5" parent-id="10" id="policy-50" value="8"
+                                                                            disabled=""> <label for="policy-50">Entity</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="list" object-name="catalogue" privilege-id="52"
+                                                                            parent-index="5" parent-id="10" id="policy-52" value="16"
+                                                                            disabled=""> <label for="policy-52">Catalogue</label> </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header d-flex pd-8-f" data-bs-toggle="collapse"
+                                                            data-parent="#cheadingOneC" data-bs-target="#collapseRT6" aria-expanded="true">
+                                                            <span class="accicon mg-r-5"><i aria-hidden="true"
+                                                                    class="fa fa-angle-right rotate-icon"></i></span> <span
+                                                                class="title mg-r-5">
+                                                                <div class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                        class="custom-control-input" data-id="11" id="chkResourceType6"
+                                                                        name="approve"> <label class="custom-control-label"
+                                                                        for="customCheck3">Approve</label> </div>
+                                                            </span> <span class="title text-primary" data-cnt="0" id="spnResourceTypeCnt6"> (0
+                                                                Selected)</span> </div>
+                                                        <div id="collapseRT6" class="collapse show" name="approve" style="">
+                                                            <div class="card-body text-secondary pd-y-5-f">
+                                                                <div class="d-flex flex-wrap justify-content-start mt-1 getpolicy">
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="datasource" privilege-id="57"
+                                                                            parent-index="6" parent-id="11" id="policy-57" value="1"
+                                                                            disabled=""> <label for="policy-57">Datasource</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="dataset" privilege-id="58"
+                                                                            parent-index="6" parent-id="11" id="policy-58" value="2"
+                                                                            disabled=""> <label for="policy-58">Dataset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="bde resource key"
+                                                                            privilege-id="109" parent-index="6" parent-id="11" id="policy-109"
+                                                                            value="27" disabled=""> <label for="policy-109">Business Data
+                                                                            Element</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="dashboard" privilege-id="59"
+                                                                            parent-index="6" parent-id="11" id="policy-59" value="4"
+                                                                            disabled=""> <label for="policy-59">Dashboard</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="report" privilege-id="60"
+                                                                            parent-index="6" parent-id="11" id="policy-60" value="3"
+                                                                            disabled=""> <label for="policy-60">Report</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="asset" privilege-id="61"
+                                                                            parent-index="6" parent-id="11" id="policy-61" value="13"
+                                                                            disabled=""> <label for="policy-61">Asset</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="glossary" privilege-id="107"
+                                                                            parent-index="6" parent-id="11" id="policy-107" value="22"
+                                                                            disabled=""> <label for="policy-107">Glossary</label> </div>
+                                                                    <div class="checkbox"> <input type="checkbox" class="clsResourcePolicy"
+                                                                            action-name="approve" object-name="businessterm" privilege-id="108"
+                                                                            parent-index="6" parent-id="11" id="policy-108" value="40"
+                                                                            disabled=""> <label for="policy-108">Business Term</label> </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="preHead3">
+                              <a href="#" class="btn btn-header-link d-flex justify-content-between collapsed" data-bs-toggle="collapse" data-bs-target="#groupPer" aria-expanded="false" aria-controls="groupPer">
+                                <span class="tx-bold"><h4 class="tx-15 mg-0">Group Permission</h4></span>
+                              </a>
+                            </div>
+                            <div id="groupPer" class="collapse" aria-labelledby="preHead3" data-parent="#accordion-arrow">
+                              <div class="card-body pd-t-0 border-top" id="tabs">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group mg-t-20 select-lable pos-relative">
+                                            <select class="custom-select" id="selUserGroupId" multiple="multiple"  disabled>
+                                            </select>
+                                            <label for="selUserEntityId" class="selected">Groups</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+
+                                          </div><!--table-->
+
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- media-body -->
+
+        <div class="profile-sidebar profile-sidebar-right mg-t-40 mg-lg-t-0 pd-lg-l-25">
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-12 col-lg">
+                    <div class="d-flex align-items-center justify-content-between mg-b-20">
+                        <h6 class="tx-13 tx-spacng-1 tx-uppercase tx-semibold mg-b-0">Groups</h6>
+                            <a href="javascript:void(0)" class="link-03 tx-12" data-bs-toggle="modal" id="createGrp"><i class="mdi mdi-plus" aria-hidden="true"></i> Add Group</a>
+                    </div>
+                    <ul class="list-unstyled media-list mg-b-15 groups" id="userProfileGroupDetails">
+                        <div><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...</div>
+
+                    </ul>
+                    <a href="/group/" class="link-03 d-inline-flex align-items-center">View List<i
+                            class="icon ion-ios-arrow-forward mg-l-5 mg-t-3 tx-12" aria-hidden="true"></i></a>
+                </div><!-- col -->
+
+
+                <div class="col-sm-6 col-md-6 col-lg-12 col-lg mg-t-40 mg-sm-t-0 mg-lg-t-40">
+                    <div class="d-flex align-items-center justify-content-between mg-b-20">
+                        <h6 class="tx-13 tx-spacng-1 tx-uppercase tx-semibold mg-b-0">Users</h6>
+                        <a href="javascript:void(0)" class="link-03 tx-12" data-bs-toggle="modal" id="createUsr"><i class="mdi mdi-plus" aria-hidden="true"></i> Add User</a>
+                    </div>
+                    
+                    <ul class="list-unstyled media-list mg-b-15 groups" id="userListProfile">
+                        <div><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...</div>
+                    </ul>
+                    <a href="/user/" target="_blank" class="link-03 d-inline-flex align-items-center">View List <i
+                            class="icon ion-ios-arrow-forward mg-l-5 mg-t-3 tx-12" aria-hidden="true"></i></a>
+                </div><!-- col -->
+
+            </div><!-- row -->
+        </div><!-- profile-sidebar -->
+    </div><!-- media -->
+</div><!-- container -->
+
+<!--Modals-->
+
+
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/user_profile.js' %}"></script>
+<script>
+
+var requested_user_id = "{{requested_user_id}}"
+
+getUserProfileData(mode = 'view',requested_user_id=requested_user_id);
+
+$("#selUserEntityId").select2();
+$("#selUserGroupId").select2();
+
+
+
+$(document).ready(function() {
+    $( '.closeall' ).click( function( e ) {
+        e.preventDefault();
+        $( '#cheadingOneC .collapse.show' ).collapse( 'hide' );
+        $(".openall").removeClass("tx-bold")
+        $(this).addClass("tx-bold")
+        return false;
+    });
+
+    $( '.openall' ).click( function( e ) {
+        e.preventDefault();
+        $( '#cheadingOneC .collapse' ).collapse( 'show' );
+        $(".closeall").removeClass("tx-bold")
+        $(this).addClass("tx-bold")
+        return false;
+    })
+
+    $("#filter").keyup(function() {
+        var filter = $(this).val(),
+        count = 0;
+        $('.getpolicy div').each(function() {
+        if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+            $(this).hide();  // MY CHANGE
+        } else {
+            $(this).show(); // MY CHANGE
+            count++;
+            $( '#cheadingOneC .collapse' ).collapse( 'show' );
+            $(".closeall").removeClass("tx-bold")
+            $(".openall").addClass("tx-bold")
+        }
+        });
+
+    });
+});
+
+
+//Groups, Entity and Users list perfect scrollbar
+new PerfectScrollbar('#userProfileEntityDetails', {
+    suppressScrollX: true
+});
+
+new PerfectScrollbar('#userProfileGroupDetails', {
+    suppressScrollX: true
+});
+
+new PerfectScrollbar('#userListProfile', {
+    suppressScrollX: true
+});
+
+
+$('#selUserEntityId').on('select2:select', function (e) {
+    if ((e.params.data.id == "client_admin")) {
+        $("#selUserRoleId").val("Client Admin");
+    } else if (e.params.data.id == "Select Entity") {
+        $("#selUserRoleId").val("Select Role");
+    } else {
+        for(let i =0; i < (Object.keys(role_data)).length; i ++) {
+
+            if ((e.params.data.id) == ((role_data[Object.keys(role_data)[i]])['resource_key'])) {
+                let role_name = (role_data[Object.keys(role_data)[i]])['display_name'];
+                $("#selUserRoleId").val(role_name);
+            } 
+        } 
+    }
+    
+});
+
+</script>
+{% endblock %}

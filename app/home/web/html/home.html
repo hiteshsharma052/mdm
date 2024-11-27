@@ -1,0 +1,688 @@
+{% extends "web-templates/layouts/main.html" %}
+{% block title %} Home Page {% endblock %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+
+<div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+	<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
+		<div>
+			<p class="mg-b-5 text-secondary tx-12 requestor" style="display: none;"> You are logged on as a <span
+					class="text-primary tx-semibold">Requestor</span></p>
+			<p class="mg-b-5 text-secondary tx-12 creator" style="display: none;"> You are logged on as a <span
+					class="text-primary tx-semibold">Creator</span></p>
+			<p class="mg-b-5 text-secondary tx-12 supervisor" style="display: none;"> You are logged on as a <span
+					class="text-primary tx-semibold">Supervisor Approval</span></p>
+			<p class="mg-b-5 text-secondary tx-12 end-user" style="display: none;"> You are logged on as a <span
+					class="text-primary tx-semibold">End user Approval</span></p>
+			<p class="mg-b-5 text-secondary tx-12 superuser" style="display: none;"> You are logged on as a <span
+					class="text-primary tx-semibold">Superuser (Functional)</span></p>
+			<p class="mg-b-5 text-secondary tx-12 admin" style="display: none;"> You are logged on as a <span
+					class="text-primary tx-semibold">Admin (Technical)</span></p>
+			<h4 class="mg-sm-b-0 tx-spacing--1">Welcome to Dashboard</h4>
+		</div>
+		<!-- <div class="d-none d-md-block">
+            <a href="/item_search/" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"><i class="feather-search" class="wd-10 mg-r-5"></i> Item Search</a>
+            <a href="/add_item/" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"><i class="feather-plus" class="wd-10 mg-r-5"></i> Add Item</a>
+        </div> -->
+	</div>
+	<!-- creator supervisor end-user superuser admin -->
+	<div class="row row-xs">
+		<div class="col-sm-6 col-lg-3 requestor" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-success op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-check-circle tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Submitted
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_submitted">0</h4>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 requestor" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-warning op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-edit tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Draft</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_draft">0</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 requestor" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-primary op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-star tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Approved
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">0</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 requestor" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-danger op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-x-circle tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Rejected
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_reject">0</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+		<div class="col-sm-6 col-lg-3 creator supervisor end-user" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-success op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-check-circle tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Total</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">20</h4>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 creator supervisor end-user" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-warning op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-edit tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Pending
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">2</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 creator supervisor end-user" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-primary op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-star tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Approved
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">15</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 creator supervisor end-user" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-danger op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-x-circle tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Rejected
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">3</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-sm-6 col-lg-3 superuser" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-success op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-check-circle tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Total</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">10,000</h4>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 superuser" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-warning op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-edit tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Pending
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">100</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 superuser" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-primary op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-star tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Approved
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">9,500</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0 superuser" style="display: none;">
+			<div class="card card-body">
+				<div class="media">
+					<div
+						class="wd-80 ht-80 bg-danger op-7 tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded">
+						<i class="feather-x-circle tx-40"></i>
+					</div>
+					<div class="media-body">
+						<h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">
+							Item Rejected
+						</h6>
+						<h4 class="tx-50 tx-normal tx-rubik mg-b-0" id="cnt_approved">400</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+		<div class="col-sm-6 col-lg-4 mg-t-10">
+			<div class="card" style="height: 340px;">
+				<div class="card-body">
+					<div class="row align-items-center">
+						<div class="col-xl-8 col-xl-12">
+							<div class="text-center px-3 mb-4 mb-xl-0 mb-xxl-4">
+								<h4 class="mg-b-0 tx-spacing--1 tx-orange">
+									<span id="usernameDivId">Satish</span>
+								</h4>
+								<h3 class="text-primary">Welcome Back!</h3>
+								<p class="text-gray-700 mb-0">Curious to know what's trending today? Review your Reports
+									and Favourites
+								</p>
+								<div class="mg-t-20-f">
+									<!-- <img src="/common/web/img/at-work-scikiq.svg" width="100%" height="170px" alt=""> -->
+									<img class="ht-50 mg-b-50"
+										src="https://www.asterdmhealthcare.com/typo3conf/ext/aster/Resources/Public/images/logo.svg"
+										alt="Logo">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 col-lg-4 mg-t-10">
+			<div class="card ht-100p">
+				<div class="card-header d-flex align-items-center justify-content-between">
+					<h6 class="mg-b-0">Reports</h6>
+					<div class="d-flex align-items-center tx-18">
+						<a href="#" class="link-03 lh-0" data-bs-toggle="tooltip" data-placement="top"
+							title="Your reports are saved here for quick and easy access"><i
+								class="mdi mdi-information-outline"></i></a>
+					</div>
+				</div>
+				<!-- <ul class="list-group list-group-flush tx-13">
+					<li class="list-group-item d-flex pd-sm-x-20">
+						<div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600">s</span></div>
+						<div class="pd-l-10">
+							<p class="tx-medium mg-b-0">Requestor Login Report</p>
+							<small class="tx-12 tx-color-03 mg-b-0">Reports ID#00222</small>
+						</div>
+						<div class="mg-l-auto d-flex align-self-center">
+							<nav class="nav nav-icon-only">
+								<a href="" class="btn btn-xs btn-primary pd-x-7 pd-y-3">
+									<i class="mdi mdi-eye mg-r-5"></i> View
+								</a>
+							</nav>
+						</div>
+					</li>
+					<li class="list-group-item d-flex pd-sm-x-20">
+						<div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600">s</span></div>
+						<div class="pd-l-10">
+							<p class="tx-medium mg-b-0">TAT / SLA Report</p>
+							<small class="tx-12 tx-color-03 mg-b-0">Reports ID#00132</small>
+						</div>
+						<div class="mg-l-auto d-flex align-self-center">
+							<nav class="nav nav-icon-only">
+								<a href="" class="btn btn-xs btn-primary pd-x-7 pd-y-3">
+									<i class="mdi mdi-eye mg-r-5"></i> View
+								</a>
+							</nav>
+						</div>
+					</li>
+				</ul> -->
+				<div class="m-auto">Development in Progress</div>
+				<!-- <div class="card-footer text-center tx-13">
+					<a href="" class="link-03">View More Reports <i class="icon ion-md-arrow-down mg-l-5"></i></a>
+				</div> -->
+			</div><!-- card -->
+		</div>
+
+		<div class="col-sm-6 col-lg-4 mg-t-10">
+			<!-- Update your favorites card's list group to have a proper container -->
+			<!-- In the favorites card -->
+			<div class="card ht-100p">
+				<div class="card-header d-flex align-items-center justify-content-between">
+					<h6 class="mg-b-0">Favourites</h6>
+					<div class="d-flex align-items-center tx-18">
+						<a href="#" class="link-03 lh-0" data-bs-toggle="tooltip" data-placement="top"
+							title="Your favorite items are saved here for easy access anytime!">
+							<i class="mdi mdi-information-outline"></i>
+						</a>
+					</div>
+				</div>
+				<ul class="list-group list-group-flush tx-13" id="favoritesList">
+					<!-- Dynamic content will be inserted here -->
+				</ul>
+				<div class="card-footer text-center tx-13">
+					<a href="/favourites/" class="link-03">View More Favourites <i
+							class="icon ion-md-arrow-down mg-l-5"></i></a>
+				</div>
+			</div>
+		</div>
+
+
+
+
+	</div>
+</div>
+
+
+<div class="modal fade show" id="favItems" tabindex="-1" role="dialog" aria-modal="true">
+	<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20">
+				<div class="d-flex">
+					<h4 class="mg-b-20 mg-sm-b-25 tx-18" id="modal-item-name"></h4>
+					<a href="" role="button" class="close pos-absolute t-15 r-15" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</a>
+				</div>
+
+
+				<div class="row">
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Code</label>
+							<p class="tx-13 mg-b-0" id="item_code"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Country</label>
+							<p class="tx-13 mg-b-0" id="country"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Category</label>
+							<p class="tx-13 mg-b-0" id="item_cat"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Sub
+								Category</label>
+							<p class="tx-13 mg-b-0" id="spl_cat"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Organization
+								Code</label>
+							<p class="tx-13 mg-b-0" id="org_code"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Name</label>
+							<p class="tx-13 mg-b-0" id="item_name"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Item
+								Description</label>
+							<p class="tx-13 mg-b-0 text-truncate" id="item_desc"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Brand</label>
+							<p class="tx-13 mg-b-0" id="brand"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label
+								class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Molecule</label>
+							<p class="tx-13 mg-b-0" id="molecule"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Variant</label>
+							<p class="tx-13 mg-b-0" id="variant"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Form</label>
+							<p class="tx-13 mg-b-0" id="form"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Special
+								Material Flag</label>
+							<p class="tx-13 mg-b-0" id="spl_material_flag"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Primary
+								UOM</label>
+							<p class="tx-13 mg-b-0" id="primary_uom"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Secondary
+								UOM</label>
+							<p class="tx-13 mg-b-0" id="secondary_uom"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">List
+								Price</label>
+							<p class="tx-13 mg-b-0" id="list_price"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Market
+								Price</label>
+							<p class="tx-13 mg-b-0" id="mrp"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Inventory
+								Item</label>
+							<p class="tx-13 mg-b-0" id="inventory_item"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Invoice
+								Enabled</label>
+							<p class="tx-13 mg-b-0" id="invoice_enabled"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Drug
+								Schedule</label>
+							<p class="tx-13 mg-b-0" id="drug_schedule"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Lot
+								Divisible</label>
+							<p class="tx-13 mg-b-0" id="lot_divisible"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">VAT %</label>
+							<p class="tx-13 mg-b-0" id="vat"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">DDC
+								Code</label>
+							<p class="tx-13 mg-b-0" id="ddc_code"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label
+								class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Supplier</label>
+							<p class="tx-13 mg-b-0" id="supplier"></p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Barcode Pack
+								size</label>
+							<p class="tx-13 mg-b-0" id="">--</p>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-2">
+						<div class="form-group">
+							<label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans">Barcode
+								MRP</label>
+							<p class="tx-13 mg-b-0" id="">--</p>
+						</div>
+					</div>
+				</div>
+
+			</div><!-- modal-body -->
+		</div><!-- modal-content -->
+	</div><!-- modal-dialog -->
+</div>
+
+<script src="{% static 'js/home/home.js' %}"></script>
+
+<script>
+	// Function to fetch favorite items for homepage list
+	const loadHomepageFavorites = async () => {
+		try {
+			const result = await fetch('/api/items/favorites/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ page: 1, page_size: 2 }), // Only fetch 2 items for homepage
+			}).then((res) => res.json());
+
+			if (result.msg === 'Success') {
+				// Update favorites list
+				const favoritesList = document.getElementById('favoritesList');
+
+				if (!favoritesList) {
+					console.error('Favorites list container not found');
+					return;
+				}
+
+				if (!result.data.items || !Array.isArray(result.data.items)) {
+					console.error('No items in response or invalid data format');
+					favoritesList.innerHTML = '<li class="list-group-item">No favorites found</li>';
+					return;
+				}
+
+				const favoritesHtml = result.data.items.map(item => `
+                <li class="list-group-item d-flex align-items-start justify-content-between pd-sm-x-15">
+					<div class="d-flex mg-r-20 w-100">
+                    <div class="avatar">
+                        <span class="avatar-initial rounded-circle bg-gray-600">
+                            <i class="mdi mdi-heart tx-20"></i>
+                        </span>
+                    </div>
+                    <div class="pd-l-10 flex-1">
+                        <p class="tx-medium mg-b-0 ellipsis"><span>${item.item_name || 'N/A'}</span></p>
+                        <small class="tx-12 tx-color-03 mg-b-0">
+                            ${new Date(item.favorite_created_date).toLocaleDateString()}
+                        </small>
+                    </div>
+					</div>
+					<a href="#favItems" class="btn btn-xs btn-primary pd-x-7 pd-y-3 view-details d-flex" 
+					   data-bs-toggle="modal" data-item-id="${item.item_code}">
+						<i class="mdi mdi-eye mg-r-5"></i> View
+					</a>
+                </li>
+            `).join('');
+
+				favoritesList.innerHTML = favoritesHtml;
+
+				// Add console log to verify data
+				console.log('Favorites loaded:', result.data.items);
+			} else {
+				console.error('API returned error:', result.msg);
+			}
+		} catch (error) {
+			console.error('Error loading favorite items:', error);
+		}
+	};
+
+
+
+	// Function to fetch item details for modal
+	const fetchItemDetails = async (itemCode) => {
+		try {
+			const result = await fetch('/api/get/item/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ item_code: itemCode }),
+			}).then((res) => res.json());
+
+			if (result.msg === 'Success') {
+				populateModal(result.data);
+			}
+		} catch (error) {
+			console.error('Error fetching item details:', error);
+		}
+	};
+
+	// Function to populate the modal with item details
+	const populateModal = (data) => {
+		// Update modal title
+		document.getElementById('modal-item-name').textContent = data.item_name || 'Item Details';
+
+		// Map modal IDs to response keys
+		const fieldMapping = {
+			'item_code': 'item_code',
+			'country': 'country_name',
+			'item_cat': 'item_category_desc',
+			'spl_cat': 'sub_category_desc',
+			'org_code': 'organization_desc',
+			'item_name': 'item_name',
+			'item_desc': 'item_desc',
+			'brand': 'brand_desc',
+			'molecule': 'molecule_desc',
+			'variant': 'variant_desc',
+			'form': 'form_desc',
+			'spl_material_flag': 'special_material_desc',
+			'primary_uom': 'primary_uom_desc',
+			'secondary_uom': 'secondary_uom_desc',
+			'list_price': 'list_price',
+			'mrp': 'market_price',
+			'inventory_item': 'inventory_item',
+			'invoice_enabled': 'invoice_flag',
+			'drug_schedule': 'drug_schedule',
+			'lot_divisible': 'lot_div',
+			'vat': 'vat_percentage',
+			'ddc_code': 'ddc_code',
+			'supplier': 'supplier_desc'
+		};
+
+		// Populate modal fields
+		Object.keys(fieldMapping).forEach((id) => {
+			const element = document.getElementById(id);
+			if (element) {
+				const value = data[fieldMapping[id]] ?? 'Not Found';
+				element.textContent = value;
+			}
+		});
+	};
+
+	// Event listener for view details buttons
+	document.addEventListener('click', (e) => {
+		const viewBtn = e.target.closest('.view-details');
+		if (viewBtn) {
+			const itemCode = viewBtn.dataset.itemId;
+			fetchItemDetails(itemCode);
+		}
+	});
+
+	// Load favorites when the page is ready
+	document.addEventListener('DOMContentLoaded', () => {
+		loadHomepageFavorites();
+	});
+</script>
+
+
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}

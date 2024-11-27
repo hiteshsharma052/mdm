@@ -1,0 +1,386 @@
+/* ================== Normal Table Start ============================== */
+.table>thead>tr>th {
+  background-color: #f4f5f8;
+}
+
+.table th {
+  vertical-align: middle !important;
+}
+
+.table td {
+  vertical-align: middle !important;
+}
+
+table a:focus {
+  outline: none;
+}
+
+table tr.selected {
+  background-color: #f3f4f7;
+}
+
+.table>:not(caption)>*>* {
+  padding: 0.5rem 0.5rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: var(--bs-border-width);
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.table-hover>tbody>tr:hover>* {
+  --bs-table-accent-bg: unset !important;
+  color: var(--bs-table-hover-color);
+}
+
+/* ================== Normal Table End ============================== */
+
+/*=================== Pivot Table Start ================= */
+
+#pivottable tr td,
+#pivottable tr th,
+.dataframe tr th,
+.dataframe tr td {
+  border: 1px solid rgba(72, 94, 144, 0.16);
+  background: #fff;
+  font-weight: 400;
+  padding: 8px 10px;
+  line-height: 1.5;
+}
+
+#pivottable thead tr th,
+.dataframe thead tr th {
+  font-weight: 500;
+  background-color: #f4f5f8;
+  border: 1px solid rgba(72, 94, 144, 0.16);
+  padding: 8px 10px;
+  line-height: 1.5;
+}
+
+/*==================== Pivot Table End ================= */
+
+
+/* ======================= Data Table Start ===================== */
+table.dataTable thead th,
+table.dataTable thead td {
+  font-family: inherit;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  padding: 5px 10px;
+  font-weight: 500;
+  font-size: inherit;
+  text-transform: none;
+}
+
+table.dataTable {
+  width: 100%;
+  margin: 0 auto;
+  clear: both;
+  border-collapse: collapse !important;
+  border-spacing: 0;
+}
+
+.table thead th.sorting, 
+.table thead th.sorting_asc, 
+.table thead th.sorting_desc {
+    padding-right: 25px;
+} 
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  cursor: pointer;
+  background-color: #fff;
+  color: inherit;
+}
+
+.dataTables_wrapper .dataTables_filter label,
+.dataTables_wrapper .dataTables_length label {
+  margin-bottom: 10px;
+}
+
+.dataTables_scrollBody thead tr[role="row"] {
+  visibility: collapse !important;
+}
+
+.DTFC_LeftBodyWrapper thead tr[role="row"] {
+  visibility: collapse !important;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: 1px solid #e5e9f2;
+}
+
+table.dataTable thead tr>.dtfc-fixed-left, 
+table.dataTable thead tr>.dtfc-fixed-right {
+  background-color: #f4f5f8 !important;
+}
+
+/* ======================= Data Table End ===================== */
+
+/*Pagination*/
+
+.dataTables_paginate {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+}
+
+.dataTables_paginate span {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+}
+
+.paginate_button {
+  min-width: 36px;
+  height: 100%;
+  padding: 9px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0168fa;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #cdd4e0 !important;
+  border-radius: 0.25rem !important;
+}
+
+
+
+.pagination {
+  margin: 10px 0px 0px 0;
+}
+
+.pagination>li>a {
+  color: #666;
+}
+
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+  background-color: #0168fa;
+  color: #fff;
+}
+
+
+/*Data Table Drop Down*/
+
+.dataTables_filter label {
+  border: 1px solid rgba(72, 94, 144, 0.16);
+  padding: 0px 0px 0px 10px;
+  background-color: #f4f5f8;
+  display: inline-block;
+  border-radius: 0px;
+}
+
+.dataTables_filter input {
+  border-right: 1px solid rgba(72, 94, 144, 0.16) !important;
+  border: 0px !important;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 !important;
+  min-height: 35px !important;
+  vertical-align: middle !important;
+  margin-left: 5px !important;
+  border-left: 1px solid rgba(72, 94, 144, 0.16) !important;
+}
+
+.dataTables_filter input:focus {
+  outline: none !important;
+}
+
+.dataTables_filter .input-group-text {
+  border: 0px !important;
+}
+
+.dataTables_length label {
+  border: 1px solid rgba(72, 94, 144, 0.16);
+  padding: 0px 10px;
+  background-color: #f9f9f9;
+  display: inline-block;
+}
+
+.dataTables_length select {
+  border-left: 1px solid rgba(72, 94, 144, 0.16);
+  border-right: 1px solid rgba(72, 94, 144, 0.16);
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0;
+  min-height: 35px !important;
+  vertical-align: middle;
+  width: auto;
+}
+
+/*pagination left side info */
+
+.dataTables_info {
+  color: #aaa !important;
+  float: left !important;
+}
+
+
+#status_age>table>thead:first-child>tr:first-child>th {
+  padding: 10px;
+  background-color: #eff1f9;
+  color: #555;
+  letter-spacing: 0.07em;
+  text-transform: capitalize !important;
+}
+
+#ageing_3>table>thead:first-child>tr:first-child>th {
+  padding: 10px;
+  background-color: #eff1f9;
+  color: #555;
+  letter-spacing: 0.07em;
+  text-transform: capitalize !important;
+}
+
+
+
+/* Table Dashboard Three */
+.table-dashboard-three.table.dataTable {
+  border-spacing: 0 10px;
+  border-collapse: separate !important;
+  width: 100%;
+  margin: 0 auto;
+  clear: both;
+  border: 0px !important;
+  font-size: 13px !important;
+}
+
+.table-dashboard-three.table {
+  border-spacing: 0 10px;
+  border-collapse: separate !important;
+  width: 100%;
+  margin: 0 auto;
+  clear: both;
+  border: 0px !important;
+  font-size: 13px !important;
+}
+
+.table-dashboard-three.table thead tr th,
+.table-dashboard-three.table thead tr td,
+.table-dashboard-three.table tbody tr th,
+.table-dashboard-three.table tbody tr td {
+  vertical-align: middle;
+  border: none;
+  background-color: transparent;
+}
+
+.table-dashboard-three.table tbody tr {
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0.25rem !important;
+  -webkit-border-radius: 0.25rem !important;
+  -moz-border-radius: 0.25rem !important;
+  -ms-border-radius: 0.25rem !important;
+  -o-border-radius: 0.25rem !important;
+}
+
+.table-dashboard-three thead th,
+.table-dashboard-three tbody td {
+  white-space: nowrap !important;
+}
+
+.table-dashboard-three.table tbody tr td {
+  background: #fff;
+}
+table.dataTable tbody td.sorting_1 {
+  background-color: transparent !important;
+}
+
+.table-dashboard-three.table tbody tr td:nth-child(1) {
+  border-radius: 5px 0 0 5px !important;
+  -webkit-border-radius: 5px 0 0 5px !important;
+  -moz-border-radius: 5px 0 0 5px !important;
+  -ms-border-radius: 5px 0 0 5px !important;
+  -o-border-radius: 5px 0 0 5px !important;
+}
+
+.table-dashboard-three.table tbody tr td:nth-last-child(1) {
+  border-radius: 0 5px 5px 0 !important;
+  -webkit-border-radius: 0 5px 5px 0 !important;
+  -moz-border-radius: 0 5px 5px 0 !important;
+  -ms-border-radius: 0 5px 5px 0 !important;
+  -o-border-radius: 0 5px 5px 0 !important;
+}
+
+.table-dashboard-three.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.table-dashboard-three.user-info__img img {
+  margin-right: 15px;
+  height: 55px;
+  width: 55px;
+  border-radius: 45px;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table-dashboard-three.active-circle {
+  height: 10px;
+  width: 10px;
+  border-radius: 10px;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+/* Table Dashboard Three end*/
+
+/* .table>:not(caption)>*>* {
+  border-bottom-width: 0 !important;
+} */
+
+.table-bordered>:not(caption)>* {
+  border-width: 0 !important;
+}
+
+.table-striped tbody tr:nth-of-type(2n+1) {
+  background-color: inherit !important;
+}
+
+.sticky-top {
+  top: -1px !important;
+}
+
+/* ================   Media Query Start ================== */
+@media screen and (min-width: 992px) and (max-width: 1366px) {
+
+  /*Pivot Table Font size */
+  #pivottable tr td,
+  #pivottable tr th,
+  .dataframe tr th,
+  .dataframe tr td {
+    font-size: 0.790rem;
+  }
+
+}
+
+/* ================   Media Query End ================== */
+
+
+
+
+/*##############################################################################################################################################################
+                                             MEDIA QUERY START (Mobiles)
+##############################################################################################################################################################*/
+
+@media only screen and (max-width: 767px) {
+ 
+  .dataTables_length select {
+    width: auto !important;
+  }
+  
+  div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+  }
+  
+}
+
+/*#########################################################################################################################
+                                             MEDIA QUERY END (Mobiles)
+##########################################################################################################################*/

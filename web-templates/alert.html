@@ -1,0 +1,55 @@
+{% load static %}
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h6 class="modal-title" id="alertModalMsgHeader">Notification</h6>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                      aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <p id="alertModalMsg">Are you sure you want to delete?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="alertModal btn btn-secondary tx-13" data-act="no" data-bs-dismiss="modal">No</button>
+            <button type="button" class="alertModal btn btn-primary tx-13" data-act="yes" data-bs-dismiss="modal">Yes</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script src="{% static 'js/alert.js'%}" type="text/javascript"></script>
+<script>
+ $("body").on("click",".cls_menu",function(){
+    oldLocation=window.location.pathname
+    currLoc = $(this).attr("attr_href")
+    if(oldLocation != currLoc){
+      if(oldLocation == '/reports/' || oldLocation == '/reports'){
+        if(json_string.length!= undefined){
+          config = { 'header': "Save Warning", 'msg': "Changes will get lost. Do you want to save the changes?", 'button': { 'Yes': 'yes','No':'no' } }
+          scikiqAlert(config, function (data) {
+            if (data == "yes")
+            {
+              return false
+            }
+            else
+            {
+              //window.location = currLoc;
+            }
+          })
+        } //if(json_string.length!= undefined){
+        else{
+          //window.location = currLoc;
+        }
+      } //if(oldLocation == '/reports/' || oldLocation == '/reports'){
+      else{
+        //window.location = currLoc;
+      }
+    } //if(oldLocation != currLoc)
+    else{
+      //window.location = currLoc;
+    }
+  })
+</script>
+
