@@ -18,7 +18,7 @@ pipeline {
                 script {
                     echo "Building python docker image..."
                     def imageTag = "${BUILD_NUMBER}"
-                    sh "sudo docker build -t python:${imageTag} ."
+                    sh "sudo docker build -t /mdm-repo/python:${imageTag} ."
                 }
             }
         }
