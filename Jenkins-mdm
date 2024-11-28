@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://Hitesh@github.com/asifcopilot/mdm.git', branch: 'main'
+                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: 'main'
                 }
             }
         }
@@ -18,19 +18,18 @@ pipeline {
             steps {
                 script {
                     echo "Building python docker image..."
-                    def imageTag = "${BUILD_NUMBER}"
-                    sh "sudo docker build -t ${IMAGE_REPO}:${imageTag} ."
+                    
+                    sh "sudo docker build -t ${IMAGE_REPO}:${BUILD_NUMBER} ."
                 }
             }
         }
         stage('Push Image to docker hub') {
             steps{
                 script {
-                    def imageTag = "${BUILD_NUMBER}"
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "echo $DOCKER_PASSWORD | sudo docker login --username $DOCKER_USERNAME --password-stdin"
                     }
-                    sh "sudo docker push ${IMAGE_REPO}:${imageTag}"
+                    sh "sudo docker push ${IMAGE_REPO}:${BUILD_NUMBER}"
                 }
             }
         }
@@ -38,8 +37,7 @@ pipeline {
             steps{
                 script {
                     echo "Building python Container ..."
-                    def imageTag = "${BUILD_NUMBER}"
-                    sh "sudo docker run -d -p 8000:8000 ${IMAGE_REPO}:${imageTag}"
+                    sh "sudo docker run -d -p 8000:8000 ${IMAGE_REPO}:${BUILD_NUMBER}"
                 }
             }
         }
