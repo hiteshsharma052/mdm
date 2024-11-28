@@ -28,8 +28,9 @@ pipeline {
                     def imageTag = "${BUILD_NUMBER}"
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "echo $DOCKER_PASSWORD | sudo docker login --username $DOCKER_USERNAME --password-stdin"
+                    }
+                    sh "sudo docker push python:${imageTag}"
                 }
-                sh "sudo docker push python:${imageTag}"
             }
         }
         stage('Build Docker Container ...') {
