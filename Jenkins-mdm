@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         GIT_CREDENTIALS = '2bca4d7a-a0e0-4d3b-94ff-6132af7f7c41' 
+        DOCKER_CREDENTIALS = 'docker-hub-credential'
+
     }
     stages {
         stage('Checkout') {
@@ -15,8 +17,19 @@ pipeline {
             steps {
                 script {
                     echo "Building python docker image..."
-                    sh 'sudo docker build -t python .'
+                    def imageTag = "${BUILD_NUMBER}"
+                    sh 'sudo docker build -t python:${imageTag}.'
                 }
+            }
+        }
+        stage('Push Image to docker hub') {
+            steps{
+                script {
+                    def imageTag = "${BUILD_NUMBER}"
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "echo $DOCKER_PASSWORD | sudo docker login --username $DOCKER_USERNAME --password-stdin"
+                }
+                sh "sudo docker push python:${imageTag}"
             }
         }
         stage('Build Docker Container ...') {
