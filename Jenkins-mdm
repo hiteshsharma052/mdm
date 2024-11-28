@@ -61,7 +61,7 @@ pipeline {
 
 """
                 office365ConnectorSend message: statusMessage,
-                                      webhookUrl: webhookUrl
+                                      webhookUrl: "${webhookUrl}"
                                       actions: [[
                             name: "View Build", 
                             target: "${env.BUILD_URL}"
