@@ -64,7 +64,7 @@ pipeline {
                                       webhookUrl: webhookUrl
                                       actions: [[
                             name: "View Build", 
-                            target: buildUrl   
+                            target: "${env.BUILD_URL}"
                         ]]
 
             }
