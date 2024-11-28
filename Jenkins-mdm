@@ -7,7 +7,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: 'main'
+                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://Hitesh@github.com/asifcopilot/mdm.git', branch: 'main'
                 }
             }
         }
