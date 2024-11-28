@@ -1,0 +1,19 @@
+services:
+  python-app:
+    build: .
+    container_name: python-app
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_HOST=14.97.185.148
+      - DATABASE_NAME=postgres
+      - DATABASE_PORT=60696
+      - DATABASE_USER_NAME=postgres
+      - DATABASE_PASSWORD=NwJ4ClaODJe5c1YH
+      - DB_ENVIRONMENT=dev_aster
+      - DEBUG=True
+      - SESSION_COOKIE_SECURE=False
+      - SOCIAL_AUTH_REDIRECT_IS_HTTPS=False
+    volumes:
+      - .:/usr/src/app
+    restart: unless-stopped

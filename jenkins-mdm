@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    stages {
+        stage('Create Dockerfile') {
+            steps {
+                script {
+                    echo "Creating Dockerfile for python-app"
+                    writeFile file: 'Dockerfile', text: '''
+                    FROM python:3.11.10-bookworm
+                    WORKDIR /usr/src/app 
+                    COPY . .
+                    RUN pip install --no-cache-dir -r requirements.txt
+                    CMD python manage.py runserver 0.0.0.0:8000
+                    EXPOSE 8000
+                    '''
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo "Building python docker image..."
+                    sh 'sudo docker build -t python .'
+                }
+            }
+        }
+        stage('Build Docker Container ...') {
+            steps{
+                script {
+                    echo "Building python Container ..."
+                    sh "sudo docker run -d -p 8000:8000 python"
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo "Python container is now running on port 8082."
+        }
+        failure {
+            echo "Pipeline failed."
+        }
+    }
+}
