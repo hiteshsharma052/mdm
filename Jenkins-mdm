@@ -10,6 +10,16 @@ pipeline {
         office365ConnectorWebhooks([[
             name: "Office 365",
             startNotification: true,
+            startNotification(true)
+            notifySuccess(true)
+            notifyAborted(true)
+            notifyNotBuilt(true)
+            notifyUnstable(true)
+            notifyFailure(true)
+            notifyBackToNormal(true)
+            notifyRepeatedFailure(true)
+            timeout(30000)
+
             url: "https://scikiq1.webhook.office.com/webhookb2/0fa923ab-f4c8-4303-940d-0ccb8f2da22b@366ccbdf-412a-4375-b39b-ad98ed0eba61/JenkinsCI/1e3b4bf7fefb4d24a434b1288f46809c/1eb902c3-0c30-464e-bb0e-6e446f4620df/V25LsvFfA5Q4Unsr0_rJoe6VyshPdMxCMusSXNMmIQjP81"
         ]])
     }
