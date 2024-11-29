@@ -16,7 +16,7 @@ pipeline {
             notifyUnstable: true,
             notifyFailure: true,
             notifyBackToNormal: true,
-            notifyRepeatedFailurl: true
+            notifyRepeatedFailure: true
         ]])
     }
     stages {
