@@ -32,7 +32,7 @@ pipeline {
                 script {
                     echo "Building python docker image..."
                     
-                    sh "sudo docker build -t ${IMAGE_REPO}:"sudo docker build -t ${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER} ."
+                    sh "sudo docker build -t ${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER} ."
                 }
             }
         }
