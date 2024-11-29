@@ -6,11 +6,24 @@ pipeline {
         IMAGE_REPO = "htp9992/mdm-repo"
 
     }
+    options {
+        office365ConnectorWebhooks([[
+            name: "Office 365",
+            url: "https://scikiq1.webhook.office.com/webhookb2/0fa923ab-f4c8-4303-940d-0ccb8f2da22b@366ccbdf-412a-4375-b39b-ad98ed0eba61/JenkinsCI/1e3b4bf7fefb4d24a434b1288f46809c/1eb902c3-0c30-464e-bb0e-6e446f4620df/V25LsvFfA5Q4Unsr0_rJoe6VyshPdMxCMusSXNMmIQjP81",
+            notifySuccess: true,
+            notifyAborted: true,
+            notifyNotBuilt: true,
+            notifyUnstable: true,
+            notifyFailure: true,
+            notifyBackToNormal: true,
+            notifyRepeatedFailure: true
+        ]])
+    }
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: 'main'
+                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: 'qa'
                 }
             }
         }
@@ -19,7 +32,7 @@ pipeline {
                 script {
                     echo "Building python docker image..."
                     
-                    sh "sudo docker build -t ${IMAGE_REPO}:${BUILD_NUMBER} ."
+                    sh "sudo docker build -t ${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER} ."
                 }
             }
         }
@@ -29,47 +42,10 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "echo $DOCKER_PASSWORD | sudo docker login --username $DOCKER_USERNAME --password-stdin"
                     }
-                    sh "sudo docker push ${IMAGE_REPO}:${BUILD_NUMBER}"
+                    sh "sudo docker push ${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}"
                 }
             }
         }
-        stage('Build Docker Container ...') {
-            steps{
-                script {
-                    echo "Building python Container ..."
-                    sh "sudo docker run -d -p 8000:8000 ${IMAGE_REPO}:${BUILD_NUMBER}"
-                }
-            }
-        }
+        
     }
-    post {
-        always {
-            script {
-                def webhookUrl = "https://scikiq1.webhook.office.com/webhookb2/0fa923ab-f4c8-4303-940d-0ccb8f2da22b@366ccbdf-412a-4375-b39b-ad98ed0eba61/JenkinsCI/1e3b4bf7fefb4d24a434b1288f46809c/1eb902c3-0c30-464e-bb0e-6e446f4620df/V25LsvFfA5Q4Unsr0_rJoe6VyshPdMxCMusSXNMmIQjP81"
-
-                def statusMessage = """
-
-
-**Latest status of build  #${env.BUILD_NUMBER}**  
-
-
-**Status**  ${currentBuild.result}  
-
-
-**Remarks**  Started by user ${env.BUILD_USER ?: "Hitesh"}.  
-
-
-"""
-                office365ConnectorSend message: statusMessage,
-                                      webhookUrl: "${webhookUrl}"
-                                      actions: [[
-                            name: "View Build", 
-                            target: "${env.BUILD_URL}"
-                        ]]
-
-            }
-        }
-    }
-}
-
-
+    
