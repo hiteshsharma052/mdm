@@ -26,7 +26,7 @@ pipeline {
             steps{
                 script {
                     docker.withRegistry('https://registry.hub.docker.com/', DOCKER_CREDENTIALS) {
-                        docker.image("${IMAGE_NAME}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
+                        docker.image("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
                     }
                }
             }  
