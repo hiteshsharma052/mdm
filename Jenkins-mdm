@@ -24,8 +24,8 @@ pipeline {
         }
 
 
-        #My name is asif#
-        // echo "My name is asif"
+        
+        
         stage('Push Image to docker hub') {
             steps{
                 script {
