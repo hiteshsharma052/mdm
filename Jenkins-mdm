@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.Build("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}")
+                    docker.build("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}")
                 }
             }
         }
