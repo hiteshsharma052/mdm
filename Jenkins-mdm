@@ -32,7 +32,7 @@ pipeline {
                 script {
                     echo "Building python docker image..."
                     
-                    sh "sudo docker build -t ${IMAGE_REPO}:${BUILD_NUMBER} ."
+                    sh "sudo docker build -t ${IMAGE_REPO}:"sudo docker build -t ${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER} ."
                 }
             }
         }
@@ -42,7 +42,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "echo $DOCKER_PASSWORD | sudo docker login --username $DOCKER_USERNAME --password-stdin"
                     }
-                    sh "sudo docker push ${IMAGE_REPO}:${BUILD_NUMBER}"
+                    sh "sudo docker push ${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}"
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
             steps{
                 script {
                     echo "Building python Container ..."
-                    sh "sudo docker run -d -p 8001:8000 ${IMAGE_REPO}:${BUILD_NUMBER}"
+                    sh "sudo docker run -d -p 8001:8000 ${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}"
                 }
             }
         }
