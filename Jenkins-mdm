@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         GIT_CREDENTIALS = '2bca4d7a-a0e0-4d3b-94ff-6132af7f7c41' 
-        DOCKER_CREDENTIALS = 'docker-hub-credential'
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'
         IMAGE_REPO = "htp9992/mdm-repo"
         
 
@@ -18,7 +18,7 @@ pipeline {
         ])
     }
     stages {
-        stage('Checkout') {
+        stage('Checkout SCM') {
             steps {
                 script {
                     git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: '${BRANCH_NAME}'
@@ -35,7 +35,7 @@ pipeline {
         stage('Push Image to docker hub') {
             steps{
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', 
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credential', 
                                    usernameVariable: 'DOCKER_CREDENTIALS_USR', 
                                    passwordVariable: 'DOCKER_CREDENTIALS_PWD')]){
                     sh "echo $DOCKER_CREDENTIAL_PWD | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin"
