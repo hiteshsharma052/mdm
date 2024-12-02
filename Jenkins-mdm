@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    environment {
+        GIT_CREDENTIALS = '2bca4d7a-a0e0-4d3b-94ff-6132af7f7c41' 
+        DOCKER_CREDENTIALS = 'docker-hub-credential'
+        IMAGE_REPO = "htp9992/mdm-repo"
+         DOCKER_USERNAME = "htp9992"
+        DOCKER_PASSWORD = "Data@9993"
+
+
+    }
+    options {
+        office365ConnectorWebhooks([
+            [name: "Office 365", url: "https://scikiq1.webhook.office.com/webhookb2/0fa923ab-f4c8-4303-940d-0ccb8f2da22b@366ccbdf-412a-4375-b39b-ad98ed0eba61/JenkinsCI/7cebbf7a19a546238115b9a3828a812f/1eb902c3-0c30-464e-bb0e-6e446f4620df/V2OqG7C3bD7AL6XuLNcAK-KDm7DV23cCuUSvdohXyPhro1",
+            notifyBackToNormal: true,
+            notifyFailure: true, 
+            notifyRepeatedFailure: true, 
+            notifySuccess: true, 
+            notifyAborted: true]
+        ])
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: '${BRANCH_NAME}'
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}")
+                }
+            }
+        }
+        stage('Push Image to docker hub') {
+            steps{
+                script {
+                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    docker.image("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
+                    }
+                }
+            }
+        }
+        
+    }
+
