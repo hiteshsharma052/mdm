@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: 'qa'
+                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/asifcopilot/mdm.git', branch: '${BRANCH_NAME}'
                 }
             }
         }
@@ -24,12 +24,12 @@ pipeline {
         stage('Push Image to docker hub') {
             steps{
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com/', DOCKER_CREDENTIALS) {
-                        docker.image("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
+                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    docker.image("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
                     }
                 }
             }
         }
         
     }
-}
+
