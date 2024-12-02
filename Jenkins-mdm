@@ -4,9 +4,7 @@ pipeline {
         GIT_CREDENTIALS = '2bca4d7a-a0e0-4d3b-94ff-6132af7f7c41' 
         DOCKER_CREDENTIALS = 'docker-hub-credential'
         IMAGE_REPO = "htp9992/mdm-repo"
-         DOCKER_USERNAME = "htp9992"
-        DOCKER_PASSWORD = "Data@9993"
-
+        
 
     }
     options {
@@ -37,6 +35,7 @@ pipeline {
         stage('Push Image to docker hub') {
             steps{
                 script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credential', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')])
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                     docker.image("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
                     }
