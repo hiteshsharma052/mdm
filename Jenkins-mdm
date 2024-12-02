@@ -36,7 +36,7 @@ pipeline {
             steps{
                 script {
                     
-                    sh "echo $DOCKER_CREDENTIALS| docker login -u $DOCKERHUB_CRED_USR --password-stdin"
+                    sh "echo $DOCKER_CREDENTIALS| docker login -u $USERNAME --password-stdin"
                     docker.image("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
                     }
                 }
