@@ -25,6 +25,17 @@ pipeline {
                 }
             }
         }
+        stage('Login To Docker') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credential', 
+                                   usernameVariable: 'DOCKER_CREDENTIAL_USR', 
+                                   passwordVariable: 'DOCKER_CREDENTIAL_PWD')]){
+                    sh "echo $DOCKER_CREDENTIAL_PWD | docker login -u $DOCKER_CREDENTIAL_USR --password-stdin"}
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -35,15 +46,12 @@ pipeline {
         stage('Push Image to docker hub') {
             steps{
                 script {
-                    //withCredentials([usernamePassword(credentialsId: 'docker-hub-credential', 
-                                   //usernameVariable: 'DOCKER_CREDENTIAL_USR', 
-                                   //passwordVariable: 'DOCKER_CREDENTIAL_PWD')]){
-                    sh "echo $DOCKER_CREDENTIAL_PWD | docker login -u $DOCKER_CREDENTIAL_USR --password-stdin"
+                   
                     docker.image("${IMAGE_REPO}:${BRANCH_NAME}-${BUILD_NUMBER}").push()
-                    }
+                    
                 }
             }
         }
         
     }
-
+}
