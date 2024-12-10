@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'prod'}
     environment {
         GIT_CREDENTIALS = '2bca4d7a-a0e0-4d3b-94ff-6132af7f7c41' 
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
